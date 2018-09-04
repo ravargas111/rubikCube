@@ -160,7 +160,7 @@ public class RubikL {
         System.out.println(estado? "Cubo Armado! c:":"Cubo Desarmado! :c");
     }
     
-    //Metodos para pruebas logicas
+    //Métodos para pruebas logicas
     public void imprimirCubo(){
         for(Integer z=0; z<3; z++){
             switch(z){
