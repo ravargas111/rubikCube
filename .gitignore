@@ -1,2 +1,4 @@
 /RubikCube/build/
 /RubikCube/dist/
+/RubikCube/lib/
+*.properties
