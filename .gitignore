@@ -2,7 +2,3 @@
 /RubikCube/dist/
 /RubikCube/lib/
 *.properties
-*.properties
-RubikCube/build/built-jar.properties
-*.properties
-RubikCube/nbproject/private/private.properties
