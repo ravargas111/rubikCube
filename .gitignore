@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 /RubikCube/build/
 /RubikCube/dist/
-=======
-/build
-/dist
->>>>>>> 4ed0b6c3ca3db5e44414ec91d96dcd24d3d82737
+/RubikCube/lib/
+*.properties
