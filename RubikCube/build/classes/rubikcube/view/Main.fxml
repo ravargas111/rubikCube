@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="691.0" prefWidth="1018.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rubikcube.controller.MainController">
+   <center>
+      <AnchorPane prefHeight="443.0" prefWidth="642.0" BorderPane.alignment="CENTER" />
+   </center>
+   <top>
+      <ToolBar prefHeight="45.0" prefWidth="801.0" BorderPane.alignment="CENTER">
+         <items>
+            <JFXButton fx:id="bReset" onAction="#resetCube" prefHeight="25.0" prefWidth="140.0" text="Reset" />
+            <JFXButton onAction="#scrambleCube" prefHeight="25.0" prefWidth="140.0" text="Mezclar" />
+            <JFXButton fx:id="bReplay" onAction="#replayCube" prefHeight="25.0" prefWidth="110.0" text="Replay" />
+            <JFXButton alignment="CENTER" onAction="#sequenceCube" prefHeight="25.0" prefWidth="140.0" text="Secuencia" />
+         </items>
+      </ToolBar>
+   </top>
+   <left>
+      <ToolBar orientation="VERTICAL" prefHeight="614.0" prefWidth="67.0" BorderPane.alignment="CENTER">
+         <items>
+            <JFXButton prefHeight="25.0" prefWidth="83.0" text="F" />
+            <JFXButton prefHeight="25.0" prefWidth="83.0" text="Fi" />
+            <JFXButton prefHeight="25.0" prefWidth="83.0" text="B" />
+            <JFXButton prefHeight="25.0" prefWidth="83.0" text="Bi" />
+            <JFXButton prefHeight="25.0" prefWidth="83.0" text="L" />
+            <JFXButton prefHeight="25.0" prefWidth="83.0" text="Li" />
+            <JFXButton prefHeight="25.0" prefWidth="83.0" text="R" />
+            <JFXButton prefHeight="25.0" prefWidth="83.0" text="Ri" />
+            <JFXButton prefHeight="25.0" prefWidth="83.0" text="U" />
+            <JFXButton prefHeight="25.0" prefWidth="83.0" text="Ui" />
+            <JFXButton prefHeight="25.0" prefWidth="83.0" text="D" />
+            <JFXButton prefHeight="25.0" prefWidth="83.0" text="Di" />
+         </items>
+      </ToolBar>
+   </left>
+   <right>
+      <ToolBar orientation="VERTICAL" prefHeight="614.0" prefWidth="79.0" BorderPane.alignment="CENTER">
+         <items>
+            <JFXButton prefHeight="25.0" prefWidth="83.0" text="Y" />
+            <JFXButton prefHeight="25.0" prefWidth="83.0" text="Yi" />
+            <JFXButton prefHeight="25.0" prefWidth="83.0" text="Z" />
+            <JFXButton prefHeight="25.0" prefWidth="83.0" text="Zi" />
+            <JFXButton prefHeight="25.0" prefWidth="83.0" text="X" />
+            <JFXButton prefHeight="25.0" prefWidth="83.0" text="Xi" />
+         </items>
+      </ToolBar>
+   </right>
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="32.0" prefWidth="801.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="lSolved" alignment="CENTER" prefHeight="32.0" prefWidth="131.0" text="No resuelto" />
+            <Label fx:id="lSimulated" prefHeight="32.0" prefWidth="140.0" text=" " />
+            <Label fx:id="lMov" prefHeight="30.0" prefWidth="131.0" text=" " />
+            <Label fx:id="lTime" alignment="CENTER" prefHeight="30.0" prefWidth="163.0" text="Time" />
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>
