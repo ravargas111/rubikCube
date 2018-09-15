@@ -310,4 +310,13 @@ public class MainController extends Controller implements Initializable {
                     });
             });
     }
+    
+    //Metodos para pruebas logicas
+    public void checkSolved(){
+        this.rubikL.evaluarCuboArmado();
+    }
+    
+    public void printLogicalCube(){
+        this.rubikL.imprimirCubo();
+    }
 }

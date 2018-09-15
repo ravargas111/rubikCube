@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="691.0" prefWidth="1018.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rubikcube.controller.MainController">
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="691.0" prefWidth="1018.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rubikcube.controller.MainController">
    <center>
       <AnchorPane prefHeight="443.0" prefWidth="642.0" BorderPane.alignment="CENTER" />
    </center>
@@ -18,6 +18,8 @@
             <JFXButton onAction="#scrambleCube" prefHeight="25.0" prefWidth="140.0" text="Mezclar" />
             <JFXButton fx:id="bReplay" onAction="#replayCube" prefHeight="25.0" prefWidth="110.0" text="Replay" />
             <JFXButton alignment="CENTER" onAction="#sequenceCube" prefHeight="25.0" prefWidth="140.0" text="Secuencia" />
+            <JFXButton alignment="CENTER" onAction="#checkSolved" prefHeight="25.0" prefWidth="140.0" text="Check Solved" />
+            <JFXButton alignment="CENTER" onAction="#printLogicalCube" prefHeight="25.0" prefWidth="140.0" text="Print Logical Cube" />
          </items>
       </ToolBar>
    </top>
