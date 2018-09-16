@@ -404,6 +404,35 @@ public class RubikL {
         System.out.println(estado? "Cubo Armado! c:":"Cubo Desarmado! :c");
     }
     
+    public Pieza encontrarPieza(Integer id){
+        Pieza p = null;
+        for(Integer z=0; z<3; z++){
+             for(Integer x=0; x<3; x++){
+                 for(Integer y=0; y<3; y++){
+                     if(cubo[x][y][z].getPieza().getId().equals(id))
+                        p = cubo[x][y][z].getPieza();
+                 }
+             }
+         } 
+        return p;
+    }
+
+    public RubikG getRubickG() {
+        return rubickG;
+    }
+
+    public void setRubickG(RubikG rubickG) {
+        this.rubickG = rubickG;
+    }
+
+    public Contenedor[][][] getCubo() {
+        return cubo;
+    }
+
+    public void setCubo(Contenedor[][][] cubo) {
+        this.cubo = cubo;
+    }
+    
     //Métodos para pruebas logicas
     public void imprimirCubo(){
         for(Integer z=0; z<3; z++){

@@ -32,6 +32,7 @@ import javafx.util.Duration;
 import org.controlsfx.control.action.Action;
 import org.controlsfx.dialog.Dialog;
 import org.controlsfx.dialog.Dialogs;
+import rubikcube.logic.Algoritmos;
 import rubikcube.logic.RubikL;
 import rubikcube.model.RubikG;
 import rubikcube.moves.Move;
@@ -49,6 +50,7 @@ public class MainController extends Controller implements Initializable {
     private BorderPane root;
     private RubikG rubikG;
     private RubikL rubikL;
+    private Algoritmos algoritmos;
     
     private LocalTime time=LocalTime.now();
     private Timeline timer;
@@ -309,6 +311,11 @@ public class MainController extends Controller implements Initializable {
                         b.hoverProperty().addListener((ov,b0,b1)->updateArrow(b.getText(),b1));
                     });
             });
+    }
+    
+    public void autoArmado(){
+        this.algoritmos = new Algoritmos(rubikL, rubikG);
+        this.algoritmos.autoArmado();
     }
     
     //Metodos para pruebas logicas

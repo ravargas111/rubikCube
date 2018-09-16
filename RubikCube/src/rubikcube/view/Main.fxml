@@ -20,6 +20,7 @@
             <JFXButton alignment="CENTER" onAction="#sequenceCube" prefHeight="25.0" prefWidth="140.0" text="Secuencia" />
             <JFXButton alignment="CENTER" onAction="#checkSolved" prefHeight="25.0" prefWidth="140.0" text="Check Solved" />
             <JFXButton alignment="CENTER" onAction="#printLogicalCube" prefHeight="25.0" prefWidth="140.0" text="Print Logical Cube" />
+            <JFXButton alignment="CENTER" onAction="#autoArmado" prefHeight="25.0" prefWidth="140.0" text="Auto-armado" />
          </items>
       </ToolBar>
    </top>
