@@ -11,14 +11,14 @@ package rubikcube.logic;
  */
 public class Esquina extends Pieza {
     
-    private static enum Position {SupIzqDel, SupDerDel, SupIzqTra, SupDerTra,
+    public static enum Position {SupIzqDel, SupDerDel, SupIzqTra, SupDerTra,
                                   InfIzqDel, InfDerDel, InfIzqTra, InfDerTra};
     
     public Esquina(Integer id) {
         super(id, TipoPieza.ESQUINA);
     }
     
-    private Position getPos(){
+    public Position getPos(){
         Position pos = null;
         switch (this.getX()) {
             case 0:

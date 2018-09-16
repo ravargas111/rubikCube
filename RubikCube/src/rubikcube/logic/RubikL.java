@@ -64,8 +64,8 @@ public class RubikL {
      * nota: el vubo gráfico tuiene un cubo lógico
      * @param face 
      */
-    public void rotateFaceL(String face){
-        if(face.contains("L")||face.contains("R")||face.contains("U")||face.contains("D")||face.contains("F")||face.contains("B"))
+    public void movimientoBasico(String face){
+        if(face.contains("L")||face.contains("R")||face.contains("U")||face.contains("D")||face.contains("F")||face.contains("B")||face.contains("Y")){
             switch(face){
                 case "Li": rotateL(true);break;
                 case "L": rotateL(false);break;
@@ -79,7 +79,10 @@ public class RubikL {
                 case "F": rotateF(false);break;
                 case "Bi": rotateB(true);break;
                 case "B": rotateB(false);break;
+                case "Yi": rotateY(true);break;
+                case "Y": rotateY(false);break;
             }
+        }
     }
     
     //Molde
@@ -106,6 +109,7 @@ public class RubikL {
 //    cubo[][][].getPieza().orientar("Li", , , );
 //    System.out.println("Movimiento ? lógico");
     
+    //Movimientos publicos que el usuario puede hacer
     public void rotateL(Boolean i){
         if(i){
             Pieza auxAri, auxEsq;
@@ -127,7 +131,6 @@ public class RubikL {
             cubo[1][0][2].getPieza().orientar("Li", 1, 0, 2);
             cubo[0][0][2].setPieza(auxEsq);
             cubo[0][0][2].getPieza().orientar("Li", 0, 0, 2);
-            System.out.println("Movimiento Li lógico");
         }
         else{
             Pieza auxAri, auxEsq;
@@ -149,7 +152,6 @@ public class RubikL {
             cubo[2][0][0].getPieza().orientar("L", 2, 0, 0);
             cubo[1][0][0].setPieza(auxAri);
             cubo[1][0][0].getPieza().orientar("L", 1, 0, 0);
-            System.out.println("Movimiento L lógico");
         }
     }
     
@@ -174,7 +176,6 @@ public class RubikL {
             cubo[2][2][0].getPieza().orientar("Ri", 2, 2, 0);
             cubo[1][2][0].setPieza(auxAri);
             cubo[1][2][0].getPieza().orientar("Ri", 1, 2, 0);
-            System.out.println("Movimiento Ri lógico");
         }
         else{
             Pieza auxAri, auxEsq;
@@ -196,7 +197,6 @@ public class RubikL {
             cubo[1][2][2].getPieza().orientar("R", 1, 2, 2);
             cubo[0][2][2].setPieza(auxEsq);
             cubo[0][2][2].getPieza().orientar("R", 0, 2, 2);
-            System.out.println("Movimiento R lógico");
         }
     }
     
@@ -221,7 +221,6 @@ public class RubikL {
             cubo[0][1][2].getPieza().orientar("Ui", 0, 1, 2);
             cubo[0][2][2].setPieza(aux);
             cubo[0][2][2].getPieza().orientar("Ui", 0, 2, 2);
-            System.out.println("Movimiento Ui lógico");
         }
         else{
             Pieza aux, aux2;
@@ -243,7 +242,6 @@ public class RubikL {
             cubo[0][1][2].getPieza().orientar("U", 0, 1, 2);
             cubo[0][0][2].setPieza(aux2);
             cubo[0][0][2].getPieza().orientar("U", 0, 0, 2);
-            System.out.println("Movimiento U lógico");
         }
     }
     
@@ -268,7 +266,6 @@ public class RubikL {
             cubo[2][1][2].getPieza().orientar("Di", 2, 1, 2);
             cubo[2][0][2].setPieza(aux2);
             cubo[2][0][2].getPieza().orientar("Di", 2, 0, 2);
-            System.out.println("Movimiento Di lógico");
         }
         else{
             Pieza aux, aux2;
@@ -290,7 +287,6 @@ public class RubikL {
             cubo[2][1][2].getPieza().orientar("D", 2, 1, 2);
             cubo[2][2][2].setPieza(aux);
             cubo[2][2][2].getPieza().orientar("D", 2, 2, 2);
-            System.out.println("Movimiento D lógico");
         }
     }
     
@@ -315,7 +311,6 @@ public class RubikL {
             cubo[2][0][0].getPieza().orientar("Fi", 2, 0, 0);
             cubo[1][0][0].setPieza(auxAri);
             cubo[1][0][0].getPieza().orientar("Fi", 1, 0, 0);
-            System.out.println("Movimiento Fi lógico");
         }
         else{
             Pieza auxAri, auxEsq;
@@ -337,7 +332,6 @@ public class RubikL {
             cubo[0][2][0].getPieza().orientar("F", 0, 2, 0);
             cubo[1][2][0].setPieza(auxAri);
             cubo[1][2][0].getPieza().orientar("F", 1, 2, 0);
-            System.out.println("Movimiento F lógico");
         }
     }
     
@@ -362,7 +356,6 @@ public class RubikL {
             cubo[2][2][2].getPieza().orientar("Bi", 2, 2, 2);
             cubo[1][2][2].setPieza(auxAri);
             cubo[1][2][2].getPieza().orientar("Bi", 1, 2, 2);
-            System.out.println("Movimiento Bi lógico");
         }
         else{
             Pieza auxAri, auxEsq;
@@ -384,8 +377,167 @@ public class RubikL {
             cubo[0][0][2].getPieza().orientar("B", 0, 0, 2);
             cubo[1][0][2].setPieza(auxAri);
             cubo[1][0][2].getPieza().orientar("B", 1, 0, 2);
-            System.out.println("Movimiento B lógico");
         }
+    }
+    
+    //Rotaciones individuales privadas que no estan disponibles para el usuario
+    //Estas rotaciones no solo cambian de posicion las piezas, sino tambien los contenedores
+    public void rotarContenedoresU(Boolean i){
+        if(i){
+            Contenedor aux, aux2;
+            aux = cubo[0][2][0];
+            aux2 = cubo[0][2][1];
+            cubo[0][2][1] = cubo[0][1][0];
+            cubo[0][2][1].getPieza().orientar("Ui", 0, 2, 1);
+            cubo[0][2][0] = cubo[0][0][0];
+            cubo[0][2][0].getPieza().orientar("Ui", 0, 2, 0);
+            cubo[0][1][0] = cubo[0][0][1];
+            cubo[0][1][0].getPieza().orientar("Ui", 0, 1, 0);
+            cubo[0][0][0] = cubo[0][0][2];
+            cubo[0][0][0].getPieza().orientar("Ui", 0, 0, 0);
+            cubo[0][0][1] = cubo[0][1][2];
+            cubo[0][0][1].getPieza().orientar("Ui", 0, 0, 1);
+            cubo[0][0][2] = cubo[0][2][2];
+            cubo[0][0][2].getPieza().orientar("Ui", 0, 0, 2);
+            cubo[0][1][2] = aux2;
+            cubo[0][1][2].getPieza().orientar("Ui", 0, 1, 2);
+            cubo[0][2][2] = aux;
+            cubo[0][2][2].getPieza().orientar("Ui", 0, 2, 2);
+        }
+        else{
+            Contenedor aux, aux2;
+            aux = cubo[0][0][1];
+            aux2 = cubo[0][0][0];
+            cubo[0][0][1] = cubo[0][1][0];
+            cubo[0][0][1].getPieza().orientar("U", 0, 0, 1);
+            cubo[0][0][0] = cubo[0][2][0];
+            cubo[0][0][0].getPieza().orientar("U", 0, 0, 0);
+            cubo[0][1][0] = cubo[0][2][1];
+            cubo[0][1][0].getPieza().orientar("U", 0, 1, 0);
+            cubo[0][2][0] = cubo[0][2][2];
+            cubo[0][2][0].getPieza().orientar("U", 0, 2, 0);
+            cubo[0][2][1] = cubo[0][1][2];
+            cubo[0][2][1].getPieza().orientar("U", 0, 2, 1);
+            cubo[0][2][2] = cubo[0][0][2];
+            cubo[0][2][2].getPieza().orientar("U", 0, 2, 2);
+            cubo[0][1][2] = aux;
+            cubo[0][1][2].getPieza().orientar("U", 0, 1, 2);
+            cubo[0][0][2] = aux2;
+            cubo[0][0][2].getPieza().orientar("U", 0, 0, 2);
+        }
+    }
+    
+    public void rotarContenedoresD(Boolean i){
+        if(i){
+            Contenedor aux, aux2;
+            aux = cubo[2][0][1];
+            aux2 = cubo[2][0][0];
+            cubo[2][0][1] = cubo[2][1][0];
+            cubo[2][0][1].getPieza().orientar("Di", 2, 0, 1);
+            cubo[2][0][0] = cubo[2][2][0];
+            cubo[2][0][0].getPieza().orientar("Di", 2, 0, 0);
+            cubo[2][1][0] = cubo[2][2][1];
+            cubo[2][1][0].getPieza().orientar("Di", 2, 1, 0);
+            cubo[2][2][0] = cubo[2][2][2];
+            cubo[2][2][0].getPieza().orientar("Di", 2, 2, 0);
+            cubo[2][2][1] = cubo[2][1][2];
+            cubo[2][2][1].getPieza().orientar("Di", 2, 2, 1);
+            cubo[2][2][2] = cubo[2][0][2];
+            cubo[2][2][2].getPieza().orientar("Di", 2, 2, 2);
+            cubo[2][1][2] = aux;
+            cubo[2][1][2].getPieza().orientar("Di", 2, 1, 2);
+            cubo[2][0][2] = aux2;
+            cubo[2][0][2].getPieza().orientar("Di", 2, 0, 2);
+        }
+        else{
+            Contenedor aux, aux2;
+            aux = cubo[2][2][0];
+            aux2 = cubo[2][2][1];
+            cubo[2][2][1] = cubo[2][1][0];
+            cubo[2][2][1].getPieza().orientar("D", 2, 2, 1);
+            cubo[2][2][0] = cubo[2][0][0];
+            cubo[2][2][0].getPieza().orientar("D", 2, 2, 0);
+            cubo[2][1][0] = cubo[2][0][1];
+            cubo[2][1][0].getPieza().orientar("D", 2, 1, 0);
+            cubo[2][0][0] = cubo[2][0][2];
+            cubo[2][0][0].getPieza().orientar("D", 2, 0, 0);
+            cubo[2][0][1] = cubo[2][1][2];
+            cubo[2][0][1].getPieza().orientar("D", 2, 0, 1);
+            cubo[2][0][2] = cubo[2][2][2];
+            cubo[2][0][2].getPieza().orientar("D", 2, 0, 2);
+            cubo[2][1][2] = aux2;
+            cubo[2][1][2].getPieza().orientar("D", 2, 1, 2);
+            cubo[2][2][2] = aux;
+            cubo[2][2][2].getPieza().orientar("D", 2, 2, 2);
+        }
+    }
+    
+    private void rotarContenedoresCentroEjeX(boolean i){
+        if(i){
+            Contenedor aux, aux2;
+            aux = cubo[1][2][0];
+            aux2 = cubo[1][2][1];
+            cubo[1][2][1] = cubo[1][1][0];
+            cubo[1][2][1].getPieza().orientar("Ui", 1, 2, 1);
+            cubo[1][2][0] = cubo[1][0][0];
+            cubo[1][2][0].getPieza().orientar("Ui", 1, 2, 0);
+            cubo[1][1][0] = cubo[1][0][1];
+            cubo[1][1][0].getPieza().orientar("Ui", 1, 1, 0);
+            cubo[1][0][0] = cubo[1][0][2];
+            cubo[1][0][0].getPieza().orientar("Ui", 1, 0, 0);
+            cubo[1][0][1] = cubo[1][1][2];
+            cubo[1][0][1].getPieza().orientar("Ui", 1, 0, 1);
+            cubo[1][0][2] = cubo[1][2][2];
+            cubo[1][0][2].getPieza().orientar("Ui", 1, 0, 2);
+            cubo[1][1][2] = aux2;
+            cubo[1][1][2].getPieza().orientar("Ui", 1, 1, 2);
+            cubo[1][2][2] = aux;
+            cubo[1][2][2].getPieza().orientar("Ui", 1, 2, 2);
+        }
+        else{
+            Contenedor aux, aux2;
+            aux = cubo[1][0][1];
+            aux2 = cubo[1][0][0];
+            cubo[1][0][1] = cubo[1][1][0];
+            cubo[1][0][1].getPieza().orientar("U", 1, 0, 1);
+            cubo[1][0][0] = cubo[1][2][0];
+            cubo[1][0][0].getPieza().orientar("U", 1, 0, 0);
+            cubo[1][1][0] = cubo[1][2][1];
+            cubo[1][1][0].getPieza().orientar("U", 1, 1, 0);
+            cubo[1][2][0] = cubo[1][2][2];
+            cubo[1][2][0].getPieza().orientar("U", 1, 2, 0);
+            cubo[1][2][1] = cubo[1][1][2];
+            cubo[1][2][1].getPieza().orientar("U", 1, 2, 1);
+            cubo[1][2][2] = cubo[1][0][2];
+            cubo[1][2][2].getPieza().orientar("U", 1, 2, 2);
+            cubo[1][1][2] = aux;
+            cubo[1][1][2].getPieza().orientar("U", 1, 1, 2);
+            cubo[1][0][2] = aux2;
+            cubo[1][0][2].getPieza().orientar("U", 1, 0, 2);
+        }
+    }
+    
+    private void rotarContenedoresCentroEjeY(boolean i){
+        if(i){
+            
+        } else {
+            
+        }
+    }
+    
+    private void rotarContenedoresCentroEjeZ(boolean i){
+        if(i){
+            
+        } else {
+            
+        }
+    }
+    
+    //Rotaciones publicas para mover todo el cubo
+    public void rotateY(boolean i){
+        rotarContenedoresU(i);
+        rotarContenedoresCentroEjeX(i);
+        rotarContenedoresD(!i);
     }
     
     public void evaluarCuboArmado(){
@@ -435,7 +587,7 @@ public class RubikL {
     
     //Métodos para pruebas logicas
     public void imprimirCubo(){
-        for(Integer z=0; z<3; z++){
+        for(Integer z=2; z>=0; z--){
             switch(z){
                 case 0:
                     System.out.println("Eje Frontal: ");

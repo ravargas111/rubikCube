@@ -21,7 +21,6 @@ public class Arista extends Pieza{
     
     public Position getPos2(){
         //Nivel Superior
-        System.out.println("La pieza se encuentra en: X=" + this.getX() + " Y=" + this.getY() + " Z=" + this.getZ());
         if(this.getX().equals(0) && this.getY().equals(1) && this.getZ().equals(0)) return Position.SupDel;
         else if(this.getX().equals(0) && this.getY().equals(1) && this.getZ().equals(2)) return Position.SupTra;
         else if(this.getX().equals(0) && this.getY().equals(0) && this.getZ().equals(1)) return Position.SupIzq;

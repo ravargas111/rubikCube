@@ -162,7 +162,7 @@ public class RubikG {
         lastRotation.set("");
         lastRotation.set(btRot);
         rotateFace(btRot,false,false);
-        this.rubikL.rotateFaceL(btRot);//probar si sirve
+        this.rubikL.movimientoBasico(btRot);//probar si sirve
     }
     
     // called from updateArrow to show a preview with posible cancellation

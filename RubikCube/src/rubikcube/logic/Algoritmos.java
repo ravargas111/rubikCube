@@ -6,7 +6,6 @@
 package rubikcube.logic;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import rubikcube.model.RubikG;
 
@@ -27,6 +26,10 @@ public class Algoritmos {
     private boolean paso6 = false; //ubicar esquinas tercer nivel
     private boolean paso7 = false; //orientar esquinas tercer nivel
     private boolean paso8 = false; //orientar tercer nivel
+    
+    //Strings con algoritmos
+    private String algoritmoFinal;
+    private String algoritmoAuxiliar;
 
     //Constructors
     public Algoritmos(RubikL rubikL, RubikG rubikG) {
@@ -40,22 +43,49 @@ public class Algoritmos {
     }
     
     public void autoArmado(){
-        if(!paso1) primeraCruz();
-        if(!paso2) ;
-        if(!paso3) ;
-        if(!paso4) ;
-        if(!paso5) ;
-        if(!paso6) ;
-        if(!paso7) ;
-        if(!paso8) ;
+        algoritmoFinal = "";
+        algoritmoAuxiliar = "";
+        if(!paso1){
+            algoritmoAuxiliar = "";
+            while(!checkPaso1()){
+                primeraCruz();
+                movimientoUnico("Yi");
+            }
+            System.out.println("Pasos para el algoritmo 1\n\t" + algoritmoAuxiliar);
+        }
+        if(!paso2){
+            algoritmoAuxiliar = "";
+            while(!checkPaso2()){
+                esquinasPrimerNivel();
+                movimientoUnico("Yi");
+            }
+            System.out.println("Pasos para el algoritmo 2\n\t" + algoritmoAuxiliar);
+        }
+        if(!paso3){
+            
+        }
+        if(!paso4){
+            
+        }
+        if(!paso5){
+            
+        }
+        if(!paso6){
+            
+        }
+        if(!paso7){
+            
+        }
+        if(!paso8){
+            
+        }
+        System.out.println("\n--Algoritmo final acumulado--\n\t" + algoritmoFinal);
     }
     
     public void primeraCruz(){
-        System.out.println("intentando armar la primera arista");
+        ArrayList<String> list = new ArrayList<>();
         if(!(rubikL.getCubo()[0][1][0].getId().equals(rubikL.getCubo()[0][1][0].getPieza().getId()))){
-            System.out.println("la arista no esta donde deberia");
             Arista arista = (Arista) rubikL.encontrarPieza(rubikL.getCubo()[0][1][0].getId());
-            ArrayList<String> list = new ArrayList<>();
             switch((arista.getPos2())){
                 case SupDer:
                     Collections.addAll(list, "Ri", "Ri", "Di");
@@ -108,10 +138,9 @@ public class Algoritmos {
                     primeraCruz();
                     break;
                 case InfDel:
-                    System.out.println("La arista esta en la parte inferior delantera");
-                    switch(((Arista) rubikL.getCubo()[0][1][0].getPieza()).getOrientacion()){
+                    switch(((Arista) rubikL.getCubo()[2][1][0].getPieza()).getOrientacion()){
                         case 1:
-                            Collections.addAll(list, "F");
+                            Collections.addAll(list, "F", "F");
                             break;
                         case 2:
                             Collections.addAll(list, "L", "Di", "Li", "F");
@@ -120,12 +149,165 @@ public class Algoritmos {
                     secuencia(list);
                     break;
             }
+        } else if(!rubikL.getCubo()[0][1][0].getPieza().getOrientacion().equals(1)){
+             Collections.addAll(list, "F", "F");
+             secuencia(list);
+             primeraCruz();
         }
     }
     
+    private boolean checkPaso1(){
+        boolean chk = true;
+        if(!rubikL.getCubo()[0][1][0].getId().equals(rubikL.getCubo()[0][1][0].getPieza().getId()) 
+            || !rubikL.getCubo()[0][1][0].getPieza().getOrientacion().equals(1))
+            chk = false;
+        if(!rubikL.getCubo()[0][1][2].getId().equals(rubikL.getCubo()[0][1][2].getPieza().getId()) 
+            || !rubikL.getCubo()[0][1][2].getPieza().getOrientacion().equals(1))
+            chk = false;
+        if(!rubikL.getCubo()[0][0][1].getId().equals(rubikL.getCubo()[0][0][1].getPieza().getId()) 
+            || !rubikL.getCubo()[0][0][1].getPieza().getOrientacion().equals(1))
+            chk = false;
+        if(!rubikL.getCubo()[0][2][1].getId().equals(rubikL.getCubo()[0][2][1].getPieza().getId()) 
+            || !rubikL.getCubo()[0][2][1].getPieza().getOrientacion().equals(1))
+            chk = false;
+        return chk;
+    }
+    
+    private void esquinasPrimerNivel(){
+        ArrayList<String> list = new ArrayList<>();
+        if(!(rubikL.getCubo()[0][2][0].getId().equals(rubikL.getCubo()[0][2][0].getPieza().getId()))){
+            Esquina arista = (Esquina) rubikL.encontrarPieza(rubikL.getCubo()[0][2][0].getId());
+            switch((arista.getPos())){
+                case SupDerTra:
+                    Collections.addAll(list, "Bi", "Di", "B");
+                    secuencia(list);
+                    esquinasPrimerNivel();
+                    break;
+                case SupIzqTra:
+                    Collections.addAll(list, "B", "D", "D", "Bi");
+                    secuencia(list);
+                    esquinasPrimerNivel();
+                    break;
+                case SupIzqDel:
+                    Collections.addAll(list, "L", "D", "Li");
+                    secuencia(list);
+                    esquinasPrimerNivel();
+                    break;
+                case InfDerTra:
+                    Collections.addAll(list, "Di");
+                    secuencia(list);
+                    esquinasPrimerNivel();
+                    break;
+                case InfIzqTra:
+                    Collections.addAll(list, "D", "D");
+                    secuencia(list);
+                    esquinasPrimerNivel();
+                    break;
+                case InfIzqDel:
+                    Collections.addAll(list, "D");
+                    secuencia(list);
+                    esquinasPrimerNivel();
+                    break;
+                case InfDerDel:
+                    switch(((Esquina) rubikL.getCubo()[2][2][0].getPieza()).getOrientacion()){
+                        case 1:
+                            Collections.addAll(list, "Di", "Ri", "D", "R");
+                            break;
+                        case 2:
+                            Collections.addAll(list, "Ri", "Di", "R");
+                            break;
+                        case 3:
+                            Collections.addAll(list, "Di", "Ri", "D", "D", "R", "Di", "Ri", "D", "R");
+                            break;
+                    }
+                    secuencia(list);
+                    break;
+            }
+        } else if(!rubikL.getCubo()[0][2][0].getPieza().getOrientacion().equals(1)){
+            Collections.addAll(list, "Ri", "Di", "R", "D");
+            secuencia(list);
+            esquinasPrimerNivel();
+        }
+    }
+    
+    private boolean checkPaso2(){
+        boolean chk = true;
+        if(!rubikL.getCubo()[0][0][0].getId().equals(rubikL.getCubo()[0][0][0].getPieza().getId()) 
+            || !rubikL.getCubo()[0][0][0].getPieza().getOrientacion().equals(1))
+            chk = false;
+        if(!rubikL.getCubo()[0][0][2].getId().equals(rubikL.getCubo()[0][0][2].getPieza().getId()) 
+            || !rubikL.getCubo()[0][0][2].getPieza().getOrientacion().equals(1))
+            chk = false;
+        if(!rubikL.getCubo()[0][2][0].getId().equals(rubikL.getCubo()[0][2][0].getPieza().getId()) 
+            || !rubikL.getCubo()[0][2][0].getPieza().getOrientacion().equals(1))
+            chk = false;
+        if(!rubikL.getCubo()[0][2][2].getId().equals(rubikL.getCubo()[0][2][2].getPieza().getId()) 
+            || !rubikL.getCubo()[0][2][2].getPieza().getOrientacion().equals(1))
+            chk = false;
+        return chk;
+    }
+    
+    private boolean checkPaso3(){
+        boolean chk = true;
+        
+        return chk;
+    }
+    
+    private boolean checkPaso4(){
+        boolean chk = true;
+        
+        return chk;
+    }
+    
+    private boolean checkPaso5(){
+        boolean chk = true;
+        
+        return chk;
+    }
+    
+    private boolean checkPaso6(){
+        boolean chk = true;
+        
+        return chk;
+    }
+    
+    private boolean checkPaso7(){
+        boolean chk = true;
+        
+        return chk;
+    }
+    
+    private boolean checkPaso8(){
+        boolean chk = true;
+        
+        return chk;
+    }
+    
     public void secuencia(ArrayList<String> list){
-        System.out.println("se intenta aplicar la secuencia");
-        list.stream().forEach(mov -> rubikG.rotateFace(mov));
+        list.stream().forEach(str -> {
+            rubikL.movimientoBasico(str);
+            if(algoritmoAuxiliar.isEmpty()){
+                algoritmoAuxiliar = str;
+            } else {
+                algoritmoAuxiliar += ", " + str;
+            }
+            if(algoritmoFinal.isEmpty())
+                algoritmoFinal = str;
+            else
+                algoritmoFinal += ", " + str;
+        });
+    }
+    
+    public void movimientoUnico(String mov){
+        rubikL.movimientoBasico(mov);
+        if(algoritmoAuxiliar.isEmpty())
+            algoritmoAuxiliar = mov;
+        else
+            algoritmoAuxiliar += ", " + mov;
+        if(algoritmoFinal.isEmpty())
+            algoritmoFinal = mov;
+        else
+            algoritmoFinal += ", " + mov;
     }
 
     //Setters and Getters
