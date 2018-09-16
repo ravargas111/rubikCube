@@ -6,6 +6,7 @@
 package rubikcube.logic;
 
 import rubikcube.model.RubikG;
+import rubikcube.util.AppContext;
 
 /**
  *
@@ -46,6 +47,7 @@ public class RubikL {
                 }
             }
         }
+        AppContext.getInstance().set("LatEnLat", true);
     }
     
     //usar este metiendo por parámetros el movimiento,porque creo en la parte gráfica generaría doble movimiento 
@@ -84,30 +86,6 @@ public class RubikL {
             }
         }
     }
-    
-    //Molde
-    //cubo[][][].getPieza().orientar("", , , );
-    //cubo[][][].setPieza(cubo[][][].getPieza());
-//    Pieza auxAri, auxEsq;
-//    auxAri = cubo[][][].getPieza();
-//    auxEsq = cubo[][][].getPieza();
-//    cubo[][][].setPieza(cubo[][][].getPieza());
-//    cubo[][][].getPieza().orientar("Li", , , );
-//    cubo[][][].setPieza(cubo[][][].getPieza());
-//    cubo[][][].getPieza().orientar("Li", , , );
-//    cubo[][][].setPieza(cubo[][][].getPieza());
-//    cubo[][][].getPieza().orientar("Li", , , );
-//    cubo[][][].setPieza(cubo[][][].getPieza());
-//    cubo[][][].getPieza().orientar("Li", , , );
-//    cubo[][][].setPieza(cubo[][][].getPieza());
-//    cubo[][][].getPieza().orientar("Li", , , );
-//    cubo[][][].setPieza(cubo[][][].getPieza());
-//    cubo[][][].getPieza().orientar("Li", , , );
-//    cubo[][][].setPieza(auxAri);
-//    cubo[][][].getPieza().orientar("Li", , , );
-//    cubo[][][].setPieza(auxEsq);
-//    cubo[][][].getPieza().orientar("Li", , , );
-//    System.out.println("Movimiento ? lógico");
     
     //Movimientos publicos que el usuario puede hacer
     public void rotateL(Boolean i){
@@ -515,6 +493,7 @@ public class RubikL {
             cubo[1][0][2] = aux2;
             cubo[1][0][2].getPieza().orientar("U", 1, 0, 2);
         }
+        AppContext.getInstance().set("LatEnLat", !((boolean) AppContext.getInstance().get("LatEnLat")));
     }
     
     private void rotarContenedoresCentroEjeY(boolean i){

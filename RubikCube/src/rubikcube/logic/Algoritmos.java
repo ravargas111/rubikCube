@@ -113,12 +113,12 @@ public class Algoritmos {
                     primeraCruz();
                     break;
                 case CenTraDer:
-                    Collections.addAll(list, "Bi", "Di", "Di");
+                    Collections.addAll(list, "Bi", "Di", "Di", "B");
                     secuencia(list);
                     primeraCruz();
                     break;
                 case CenTraIzq:
-                    Collections.addAll(list, "Li", "D");
+                    Collections.addAll(list, "Li", "D", "L");
                     secuencia(list);
                     primeraCruz();
                     break;

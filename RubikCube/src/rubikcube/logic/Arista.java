@@ -5,6 +5,8 @@
  */
 package rubikcube.logic;
 
+import rubikcube.util.AppContext;
+
 /**
  *
  * @author Chris
@@ -38,21 +40,25 @@ public class Arista extends Pieza{
         else return null;
     }
     
-    @Override
-    public void orientL(boolean i) {
+    private void invertirOrientacion(){
         if(this.getOrientacion().equals(1)){
             this.setOrientacion(2);
         } else {
             this.setOrientacion(1);
         }
     }
+    
+    @Override
+    public void orientL(boolean i) {
+        if((boolean) AppContext.getInstance().get("LatEnLat")){
+            invertirOrientacion();
+        }
+    }
 
     @Override
     public void orientR(boolean i) {
-        if(this.getOrientacion().equals(1)){
-            this.setOrientacion(2);
-        } else {
-            this.setOrientacion(1);
+        if((boolean) AppContext.getInstance().get("LatEnLat")){
+            invertirOrientacion();
         }
     }
 
@@ -68,12 +74,16 @@ public class Arista extends Pieza{
 
     @Override
     public void orientF(boolean i) {
-        //La pieza no cambia de orientacion en este movimiento
+        if(!(boolean) AppContext.getInstance().get("LatEnLat")){
+            invertirOrientacion();
+        }
     }
 
     @Override
     public void orientB(boolean i) {
-        //La pieza no cambia de orientacion en este movimiento
+        if(!(boolean) AppContext.getInstance().get("LatEnLat")){
+            invertirOrientacion();
+        }
     }
     
 }
