@@ -410,6 +410,28 @@ public class RubikG {
         rotateFace(sequence.get(0));
     }
     
+    public void doMoveList(List<Move> moves){
+        IntegerProperty index=new SimpleIntegerProperty(1);
+        ChangeListener<Boolean> lis=(ov,v,v1)->{
+            if(!v1 && moves.size()>1){
+                if(index.get()<moves.size()){
+                    timestamp.set(moves.get(index.get()).getTimestamp());
+                    rotateFace(moves.get(index.get()).getFace());
+                }
+                index.set(index.get()+1);
+            }
+        };
+        index.addListener((ov,v,v1)->{
+            if(v1.intValue()==moves.size()+1){
+                onReplaying.set(false);
+                onRotation.removeListener(lis);
+            }
+        });
+        onRotation.addListener(lis);
+        timestamp.set(moves.get(0).getTimestamp());
+        rotateFace(moves.get(0).getFace());
+    }
+    
     public void doReplay(List<Move> moves){
         if(moves.isEmpty()){
             return;
