@@ -5,6 +5,7 @@
  */
 package rubikcube.logic;
 
+import java.util.ArrayList;
 import rubikcube.model.RubikG;
 import rubikcube.util.AppContext;
 
@@ -15,10 +16,12 @@ import rubikcube.util.AppContext;
 public class RubikL {
     private RubikG rubickG;
     private Contenedor[][][] cubo;
+    private ArrayList<String> totalMoveList;
 
     //recibe un cubo gráfico para hacer las rotaciones
     public RubikL(RubikG rubickG) {
         this.rubickG = rubickG;
+        this.totalMoveList = AppContext.getMoveList();
         cubo = new Contenedor[3][3][3];
         Integer contador = 1;
         for(Integer z=0; z<3; z++){

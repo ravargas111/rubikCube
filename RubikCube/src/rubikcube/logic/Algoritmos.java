@@ -8,6 +8,7 @@ package rubikcube.logic;
 import java.util.ArrayList;
 import java.util.Collections;
 import rubikcube.model.RubikG;
+import rubikcube.util.AppContext;
 
 /**
  *
@@ -26,6 +27,7 @@ public class Algoritmos {
     private boolean paso6 = false; //ubicar esquinas tercer nivel
     private boolean paso7 = false; //orientar esquinas tercer nivel
     private boolean paso8 = false; //orientar tercer nivel
+    private ArrayList<String> totalMoveList;
     
     //Strings con algoritmos
     private String algoritmoFinal;
@@ -35,6 +37,7 @@ public class Algoritmos {
     public Algoritmos(RubikL rubikL, RubikG rubikG) {
         this.rubikL = rubikL;
         this.rubikG = rubikG;
+        this.totalMoveList = AppContext.getMoveList();
     }
     
     //Methods

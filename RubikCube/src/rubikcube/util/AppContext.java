@@ -1,10 +1,8 @@
 
 package rubikcube.util;
 
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Properties;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -14,6 +12,7 @@ public class AppContext {
     private static AppContext INSTANCE = null;
     private static HashMap<String, Object> context = new HashMap<>();
     private static Stage mainStage = new Stage();
+    private static ArrayList<String> moveList = new ArrayList<>();
      
     private AppContext() {
         cargarPropiedades();
@@ -83,6 +82,14 @@ public class AppContext {
 
     public static Scene getMainScene() {
         return mainStage.getScene();
+    }
+
+    public static ArrayList<String> getMoveList() {
+        return moveList;
+    }
+
+    public static void setMoveList(ArrayList<String> moveList) {
+        AppContext.moveList = moveList;
     }
     
 }
