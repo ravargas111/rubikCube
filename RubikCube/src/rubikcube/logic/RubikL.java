@@ -363,7 +363,7 @@ public class RubikL {
     
     //Rotaciones individuales privadas que no estan disponibles para el usuario
     //Estas rotaciones no solo cambian de posicion las piezas, sino tambien los contenedores
-    public void rotarContenedoresU(Boolean i){
+    private void rotarContenedoresU(Boolean i){
         if(i){
             Contenedor aux, aux2;
             aux = cubo[0][2][0];
@@ -408,7 +408,7 @@ public class RubikL {
         }
     }
     
-    public void rotarContenedoresD(Boolean i){
+    private void rotarContenedoresD(Boolean i){
         if(i){
             Contenedor aux, aux2;
             aux = cubo[2][0][1];
@@ -459,47 +459,190 @@ public class RubikL {
             aux = cubo[1][2][0];
             aux2 = cubo[1][2][1];
             cubo[1][2][1] = cubo[1][1][0];
-            cubo[1][2][1].getPieza().orientar("Ui", 1, 2, 1);
+            cubo[1][2][1].getPieza().orientar("CXi", 1, 2, 1);
             cubo[1][2][0] = cubo[1][0][0];
-            cubo[1][2][0].getPieza().orientar("Ui", 1, 2, 0);
+            cubo[1][2][0].getPieza().orientar("CXi", 1, 2, 0);
             cubo[1][1][0] = cubo[1][0][1];
-            cubo[1][1][0].getPieza().orientar("Ui", 1, 1, 0);
+            cubo[1][1][0].getPieza().orientar("CXi", 1, 1, 0);
             cubo[1][0][0] = cubo[1][0][2];
-            cubo[1][0][0].getPieza().orientar("Ui", 1, 0, 0);
+            cubo[1][0][0].getPieza().orientar("CXi", 1, 0, 0);
             cubo[1][0][1] = cubo[1][1][2];
-            cubo[1][0][1].getPieza().orientar("Ui", 1, 0, 1);
+            cubo[1][0][1].getPieza().orientar("CXi", 1, 0, 1);
             cubo[1][0][2] = cubo[1][2][2];
-            cubo[1][0][2].getPieza().orientar("Ui", 1, 0, 2);
+            cubo[1][0][2].getPieza().orientar("CXi", 1, 0, 2);
             cubo[1][1][2] = aux2;
-            cubo[1][1][2].getPieza().orientar("Ui", 1, 1, 2);
+            cubo[1][1][2].getPieza().orientar("CXi", 1, 1, 2);
             cubo[1][2][2] = aux;
-            cubo[1][2][2].getPieza().orientar("Ui", 1, 2, 2);
+            cubo[1][2][2].getPieza().orientar("CXi", 1, 2, 2);
         }
         else{
             Contenedor aux, aux2;
             aux = cubo[1][0][1];
             aux2 = cubo[1][0][0];
             cubo[1][0][1] = cubo[1][1][0];
-            cubo[1][0][1].getPieza().orientar("U", 1, 0, 1);
+            cubo[1][0][1].getPieza().orientar("CX", 1, 0, 1);
             cubo[1][0][0] = cubo[1][2][0];
-            cubo[1][0][0].getPieza().orientar("U", 1, 0, 0);
+            cubo[1][0][0].getPieza().orientar("CX", 1, 0, 0);
             cubo[1][1][0] = cubo[1][2][1];
-            cubo[1][1][0].getPieza().orientar("U", 1, 1, 0);
+            cubo[1][1][0].getPieza().orientar("CX", 1, 1, 0);
             cubo[1][2][0] = cubo[1][2][2];
-            cubo[1][2][0].getPieza().orientar("U", 1, 2, 0);
+            cubo[1][2][0].getPieza().orientar("CX", 1, 2, 0);
             cubo[1][2][1] = cubo[1][1][2];
-            cubo[1][2][1].getPieza().orientar("U", 1, 2, 1);
+            cubo[1][2][1].getPieza().orientar("CX", 1, 2, 1);
             cubo[1][2][2] = cubo[1][0][2];
-            cubo[1][2][2].getPieza().orientar("U", 1, 2, 2);
+            cubo[1][2][2].getPieza().orientar("CX", 1, 2, 2);
             cubo[1][1][2] = aux;
-            cubo[1][1][2].getPieza().orientar("U", 1, 1, 2);
+            cubo[1][1][2].getPieza().orientar("CX", 1, 1, 2);
             cubo[1][0][2] = aux2;
-            cubo[1][0][2].getPieza().orientar("U", 1, 0, 2);
+            cubo[1][0][2].getPieza().orientar("CX", 1, 0, 2);
         }
         AppContext.getInstance().set("LatEnLat", !((boolean) AppContext.getInstance().get("LatEnLat")));
     }
     
+    private void rotarContenedoresL(boolean i){
+        if(i){
+            Contenedor auxAri, auxEsq;
+            auxAri = cubo[0][0][1];
+            auxEsq = cubo[0][0][0];
+            cubo[0][0][1] = cubo[1][0][0];
+            cubo[0][0][1].getPieza().orientar("Li", 0, 0, 1);
+            cubo[0][0][0] = cubo[2][0][0];
+            cubo[0][0][0].getPieza().orientar("Li", 0, 0, 0);
+            cubo[1][0][0] = cubo[2][0][1];
+            cubo[1][0][0].getPieza().orientar("Li", 1, 0, 0);
+            cubo[2][0][0] = cubo[2][0][2];
+            cubo[2][0][0].getPieza().orientar("Li", 2, 0, 0);
+            cubo[2][0][1] = cubo[1][0][2];
+            cubo[2][0][1].getPieza().orientar("Li", 2, 0, 1);
+            cubo[2][0][2] = cubo[0][0][2];
+            cubo[2][0][2].getPieza().orientar("Li", 2, 0, 2);
+            cubo[1][0][2] = auxAri;
+            cubo[1][0][2].getPieza().orientar("Li", 1, 0, 2);
+            cubo[0][0][2] = auxEsq;
+            cubo[0][0][2].getPieza().orientar("Li", 0, 0, 2);
+        }
+        else{
+            Contenedor auxAri, auxEsq;
+            auxAri = cubo[0][0][1];
+            auxEsq = cubo[0][0][0];
+            cubo[0][0][0] = cubo[0][0][2];
+            cubo[0][0][0].getPieza().orientar("L", 0, 0, 0);
+            cubo[0][0][1] = cubo[1][0][2];
+            cubo[0][0][1].getPieza().orientar("L", 0, 0, 1);
+            cubo[0][0][2] = cubo[2][0][2];
+            cubo[0][0][2].getPieza().orientar("L", 0, 0, 2);
+            cubo[1][0][2] = cubo[2][0][1];
+            cubo[1][0][2].getPieza().orientar("L", 1, 0, 2);
+            cubo[2][0][2] = cubo[2][0][0];
+            cubo[2][0][2].getPieza().orientar("L", 2, 0, 2);
+            cubo[2][0][1] = cubo[1][0][0];
+            cubo[2][0][1].getPieza().orientar("L", 2, 0, 1);
+            cubo[2][0][0] = auxEsq;
+            cubo[2][0][0].getPieza().orientar("L", 2, 0, 0);
+            cubo[1][0][0] = auxAri;
+            cubo[1][0][0].getPieza().orientar("L", 1, 0, 0);
+        }
+    }
+    
+    private void rotarContenedoresR(boolean i){
+        if(i){
+            Contenedor auxAri, auxEsq;
+            auxEsq = cubo[0][2][0];
+            auxAri = cubo[0][2][1];
+            cubo[0][2][0] = cubo[0][2][2];
+            cubo[0][2][0].getPieza().orientar("Ri", 0, 2, 0);
+            cubo[0][2][1] = cubo[1][2][2];
+            cubo[0][2][1].getPieza().orientar("Ri", 0, 2, 1);
+            cubo[0][2][2] = cubo[2][2][2];
+            cubo[0][2][2].getPieza().orientar("Ri", 0, 2, 2);
+            cubo[1][2][2] = cubo[2][2][1];
+            cubo[1][2][2].getPieza().orientar("Ri", 1, 2, 2);
+            cubo[2][2][2] = cubo[2][2][0];
+            cubo[2][2][2].getPieza().orientar("Ri", 2, 2, 2);
+            cubo[2][2][1] = cubo[1][2][0];
+            cubo[2][2][1].getPieza().orientar("Ri", 2, 2, 1);
+            cubo[2][2][0] = auxEsq;
+            cubo[2][2][0].getPieza().orientar("Ri", 2, 2, 0);
+            cubo[1][2][0] = auxAri;
+            cubo[1][2][0].getPieza().orientar("Ri", 1, 2, 0);
+        }
+        else{
+            Contenedor auxAri, auxEsq;
+            auxAri = cubo[0][2][1];
+            auxEsq = cubo[0][2][0];
+            cubo[0][2][1] = cubo[1][2][0];
+            cubo[0][2][1].getPieza().orientar("R", 0, 2, 1);
+            cubo[0][2][0] = cubo[2][2][0];
+            cubo[0][2][0].getPieza().orientar("R", 0, 2, 0);
+            cubo[1][2][0] = cubo[2][2][1];
+            cubo[1][2][0].getPieza().orientar("R", 1, 2, 0);
+            cubo[2][2][0] = cubo[2][2][2];
+            cubo[2][2][0].getPieza().orientar("R", 2, 2, 0);
+            cubo[2][2][1] = cubo[1][2][2];
+            cubo[2][2][1].getPieza().orientar("R", 2, 2, 1);
+            cubo[2][2][2] = cubo[0][2][2];
+            cubo[2][2][2].getPieza().orientar("R", 2, 2, 2);
+            cubo[1][2][2] = auxAri;
+            cubo[1][2][2].getPieza().orientar("R", 1, 2, 2);
+            cubo[0][2][2] = auxEsq;
+            cubo[0][2][2].getPieza().orientar("R", 0, 2, 2);
+        }
+    }
+    
     private void rotarContenedoresCentroEjeY(boolean i){
+        if(i){
+            Contenedor auxAri, auxEsq;
+            auxAri = cubo[0][1][1];
+            auxEsq = cubo[0][1][0];
+            cubo[0][1][1] = cubo[1][1][0];
+            cubo[0][1][1].getPieza().orientar("CYi", 0, 1, 1);
+            cubo[0][1][0] = cubo[2][1][0];
+            cubo[0][1][0].getPieza().orientar("CYi", 0, 1, 0);
+            cubo[1][1][0] = cubo[2][1][1];
+            cubo[1][1][0].getPieza().orientar("CYi", 1, 1, 0);
+            cubo[2][1][0] = cubo[2][1][2];
+            cubo[2][1][0].getPieza().orientar("CYi", 2, 1, 0);
+            cubo[2][1][1] = cubo[1][1][2];
+            cubo[2][1][1].getPieza().orientar("CYi", 2, 1, 1);
+            cubo[2][1][2] = cubo[0][1][2];
+            cubo[2][1][2].getPieza().orientar("CYi", 2, 1, 2);
+            cubo[1][1][2] = auxAri;
+            cubo[1][1][2].getPieza().orientar("CYi", 1, 1, 2);
+            cubo[0][1][2] = auxEsq;
+            cubo[0][1][2].getPieza().orientar("CYi", 0, 1, 2);
+        }
+        else{
+            Contenedor auxAri, auxEsq;
+            auxAri = cubo[0][1][1];
+            auxEsq = cubo[0][1][0];
+            cubo[0][1][0] = cubo[0][1][2];
+            cubo[0][1][0].getPieza().orientar("CY", 0, 1, 0);
+            cubo[0][1][1] = cubo[1][1][2];
+            cubo[0][1][1].getPieza().orientar("CY", 0, 1, 1);
+            cubo[0][1][2] = cubo[2][1][2];
+            cubo[0][1][2].getPieza().orientar("CY", 0, 1, 2);
+            cubo[1][1][2] = cubo[2][1][1];
+            cubo[1][1][2].getPieza().orientar("CY", 1, 1, 2);
+            cubo[2][1][2] = cubo[2][1][0];
+            cubo[2][1][2].getPieza().orientar("CY", 2, 1, 2);
+            cubo[2][1][1] = cubo[1][1][0];
+            cubo[2][1][1].getPieza().orientar("CY", 2, 1, 1);
+            cubo[2][1][0] = auxEsq;
+            cubo[2][1][0].getPieza().orientar("CY", 2, 1, 0);
+            cubo[1][1][0] = auxAri;
+            cubo[1][1][0].getPieza().orientar("CY", 1, 1, 0);
+        }
+    }
+    
+    private void rotarContenedoresF(boolean i){
+        if(i){
+            
+        } else {
+            
+        }
+    }
+    
+    private void rotarContenedoresB(boolean i){
         if(i){
             
         } else {
@@ -520,6 +663,12 @@ public class RubikL {
         rotarContenedoresU(i);
         rotarContenedoresCentroEjeX(i);
         rotarContenedoresD(!i);
+    }
+    
+    public void rotateX(boolean i){
+        rotarContenedoresL(!i);
+        rotarContenedoresCentroEjeY(!i);
+        rotarContenedoresR(i);
     }
     
     public void evaluarCuboArmado(){

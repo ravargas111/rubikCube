@@ -86,4 +86,19 @@ public class Arista extends Pieza{
         }
     }
     
+    @Override
+    public void orientCX(boolean i) {
+        //La pieza no cambia de orientacion en este movimiento
+    }
+
+    @Override
+    public void orientCY(boolean i) {
+        invertirOrientacion();
+    }
+
+    @Override
+    public void orientCZ(boolean i) {
+        //TODO
+    }
+    
 }
