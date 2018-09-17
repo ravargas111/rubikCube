@@ -45,4 +45,19 @@ public class Centro extends Pieza{
         //La pieza no cambia de orientacion en este movimiento
     }
     
+    @Override
+    public void orientCX(boolean i) {
+        //La pieza no cambia de orientacion en este movimiento
+    }
+
+    @Override
+    public void orientCY(boolean i) {
+        //La pieza no cambia de orientacion en este movimiento
+    }
+
+    @Override
+    public void orientCZ(boolean i) {
+        //La pieza no cambia de orientacion en este movimiento
+    }
+    
 }

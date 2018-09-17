@@ -50,6 +50,12 @@ public abstract class Pieza {
             case "F": orientF(false);break;
             case "Bi": orientB(true);break;
             case "B": orientB(false);break;
+            case "CXi": orientCX(true);break;
+            case "CX": orientCX(false);break;
+            case "CYi": orientCX(true);break;
+            case "CY": orientCX(false);break;
+            case "CZi": orientCX(true);break;
+            case "CZ": orientCX(false);break;
         }
         setPos(newX, newY, newZ);
     }
@@ -65,6 +71,12 @@ public abstract class Pieza {
     public abstract void orientF(boolean i);
     
     public abstract void orientB(boolean i);
+    
+    public abstract void orientCX(boolean i);
+    
+    public abstract void orientCY(boolean i);
+    
+    public abstract void orientCZ(boolean i);
 
     public Integer getId() {
         return id;
