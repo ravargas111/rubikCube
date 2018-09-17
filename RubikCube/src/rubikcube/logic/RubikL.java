@@ -570,7 +570,7 @@ public class RubikL {
     }
     
     public void imprimirSecuencia3D(List<Move> moves){
-        this.rubickG.doReplay(moves);
+        this.rubickG.doMoveList(moves);
     }
     
     //Métodos para pruebas logicas

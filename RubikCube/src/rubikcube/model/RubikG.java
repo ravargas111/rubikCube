@@ -411,6 +411,23 @@ public class RubikG {
     }
     
     public void doMoveList(List<Move> moves){
+        if(moves.isEmpty()){
+            return;
+        }
+        content.resetCam();
+        //restore scramble
+        if(mapTransformsScramble.size()>0){
+            //System.out.println("Restoring scramble");
+            mapMeshes.forEach((k,v)->v.getTransforms().setAll(mapTransformsScramble.get(k)));
+            order=orderScramble.stream().collect(Collectors.toList());
+            rot.setCube(order);
+            count.set(-1);
+        } else {
+            // restore original
+            //doReset();
+        }
+        onReplaying.set(true);
+        
         IntegerProperty index=new SimpleIntegerProperty(1);
         ChangeListener<Boolean> lis=(ov,v,v1)->{
             if(!v1 && moves.size()>1){
