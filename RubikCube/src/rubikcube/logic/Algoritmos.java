@@ -5,9 +5,12 @@
  */
 package rubikcube.logic;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import rubikcube.model.RubikG;
+import rubikcube.moves.Move;
+import rubikcube.moves.Moves;
 import rubikcube.util.AppContext;
 
 /**
@@ -28,6 +31,8 @@ public class Algoritmos {
     private boolean paso7 = false; //orientar esquinas tercer nivel
     private boolean paso8 = false; //orientar tercer nivel
     private ArrayList<String> totalMoveList;
+    private Moves moves=new Moves();
+    private LocalTime time=LocalTime.now();
     
     //Strings con algoritmos
     private String algoritmoFinal;
@@ -64,6 +69,7 @@ public class Algoritmos {
                 movimientoUnico("Yi");
             }
             System.out.println("Pasos para el algoritmo 1\n\t" + algoritmoAuxiliar);
+            
         }
         if(!paso2){
             algoritmoAuxiliar = "";
@@ -106,6 +112,8 @@ public class Algoritmos {
             
         }
         System.out.println("\n--Algoritmo final acumulado--\n\t" + algoritmoFinal);
+        System.out.println("movimientos totales: "+this.moves.getNumMoves());
+        this.rubikL.imprimirSecuencia3D(this.moves.getMoves());
     }
     
     public void primeraCruz(){
@@ -380,6 +388,8 @@ public class Algoritmos {
     
     public void secuencia(ArrayList<String> list){
         list.stream().forEach(str -> {
+            this.totalMoveList.add(str);
+            moves.addMove(new Move(str, LocalTime.now().minusNanos(time.toNanoOfDay()).toNanoOfDay()));
             rubikL.movimientoBasico(str);
             if(algoritmoAuxiliar.isEmpty()){
                 algoritmoAuxiliar = str;
@@ -395,6 +405,8 @@ public class Algoritmos {
     
     public void movimientoUnico(String mov){
         rubikL.movimientoBasico(mov);
+        this.totalMoveList.add(mov);
+        moves.addMove(new Move(mov, LocalTime.now().minusNanos(time.toNanoOfDay()).toNanoOfDay()));
         if(algoritmoAuxiliar.isEmpty())
             algoritmoAuxiliar = mov;
         else

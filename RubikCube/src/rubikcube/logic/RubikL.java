@@ -6,7 +6,9 @@
 package rubikcube.logic;
 
 import java.util.ArrayList;
+import java.util.List;
 import rubikcube.model.RubikG;
+import rubikcube.moves.Move;
 import rubikcube.util.AppContext;
 
 /**
@@ -716,6 +718,10 @@ public class RubikL {
         this.cubo = cubo;
     }
     
+    public void imprimirSecuencia3D(List<Move> moves){
+        this.rubickG.doMoveList(moves);
+    }
+    
     //Métodos para pruebas logicas
     public void imprimirCubo(){
         for(Integer z=2; z>=0; z--){
@@ -757,5 +763,6 @@ public class RubikL {
         }
         System.out.println("\n");
         evaluarCuboArmado();
+        
     }
 }
