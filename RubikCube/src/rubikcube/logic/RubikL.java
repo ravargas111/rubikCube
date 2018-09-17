@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import rubikcube.model.RubikG;
 import rubikcube.moves.Move;
+import rubikcube.moves.Moves;
 import rubikcube.util.AppContext;
 
 /**
@@ -18,12 +19,16 @@ import rubikcube.util.AppContext;
 public class RubikL {
     private RubikG rubickG;
     private Contenedor[][][] cubo;
-    private ArrayList<String> totalMoveList;
+    private ArrayList<Moves> moveLists;
 
     //recibe un cubo gráfico para hacer las rotaciones
     public RubikL(RubikG rubickG) {
         this.rubickG = rubickG;
-        this.totalMoveList = AppContext.getMoveList();
+        this.moveLists=AppContext.getInstance().getMoveLists();
+        //inicializa las listas de movimientos realizados lógicamente
+        for(Integer i=0;i<9;i++){
+            this.moveLists.add(new Moves());
+        }
         cubo = new Contenedor[3][3][3];
         Integer contador = 1;
         for(Integer z=0; z<3; z++){
@@ -719,7 +724,22 @@ public class RubikL {
     }
     
     public void imprimirSecuencia3D(List<Move> moves){
+        //invoca al método que ejecuta la lista de movimientos de la lista acumulada (ArrayList<Moves> de appContextext en la pos 0)
         this.rubickG.doMoveList(moves);
+        
+        //prueba
+        System.out.println("\n--------Listas de movimientos usadas por autoarmado-------------\n");
+        Integer cont=0;
+        for(Moves ms:this.moveLists){
+            if(ms.getNumMoves()!=0){
+            System.out.println("\nLista "+cont+"("+ms.getNumMoves()+" movimientos)");
+            ms.getMoves().forEach((m) -> {
+                System.out.print(m.getFace()+", ");
+            });
+            }
+            cont++;
+        }
+        //fin prueba
     }
     
     //Métodos para pruebas logicas

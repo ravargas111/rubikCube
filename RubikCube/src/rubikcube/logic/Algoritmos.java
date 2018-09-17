@@ -30,8 +30,10 @@ public class Algoritmos {
     private boolean paso6 = false; //ubicar esquinas tercer nivel
     private boolean paso7 = false; //orientar esquinas tercer nivel
     private boolean paso8 = false; //orientar tercer nivel
-    private ArrayList<String> totalMoveList;
-    private Moves moves=new Moves();
+    private Integer pasosCompletados=0;
+    Moves listaMovEtapa;
+    Moves listaMovGeneral;
+    
     private LocalTime time=LocalTime.now();
     
     //Strings con algoritmos
@@ -42,7 +44,7 @@ public class Algoritmos {
     public Algoritmos(RubikL rubikL, RubikG rubikG) {
         this.rubikL = rubikL;
         this.rubikG = rubikG;
-        this.totalMoveList = AppContext.getMoveList();
+        this.listaMovGeneral=AppContext.getInstance().getMoveLists().get(0); 
     }
     
     //Methods
@@ -112,8 +114,7 @@ public class Algoritmos {
             
         }
         System.out.println("\n--Algoritmo final acumulado--\n\t" + algoritmoFinal);
-        System.out.println("movimientos totales: "+this.moves.getNumMoves());
-        this.rubikL.imprimirSecuencia3D(this.moves.getMoves());
+        this.rubikL.imprimirSecuencia3D(this.listaMovGeneral.getMoves());
     }
     
     public void primeraCruz(){
@@ -192,6 +193,7 @@ public class Algoritmos {
     
     private boolean checkPaso1(){
         boolean chk = true;
+        this.pasosCompletados=0;
         if(!rubikL.getCubo()[0][1][0].getId().equals(rubikL.getCubo()[0][1][0].getPieza().getId()) 
             || !rubikL.getCubo()[0][1][0].getPieza().getOrientacion().equals(1))
             chk = false;
@@ -204,6 +206,8 @@ public class Algoritmos {
         if(!rubikL.getCubo()[0][2][1].getId().equals(rubikL.getCubo()[0][2][1].getPieza().getId()) 
             || !rubikL.getCubo()[0][2][1].getPieza().getOrientacion().equals(1))
             chk = false;
+        if(chk)
+           this.pasosCompletados=1; 
         return chk;
     }
     
@@ -278,6 +282,8 @@ public class Algoritmos {
         if(!rubikL.getCubo()[0][2][2].getId().equals(rubikL.getCubo()[0][2][2].getPieza().getId()) 
             || !rubikL.getCubo()[0][2][2].getPieza().getOrientacion().equals(1))
             chk = false;
+        if(chk)
+           this.pasosCompletados=2;
         return chk;
     }
     
@@ -353,43 +359,56 @@ public class Algoritmos {
         if(!rubikL.getCubo()[1][2][2].getId().equals(rubikL.getCubo()[1][2][2].getPieza().getId()) 
             || !rubikL.getCubo()[1][2][2].getPieza().getOrientacion().equals(1))
             chk = false;
+        if(chk)
+           this.pasosCompletados=3;
         return chk;
     }
     
     private boolean checkPaso4(){
         boolean chk = true;
         
+        if(chk)
+           this.pasosCompletados=4;
         return chk;
     }
     
     private boolean checkPaso5(){
         boolean chk = true;
         
+        if(chk)
+           this.pasosCompletados=5;
         return chk;
     }
     
     private boolean checkPaso6(){
         boolean chk = true;
         
+        if(chk)
+           this.pasosCompletados=6;
         return chk;
     }
     
     private boolean checkPaso7(){
         boolean chk = true;
         
+        if(chk)
+           this.pasosCompletados=7;
         return chk;
     }
     
     private boolean checkPaso8(){
         boolean chk = true;
         
+        if(chk)
+           this.pasosCompletados=8;
         return chk;
     }
     
     public void secuencia(ArrayList<String> list){
+        
         list.stream().forEach(str -> {
-            this.totalMoveList.add(str);
-            moves.addMove(new Move(str, LocalTime.now().minusNanos(time.toNanoOfDay()).toNanoOfDay()));
+            //moves.addMove(new Move(str, LocalTime.now().minusNanos(time.toNanoOfDay()).toNanoOfDay()));
+            this.asignarMovimientos(str);
             rubikL.movimientoBasico(str);
             if(algoritmoAuxiliar.isEmpty()){
                 algoritmoAuxiliar = str;
@@ -405,8 +424,7 @@ public class Algoritmos {
     
     public void movimientoUnico(String mov){
         rubikL.movimientoBasico(mov);
-        this.totalMoveList.add(mov);
-        moves.addMove(new Move(mov, LocalTime.now().minusNanos(time.toNanoOfDay()).toNanoOfDay()));
+        this.asignarMovimientos(mov);
         if(algoritmoAuxiliar.isEmpty())
             algoritmoAuxiliar = mov;
         else
@@ -496,6 +514,14 @@ public class Algoritmos {
 
     public void setRubikG(RubikG rubikG) {
         this.rubikG = rubikG;
+    }
+    
+    public void asignarMovimientos(String mov){
+        //selecciona la etapa para separar por listas (pasos completados se asigna al checkear etapas)
+        this.listaMovEtapa=AppContext.getInstance().getMoveLists().get(this.pasosCompletados+1);
+        //asigna a la lista por etapas y a la general
+        this.listaMovEtapa.addMove(new Move(mov, LocalTime.now().minusNanos(time.toNanoOfDay()).toNanoOfDay()));
+        this.listaMovGeneral.addMove(new Move(mov, LocalTime.now().minusNanos(time.toNanoOfDay()).toNanoOfDay()));
     }
     
 }
