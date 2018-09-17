@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import rubikcube.moves.Moves;
 
 
 public class AppContext {
@@ -13,6 +14,7 @@ public class AppContext {
     private static HashMap<String, Object> context = new HashMap<>();
     private static Stage mainStage = new Stage();
     private static ArrayList<String> moveList = new ArrayList<>();
+    private ArrayList<Moves> moveLists = new ArrayList<>();
      
     private AppContext() {
         cargarPropiedades();
@@ -84,12 +86,12 @@ public class AppContext {
         return mainStage.getScene();
     }
 
-    public static ArrayList<String> getMoveList() {
-        return moveList;
+    public ArrayList<Moves> getMoveLists() {
+        return moveLists;
     }
 
-    public static void setMoveList(ArrayList<String> moveList) {
-        AppContext.moveList = moveList;
+    public void setMoveLists(ArrayList<Moves> moveLists) {
+        this.moveLists = moveLists;
     }
     
 }
