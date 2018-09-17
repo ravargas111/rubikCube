@@ -74,21 +74,21 @@ public class Algoritmos {
             System.out.println("Pasos para el algoritmo 2\n\t" + algoritmoAuxiliar);
         }
         if(!paso3){
-            algoritmoAuxiliar = "";
-            movimientoUnico("Xi");
-            movimientoUnico("Xi");
-            boolean ladoDerecho = true;
-            while(!checkPaso3()){
-                if(ladoDerecho){
-                    aristasDerechasSegundoNivel();
-                    ladoDerecho = false;
-                } else {
-                    aristasIzquierdasSegundoNivel();
-                    ladoDerecho = true;
-                    movimientoUnico("Yi");
-                }
-            }
-            System.out.println("Pasos para el algoritmo 3");
+//            algoritmoAuxiliar = "";
+//            movimientoUnico("Xi");
+//            movimientoUnico("Xi");
+//            boolean ladoDerecho = true;
+//            while(!checkPaso3()){
+//                if(ladoDerecho){
+//                    aristasDerechasSegundoNivel();
+//                    ladoDerecho = false;
+//                } else {
+//                    aristasIzquierdasSegundoNivel();
+//                    ladoDerecho = true;
+//                    movimientoUnico("Yi");
+//                }
+//            }
+//            System.out.println("Pasos para el algoritmo 3");
         }
         if(!paso4){
             
@@ -315,7 +315,7 @@ public class Algoritmos {
                 case SupTra:
                     //Caso final
                     if(arista.getOrientacion().equals(1)){
-                        Collections.addAll(list, "B", "B", "Di", "Di");
+                        Collections.addAll(list, "Fi", "Ui", "F", "U", "R", "U", "Ri");
                         secuencia(list);
                     }
                     break;
