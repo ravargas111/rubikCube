@@ -358,7 +358,7 @@ public class Algoritmos {
     
     private void aristasIzquierdasSegundoNivel(){
         Boolean latEnLat = ((boolean) AppContext.getInstance().get("LatEnLat"));
-        Integer orientFinalNecesaria = latEnLat ? 1:2;
+        Integer orientFinalNecesaria = latEnLat ? 2:1;
         ArrayList<String> list = new ArrayList<>();
         if(!(rubikL.getCubo()[1][0][0].getId().equals(rubikL.getCubo()[1][0][0].getPieza().getId()))){
             Arista arista = (Arista) rubikL.encontrarPieza(rubikL.getCubo()[1][0][0].getId());
@@ -414,7 +414,7 @@ public class Algoritmos {
                     break;
                 case SupTra:
                     //Caso final
-                    if(!arista.getOrientacion().equals(orientFinalNecesaria)){
+                    if(arista.getOrientacion().equals(orientFinalNecesaria)){
                         Collections.addAll(list, "F", "U", "Fi", "Ui", "Li", "Ui", "L");
                         secuencia(list);
                     }
