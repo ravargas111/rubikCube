@@ -72,7 +72,7 @@ public class RubikL {
      * @param face 
      */
     public void movimientoBasico(String face){
-        if(face.contains("L")||face.contains("R")||face.contains("U")||face.contains("D")||face.contains("F")||face.contains("B")||face.contains("Y")){
+        if(face.contains("L")||face.contains("R")||face.contains("U")||face.contains("D")||face.contains("F")||face.contains("B")||face.contains("Y")||face.contains("X")){
             switch(face){
                 case "Li": rotateL(true);break;
                 case "L": rotateL(false);break;
@@ -88,6 +88,8 @@ public class RubikL {
                 case "B": rotateB(false);break;
                 case "Yi": rotateY(true);break;
                 case "Y": rotateY(false);break;
+                case "Xi": rotateX(true);break;
+                case "X": rotateX(false);break;
             }
         }
     }
