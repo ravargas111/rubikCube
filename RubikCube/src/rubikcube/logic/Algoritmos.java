@@ -63,7 +63,7 @@ public class Algoritmos {
     public void autoArmado(){
         algoritmoFinal = "";
         algoritmoAuxiliar = "";
-        checkPaso1();
+        paso1 = checkPaso1();
         if(!paso1){
             algoritmoAuxiliar = "";
             while(!checkPaso1()){
@@ -73,7 +73,7 @@ public class Algoritmos {
             System.out.println("Pasos para el algoritmo 1\n\t" + algoritmoAuxiliar);
             
         }
-        checkPaso2();
+        paso2 = checkPaso2();
         if(!paso2){
             algoritmoAuxiliar = "";
             while(!checkPaso2()){
@@ -82,13 +82,12 @@ public class Algoritmos {
             }
             System.out.println("Pasos para el algoritmo 2\n\t" + algoritmoAuxiliar);
         }
-        checkPaso3();
+        paso3 = checkPaso3();
         if(!paso3){
             algoritmoAuxiliar = "";
             movimientoUnico("Xi");
             movimientoUnico("Xi");
             boolean ladoDerecho = true;
-            Integer i = 0;
             while(!checkPaso3()){
                 if(ladoDerecho){
                     aristasDerechasSegundoNivel();
@@ -97,13 +96,18 @@ public class Algoritmos {
                     aristasIzquierdasSegundoNivel();
                     ladoDerecho = true;
                     movimientoUnico("Yi");
-                    i++;
                 }
             }
             System.out.println("Pasos para el algoritmo 3\n\t" + algoritmoAuxiliar);
         }
+        paso4 = checkPaso4();
         if(!paso4){
-            
+            algoritmoAuxiliar = "";
+            while(!checkPaso2()){
+                
+                movimientoUnico("Yi");
+            }
+            System.out.println("Pasos para el algoritmo 4\n\t" + algoritmoAuxiliar);
         }
         if(!paso5){
             
@@ -118,7 +122,7 @@ public class Algoritmos {
             
         }
         System.out.println("\n--Algoritmo final acumulado--\n\t" + algoritmoFinal);
-        this.rubikL.imprimirSecuencia3D(this.listaMovGeneral.getMoves());
+//        this.rubikL.imprimirSecuencia3D(this.listaMovGeneral.getMoves());
     }
     
     public void primeraCruz(){
@@ -448,15 +452,30 @@ public class Algoritmos {
             || !rubikL.getCubo()[1][2][2].getPieza().getOrientacion().equals(1))
             chk = false;
         if(chk)
-           this.pasosCompletados=3;
+            this.pasosCompletados=3;
         return chk;
+    }
+    
+    public void aristasTercerNivel(){
+        
     }
     
     private boolean checkPaso4(){
         boolean chk = true;
-        
+        if(!rubikL.getCubo()[0][1][0].getId().equals(rubikL.getCubo()[0][1][0].getPieza().getId()) 
+            || !rubikL.getCubo()[0][1][0].getPieza().getOrientacion().equals(1))
+            chk = false;
+        if(!rubikL.getCubo()[0][0][1].getId().equals(rubikL.getCubo()[0][0][1].getPieza().getId()) 
+            || !rubikL.getCubo()[0][0][1].getPieza().getOrientacion().equals(1))
+            chk = false;
+        if(!rubikL.getCubo()[0][2][1].getId().equals(rubikL.getCubo()[0][2][1].getPieza().getId()) 
+            || !rubikL.getCubo()[0][2][1].getPieza().getOrientacion().equals(1))
+            chk = false;
+        if(!rubikL.getCubo()[0][1][2].getId().equals(rubikL.getCubo()[0][1][2].getPieza().getId()) 
+            || !rubikL.getCubo()[0][1][2].getPieza().getOrientacion().equals(1))
+            chk = false;
         if(chk)
-           this.pasosCompletados=4;
+            this.pasosCompletados=4;
         return chk;
     }
     

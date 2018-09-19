@@ -93,7 +93,7 @@ public class Arista extends Pieza{
 
     @Override
     public void orientCY(boolean i) {
-        invertirOrientacion();
+        //La pieza no cambia de orientacion en este movimiento
     }
 
     @Override
