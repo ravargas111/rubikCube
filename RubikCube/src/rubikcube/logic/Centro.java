@@ -10,9 +10,38 @@ package rubikcube.logic;
  * @author Chris
  */
 public class Centro extends Pieza{
+    public static enum Position {SUPERIOR, INFERIOR, FRONTAL, TRASERA, IZQUIERDA, DERECHA};
     
     public Centro(Integer id) {
         super(id, TipoPieza.CENTRO);
+    }
+    
+    public Position getPos(){
+        Position pos;
+        switch (this.getX()) {
+            case 1:
+                switch (this.getY()) {
+                    case 0:
+                        pos = Position.IZQUIERDA;
+                        break;
+                    case 2:
+                        pos = Position.DERECHA;
+                        break;
+                    default:
+                        if(this.getZ().equals(0)){
+                            pos = Position.FRONTAL;
+                        } else {
+                            pos = Position.TRASERA;
+                        }   break;
+                }   break;
+            case 0:
+                pos = Position.SUPERIOR;
+                break;
+            default:
+                pos = Position.INFERIOR;
+                break;
+        }
+        return pos;
     }
 
     @Override

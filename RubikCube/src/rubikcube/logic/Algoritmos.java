@@ -8,7 +8,6 @@ package rubikcube.logic;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import javax.swing.JOptionPane;
 import rubikcube.model.RubikG;
 import rubikcube.moves.Move;
 import rubikcube.moves.Moves;
@@ -21,8 +20,11 @@ import rubikcube.util.AppContext;
 public class Algoritmos {
     //Attributes
     private RubikG rubikG;
-    private RubikL rubikL;
+    private RubikL rubikLAuxiliar;
+    private RubikL rubikLOriginal;
+    
     //Pasos completados
+    private boolean paso0 = false; //Pone la cara blanca siempre arriba
     private boolean paso1 = false; //primera cruz
     private boolean paso2 = false; //primer nivel
     private boolean paso3 = false; //segundo nivel
@@ -30,12 +32,13 @@ public class Algoritmos {
     private boolean paso5 = false; //orientar cruz tercer nivel
     private boolean paso6 = false; //ubicar esquinas tercer nivel
     private boolean paso7 = false; //orientar esquinas tercer nivel
-    private boolean paso8 = false; //orientar tercer nivel
+    
+    //Movimientos
     private Integer pasosCompletados=0;
     Moves listaMovEtapa;
     Moves listaMovGeneral;
     
-    private LocalTime time=LocalTime.now();
+    private final LocalTime time=LocalTime.now();
     
     //Strings con algoritmos
     private String algoritmoFinal;
@@ -43,26 +46,22 @@ public class Algoritmos {
 
     //Constructors
     public Algoritmos(RubikL rubikL, RubikG rubikG) {
-        this.rubikL = rubikL;
+        this.rubikLOriginal = rubikL;
         this.rubikG = rubikG;
+        this.rubikLAuxiliar = new RubikL(rubikL);
         this.listaMovGeneral=AppContext.getInstance().getMoveLists().get(0); 
     }
     
     //Methods
-    public void verificarNiveles(){
-        //Se verifica cuales niveles ya estan armados
-        paso1 = checkPaso1();
-        paso2 = checkPaso2();
-        paso3 = checkPaso3();
-        paso4 = checkPaso4();
-        paso5 = checkPaso5();
-        paso6 = checkPaso6();
-        paso7 = checkPaso7();
-    }
-    
     public void autoArmado(){
         algoritmoFinal = "";
         algoritmoAuxiliar = "";
+        paso0 = checkPaso0();
+        if(!paso0){
+            algoritmoAuxiliar = "";
+            orientarCubo();
+            System.out.println("Pasos para el algoritmo 0\n\t" + algoritmoAuxiliar);
+        }
         paso1 = checkPaso1();
         if(!paso1){
             algoritmoAuxiliar = "";
@@ -71,7 +70,6 @@ public class Algoritmos {
                 movimientoUnico("Yi");
             }
             System.out.println("Pasos para el algoritmo 1\n\t" + algoritmoAuxiliar);
-            
         }
         paso2 = checkPaso2();
         if(!paso2){
@@ -128,14 +126,42 @@ public class Algoritmos {
             System.out.println("Pasos para el algoritmo 7\n\t" + algoritmoAuxiliar);
         }
         System.out.println("\n--Algoritmo final acumulado--\n\t" + algoritmoFinal);
-        rubikL.imprimirCubo();
-        this.rubikL.imprimirSecuencia3D(this.listaMovGeneral.getMoves());
+        rubikLAuxiliar.imprimirCubo();
+        rubikLOriginal.imprimirSecuencia3D(this.listaMovGeneral.getMoves());
+    }
+    
+    private void orientarCubo(){
+        ArrayList<String> list = new ArrayList<>();
+        switch(((Centro) rubikLAuxiliar.encontrarPieza(11)).getPos()){
+            case INFERIOR:
+                Collections.addAll(list, "Xi", "Xi");
+                secuencia(list);
+                break;
+            case IZQUIERDA:
+                Collections.addAll(list, "Yi", "X");
+                secuencia(list);
+                break;
+            case DERECHA:
+                Collections.addAll(list, "Y", "X");
+                secuencia(list);
+                break;
+            case FRONTAL:
+                movimientoUnico("X");
+                break;
+            case TRASERA:
+                movimientoUnico("Xi");
+                break;
+        }
+    }
+    
+    private boolean checkPaso0(){
+       return ((Centro) rubikLAuxiliar.encontrarPieza(11)).getPos().equals(Centro.Position.SUPERIOR);
     }
     
     public void primeraCruz(){
         ArrayList<String> list = new ArrayList<>();
-        if(!(rubikL.getCubo()[0][1][0].getId().equals(rubikL.getCubo()[0][1][0].getPieza().getId()))){
-            Arista arista = (Arista) rubikL.encontrarPieza(rubikL.getCubo()[0][1][0].getId());
+        if(!(rubikLAuxiliar.getCubo()[0][1][0].getId().equals(rubikLAuxiliar.getCubo()[0][1][0].getPieza().getId()))){
+            Arista arista = (Arista) rubikLAuxiliar.encontrarPieza(rubikLAuxiliar.getCubo()[0][1][0].getId());
             switch((arista.getPos2())){
                 case SupDer:
                     Collections.addAll(list, "Ri", "Ri", "Di");
@@ -188,7 +214,7 @@ public class Algoritmos {
                     primeraCruz();
                     break;
                 case InfDel:
-                    switch(((Arista) rubikL.getCubo()[2][1][0].getPieza()).getOrientacion()){
+                    switch(((Arista) rubikLAuxiliar.getCubo()[2][1][0].getPieza()).getOrientacion()){
                         case 1:
                             Collections.addAll(list, "F", "F");
                             break;
@@ -199,7 +225,7 @@ public class Algoritmos {
                     secuencia(list);
                     break;
             }
-        } else if(!rubikL.getCubo()[0][1][0].getPieza().getOrientacion().equals(1)){
+        } else if(!rubikLAuxiliar.getCubo()[0][1][0].getPieza().getOrientacion().equals(1)){
              Collections.addAll(list, "F", "F");
              secuencia(list);
              primeraCruz();
@@ -209,17 +235,17 @@ public class Algoritmos {
     private boolean checkPaso1(){
         boolean chk = true;
         this.pasosCompletados=0;
-        if(!rubikL.getCubo()[0][1][0].getId().equals(rubikL.getCubo()[0][1][0].getPieza().getId()) 
-            || !rubikL.getCubo()[0][1][0].getPieza().getOrientacion().equals(1))
+        if(!rubikLAuxiliar.getCubo()[0][1][0].getId().equals(rubikLAuxiliar.getCubo()[0][1][0].getPieza().getId()) 
+            || !rubikLAuxiliar.getCubo()[0][1][0].getPieza().getOrientacion().equals(1))
             chk = false;
-        if(!rubikL.getCubo()[0][1][2].getId().equals(rubikL.getCubo()[0][1][2].getPieza().getId()) 
-            || !rubikL.getCubo()[0][1][2].getPieza().getOrientacion().equals(1))
+        if(!rubikLAuxiliar.getCubo()[0][1][2].getId().equals(rubikLAuxiliar.getCubo()[0][1][2].getPieza().getId()) 
+            || !rubikLAuxiliar.getCubo()[0][1][2].getPieza().getOrientacion().equals(1))
             chk = false;
-        if(!rubikL.getCubo()[0][0][1].getId().equals(rubikL.getCubo()[0][0][1].getPieza().getId()) 
-            || !rubikL.getCubo()[0][0][1].getPieza().getOrientacion().equals(1))
+        if(!rubikLAuxiliar.getCubo()[0][0][1].getId().equals(rubikLAuxiliar.getCubo()[0][0][1].getPieza().getId()) 
+            || !rubikLAuxiliar.getCubo()[0][0][1].getPieza().getOrientacion().equals(1))
             chk = false;
-        if(!rubikL.getCubo()[0][2][1].getId().equals(rubikL.getCubo()[0][2][1].getPieza().getId()) 
-            || !rubikL.getCubo()[0][2][1].getPieza().getOrientacion().equals(1))
+        if(!rubikLAuxiliar.getCubo()[0][2][1].getId().equals(rubikLAuxiliar.getCubo()[0][2][1].getPieza().getId()) 
+            || !rubikLAuxiliar.getCubo()[0][2][1].getPieza().getOrientacion().equals(1))
             chk = false;
         if(chk)
            this.pasosCompletados=1; 
@@ -228,8 +254,8 @@ public class Algoritmos {
     
     private void esquinasPrimerNivel(){
         ArrayList<String> list = new ArrayList<>();
-        if(!(rubikL.getCubo()[0][2][0].getId().equals(rubikL.getCubo()[0][2][0].getPieza().getId()))){
-            Esquina arista = (Esquina) rubikL.encontrarPieza(rubikL.getCubo()[0][2][0].getId());
+        if(!(rubikLAuxiliar.getCubo()[0][2][0].getId().equals(rubikLAuxiliar.getCubo()[0][2][0].getPieza().getId()))){
+            Esquina arista = (Esquina) rubikLAuxiliar.encontrarPieza(rubikLAuxiliar.getCubo()[0][2][0].getId());
             switch((arista.getPos())){
                 case SupDerTra:
                     Collections.addAll(list, "Bi", "Di", "B");
@@ -262,7 +288,7 @@ public class Algoritmos {
                     esquinasPrimerNivel();
                     break;
                 case InfDerDel:
-                    switch(((Esquina) rubikL.getCubo()[2][2][0].getPieza()).getOrientacion()){
+                    switch(((Esquina) rubikLAuxiliar.getCubo()[2][2][0].getPieza()).getOrientacion()){
                         case 1:
                             Collections.addAll(list, "Di", "Ri", "D", "R");
                             break;
@@ -276,7 +302,7 @@ public class Algoritmos {
                     secuencia(list);
                     break;
             }
-        } else if(!rubikL.getCubo()[0][2][0].getPieza().getOrientacion().equals(1)){
+        } else if(!rubikLAuxiliar.getCubo()[0][2][0].getPieza().getOrientacion().equals(1)){
             Collections.addAll(list, "Ri", "Di", "R", "D");
             secuencia(list);
             esquinasPrimerNivel();
@@ -285,17 +311,17 @@ public class Algoritmos {
     
     private boolean checkPaso2(){
         boolean chk = true;
-        if(!rubikL.getCubo()[0][0][0].getId().equals(rubikL.getCubo()[0][0][0].getPieza().getId()) 
-            || !rubikL.getCubo()[0][0][0].getPieza().getOrientacion().equals(1))
+        if(!rubikLAuxiliar.getCubo()[0][0][0].getId().equals(rubikLAuxiliar.getCubo()[0][0][0].getPieza().getId()) 
+            || !rubikLAuxiliar.getCubo()[0][0][0].getPieza().getOrientacion().equals(1))
             chk = false;
-        if(!rubikL.getCubo()[0][0][2].getId().equals(rubikL.getCubo()[0][0][2].getPieza().getId()) 
-            || !rubikL.getCubo()[0][0][2].getPieza().getOrientacion().equals(1))
+        if(!rubikLAuxiliar.getCubo()[0][0][2].getId().equals(rubikLAuxiliar.getCubo()[0][0][2].getPieza().getId()) 
+            || !rubikLAuxiliar.getCubo()[0][0][2].getPieza().getOrientacion().equals(1))
             chk = false;
-        if(!rubikL.getCubo()[0][2][0].getId().equals(rubikL.getCubo()[0][2][0].getPieza().getId()) 
-            || !rubikL.getCubo()[0][2][0].getPieza().getOrientacion().equals(1))
+        if(!rubikLAuxiliar.getCubo()[0][2][0].getId().equals(rubikLAuxiliar.getCubo()[0][2][0].getPieza().getId()) 
+            || !rubikLAuxiliar.getCubo()[0][2][0].getPieza().getOrientacion().equals(1))
             chk = false;
-        if(!rubikL.getCubo()[0][2][2].getId().equals(rubikL.getCubo()[0][2][2].getPieza().getId()) 
-            || !rubikL.getCubo()[0][2][2].getPieza().getOrientacion().equals(1))
+        if(!rubikLAuxiliar.getCubo()[0][2][2].getId().equals(rubikLAuxiliar.getCubo()[0][2][2].getPieza().getId()) 
+            || !rubikLAuxiliar.getCubo()[0][2][2].getPieza().getOrientacion().equals(1))
             chk = false;
         if(chk)
            this.pasosCompletados=2;
@@ -306,8 +332,8 @@ public class Algoritmos {
         Boolean latEnLat = ((boolean) AppContext.getInstance().get("LatEnLat"));
         Integer orientFinalNecesaria = latEnLat ? 2:1;
         ArrayList<String> list = new ArrayList<>();
-        if(!(rubikL.getCubo()[1][2][0].getId().equals(rubikL.getCubo()[1][2][0].getPieza().getId()))){
-            Arista arista = (Arista) rubikL.encontrarPieza(rubikL.getCubo()[1][2][0].getId());
+        if(!(rubikLAuxiliar.getCubo()[1][2][0].getId().equals(rubikLAuxiliar.getCubo()[1][2][0].getPieza().getId()))){
+            Arista arista = (Arista) rubikLAuxiliar.encontrarPieza(rubikLAuxiliar.getCubo()[1][2][0].getId());
             switch((arista.getPos2())){
                 case SupDer:
                     if(arista.getOrientacion().equals(orientFinalNecesaria)){
@@ -366,7 +392,7 @@ public class Algoritmos {
                     }
                     break;
             }
-        } else if(!rubikL.getCubo()[1][2][0].getPieza().getOrientacion().equals(1)){
+        } else if(!rubikLAuxiliar.getCubo()[1][2][0].getPieza().getOrientacion().equals(1)){
              Collections.addAll(list, "Fi", "Ui", "F", "U", "R", "U", "Ri", "U");
              secuencia(list);
              aristasDerechasSegundoNivel();
@@ -377,8 +403,8 @@ public class Algoritmos {
         Boolean latEnLat = ((boolean) AppContext.getInstance().get("LatEnLat"));
         Integer orientFinalNecesaria = latEnLat ? 2:1;
         ArrayList<String> list = new ArrayList<>();
-        if(!(rubikL.getCubo()[1][0][0].getId().equals(rubikL.getCubo()[1][0][0].getPieza().getId()))){
-            Arista arista = (Arista) rubikL.encontrarPieza(rubikL.getCubo()[1][0][0].getId());
+        if(!(rubikLAuxiliar.getCubo()[1][0][0].getId().equals(rubikLAuxiliar.getCubo()[1][0][0].getPieza().getId()))){
+            Arista arista = (Arista) rubikLAuxiliar.encontrarPieza(rubikLAuxiliar.getCubo()[1][0][0].getId());
             switch((arista.getPos2())){
                 case SupDer:
                     if(arista.getOrientacion().equals(orientFinalNecesaria)){
@@ -437,7 +463,7 @@ public class Algoritmos {
                     }
                     break;
             }
-        } else if(!rubikL.getCubo()[1][0][0].getPieza().getOrientacion().equals(1)){
+        } else if(!rubikLAuxiliar.getCubo()[1][0][0].getPieza().getOrientacion().equals(1)){
              Collections.addAll(list, "F", "U", "Fi", "Ui", "Li", "Ui", "L", "Ui");
              secuencia(list);
              aristasIzquierdasSegundoNivel();
@@ -446,17 +472,17 @@ public class Algoritmos {
     
     private boolean checkPaso3(){
         boolean chk = true;
-        if(!rubikL.getCubo()[1][0][0].getId().equals(rubikL.getCubo()[1][0][0].getPieza().getId()) 
-            || !rubikL.getCubo()[1][0][0].getPieza().getOrientacion().equals(1))
+        if(!rubikLAuxiliar.getCubo()[1][0][0].getId().equals(rubikLAuxiliar.getCubo()[1][0][0].getPieza().getId()) 
+            || !rubikLAuxiliar.getCubo()[1][0][0].getPieza().getOrientacion().equals(1))
             chk = false;
-        if(!rubikL.getCubo()[1][0][2].getId().equals(rubikL.getCubo()[1][0][2].getPieza().getId()) 
-            || !rubikL.getCubo()[1][0][2].getPieza().getOrientacion().equals(1))
+        if(!rubikLAuxiliar.getCubo()[1][0][2].getId().equals(rubikLAuxiliar.getCubo()[1][0][2].getPieza().getId()) 
+            || !rubikLAuxiliar.getCubo()[1][0][2].getPieza().getOrientacion().equals(1))
             chk = false;
-        if(!rubikL.getCubo()[1][2][0].getId().equals(rubikL.getCubo()[1][2][0].getPieza().getId()) 
-            || !rubikL.getCubo()[1][2][0].getPieza().getOrientacion().equals(1))
+        if(!rubikLAuxiliar.getCubo()[1][2][0].getId().equals(rubikLAuxiliar.getCubo()[1][2][0].getPieza().getId()) 
+            || !rubikLAuxiliar.getCubo()[1][2][0].getPieza().getOrientacion().equals(1))
             chk = false;
-        if(!rubikL.getCubo()[1][2][2].getId().equals(rubikL.getCubo()[1][2][2].getPieza().getId()) 
-            || !rubikL.getCubo()[1][2][2].getPieza().getOrientacion().equals(1))
+        if(!rubikLAuxiliar.getCubo()[1][2][2].getId().equals(rubikLAuxiliar.getCubo()[1][2][2].getPieza().getId()) 
+            || !rubikLAuxiliar.getCubo()[1][2][2].getPieza().getOrientacion().equals(1))
             chk = false;
         if(chk)
             this.pasosCompletados=3;
@@ -465,10 +491,10 @@ public class Algoritmos {
     
     public void aristasTercerNivel(){
         ArrayList<String> list = new ArrayList<>();
-        boolean ariF = rubikL.getCubo()[0][1][0].getPieza().getOrientacion().equals(1);
-        boolean ariI = rubikL.getCubo()[0][0][1].getPieza().getOrientacion().equals(1);
-        boolean ariD = rubikL.getCubo()[0][2][1].getPieza().getOrientacion().equals(1);
-        boolean ariT = rubikL.getCubo()[0][1][2].getPieza().getOrientacion().equals(1);
+        boolean ariF = rubikLAuxiliar.getCubo()[0][1][0].getPieza().getOrientacion().equals(1);
+        boolean ariI = rubikLAuxiliar.getCubo()[0][0][1].getPieza().getOrientacion().equals(1);
+        boolean ariD = rubikLAuxiliar.getCubo()[0][2][1].getPieza().getOrientacion().equals(1);
+        boolean ariT = rubikLAuxiliar.getCubo()[0][1][2].getPieza().getOrientacion().equals(1);
         Integer n = 0;
         if(ariF) n++;
         if(ariI) n++;
@@ -493,7 +519,7 @@ public class Algoritmos {
                     Collections.addAll(list, "F", "R", "U", "Ri", "Ui");
                     secuencia(list);
                     list.clear();
-                    if(!rubikL.getCubo()[0][1][2].getPieza().getOrientacion().equals(1))
+                    if(!rubikLAuxiliar.getCubo()[0][1][2].getPieza().getOrientacion().equals(1))
                         Collections.addAll(list, "R", "U", "Ri", "Ui", "Fi");
                     else 
                         Collections.addAll(list, "Fi");
@@ -505,7 +531,7 @@ public class Algoritmos {
                     Collections.addAll(list, "F", "R", "U", "Ri", "Ui");
                     secuencia(list);
                     list.clear();
-                    if(!rubikL.getCubo()[0][1][2].getPieza().getOrientacion().equals(1))
+                    if(!rubikLAuxiliar.getCubo()[0][1][2].getPieza().getOrientacion().equals(1))
                         Collections.addAll(list, "R", "U", "Ri", "Ui", "Fi");
                     else 
                         Collections.addAll(list, "Fi");
@@ -522,7 +548,7 @@ public class Algoritmos {
                 Collections.addAll(list, "F", "R", "U", "Ri", "Ui");
                 secuencia(list);
                 list.clear();
-                if(!rubikL.getCubo()[0][1][2].getPieza().getOrientacion().equals(1))
+                if(!rubikLAuxiliar.getCubo()[0][1][2].getPieza().getOrientacion().equals(1))
                     Collections.addAll(list, "R", "U", "Ri", "Ui", "Fi");
                 else 
                     Collections.addAll(list, "Fi");
@@ -534,13 +560,13 @@ public class Algoritmos {
     
     private boolean checkPaso4(){
         boolean chk = true;
-        if(!rubikL.getCubo()[0][1][0].getPieza().getOrientacion().equals(1))
+        if(!rubikLAuxiliar.getCubo()[0][1][0].getPieza().getOrientacion().equals(1))
             chk = false;
-        if(!rubikL.getCubo()[0][0][1].getPieza().getOrientacion().equals(1))
+        if(!rubikLAuxiliar.getCubo()[0][0][1].getPieza().getOrientacion().equals(1))
             chk = false;
-        if(!rubikL.getCubo()[0][2][1].getPieza().getOrientacion().equals(1))
+        if(!rubikLAuxiliar.getCubo()[0][2][1].getPieza().getOrientacion().equals(1))
             chk = false;
-        if(!rubikL.getCubo()[0][1][2].getPieza().getOrientacion().equals(1))
+        if(!rubikLAuxiliar.getCubo()[0][1][2].getPieza().getOrientacion().equals(1))
             chk = false;
         if(chk)
             this.pasosCompletados=4;
@@ -549,10 +575,10 @@ public class Algoritmos {
     
     private void orientarCruzTercerNivel(){
         ArrayList<String> list = new ArrayList<>();
-        boolean ariF = rubikL.getCubo()[0][1][0].getId().equals(rubikL.getCubo()[0][1][0].getPieza().getId());
-        boolean ariI = rubikL.getCubo()[0][0][1].getId().equals(rubikL.getCubo()[0][0][1].getPieza().getId());
-        boolean ariD = rubikL.getCubo()[0][2][1].getId().equals(rubikL.getCubo()[0][2][1].getPieza().getId());
-        boolean ariT = rubikL.getCubo()[0][1][2].getId().equals(rubikL.getCubo()[0][1][2].getPieza().getId());
+        boolean ariF = rubikLAuxiliar.getCubo()[0][1][0].getId().equals(rubikLAuxiliar.getCubo()[0][1][0].getPieza().getId());
+        boolean ariI = rubikLAuxiliar.getCubo()[0][0][1].getId().equals(rubikLAuxiliar.getCubo()[0][0][1].getPieza().getId());
+        boolean ariD = rubikLAuxiliar.getCubo()[0][2][1].getId().equals(rubikLAuxiliar.getCubo()[0][2][1].getPieza().getId());
+        boolean ariT = rubikLAuxiliar.getCubo()[0][1][2].getId().equals(rubikLAuxiliar.getCubo()[0][1][2].getPieza().getId());
         Integer n = 0;
         if(ariF) n++;
         if(ariI) n++;
@@ -601,13 +627,13 @@ public class Algoritmos {
     
     private boolean checkPaso5(){
         boolean chk = true;
-        if(!rubikL.getCubo()[0][1][0].getId().equals(rubikL.getCubo()[0][1][0].getPieza().getId()))
+        if(!rubikLAuxiliar.getCubo()[0][1][0].getId().equals(rubikLAuxiliar.getCubo()[0][1][0].getPieza().getId()))
             chk = false;
-        if(!rubikL.getCubo()[0][0][1].getId().equals(rubikL.getCubo()[0][0][1].getPieza().getId()))
+        if(!rubikLAuxiliar.getCubo()[0][0][1].getId().equals(rubikLAuxiliar.getCubo()[0][0][1].getPieza().getId()))
             chk = false;
-        if(!rubikL.getCubo()[0][2][1].getId().equals(rubikL.getCubo()[0][2][1].getPieza().getId()))
+        if(!rubikLAuxiliar.getCubo()[0][2][1].getId().equals(rubikLAuxiliar.getCubo()[0][2][1].getPieza().getId()))
             chk = false;
-        if(!rubikL.getCubo()[0][1][2].getId().equals(rubikL.getCubo()[0][1][2].getPieza().getId()))
+        if(!rubikLAuxiliar.getCubo()[0][1][2].getId().equals(rubikLAuxiliar.getCubo()[0][1][2].getPieza().getId()))
             chk = false;
         if(chk)
            this.pasosCompletados=5;
@@ -616,10 +642,10 @@ public class Algoritmos {
     
     private void ubicarEsquinasTercerNivel(){
         ArrayList<String> list = new ArrayList<>();
-        boolean delIzq = rubikL.getCubo()[0][0][0].getId().equals(rubikL.getCubo()[0][0][0].getPieza().getId());
-        boolean delDer = rubikL.getCubo()[0][2][0].getId().equals(rubikL.getCubo()[0][2][0].getPieza().getId());
-        boolean traIzq = rubikL.getCubo()[0][0][2].getId().equals(rubikL.getCubo()[0][0][2].getPieza().getId());
-        boolean traDer = rubikL.getCubo()[0][2][2].getId().equals(rubikL.getCubo()[0][2][2].getPieza().getId());
+        boolean delIzq = rubikLAuxiliar.getCubo()[0][0][0].getId().equals(rubikLAuxiliar.getCubo()[0][0][0].getPieza().getId());
+        boolean delDer = rubikLAuxiliar.getCubo()[0][2][0].getId().equals(rubikLAuxiliar.getCubo()[0][2][0].getPieza().getId());
+        boolean traIzq = rubikLAuxiliar.getCubo()[0][0][2].getId().equals(rubikLAuxiliar.getCubo()[0][0][2].getPieza().getId());
+        boolean traDer = rubikLAuxiliar.getCubo()[0][2][2].getId().equals(rubikLAuxiliar.getCubo()[0][2][2].getPieza().getId());
         Integer n = 0;
         if(delIzq) n++;
         if(delDer) n++;
@@ -652,13 +678,13 @@ public class Algoritmos {
     
     private boolean checkPaso6(){
         boolean chk = true;
-        if(!rubikL.getCubo()[0][0][0].getId().equals(rubikL.getCubo()[0][0][0].getPieza().getId()))
+        if(!rubikLAuxiliar.getCubo()[0][0][0].getId().equals(rubikLAuxiliar.getCubo()[0][0][0].getPieza().getId()))
             chk = false;
-        if(!rubikL.getCubo()[0][0][2].getId().equals(rubikL.getCubo()[0][0][2].getPieza().getId()))
+        if(!rubikLAuxiliar.getCubo()[0][0][2].getId().equals(rubikLAuxiliar.getCubo()[0][0][2].getPieza().getId()))
             chk = false;
-        if(!rubikL.getCubo()[0][2][0].getId().equals(rubikL.getCubo()[0][2][0].getPieza().getId()))
+        if(!rubikLAuxiliar.getCubo()[0][2][0].getId().equals(rubikLAuxiliar.getCubo()[0][2][0].getPieza().getId()))
             chk = false;
-        if(!rubikL.getCubo()[0][2][2].getId().equals(rubikL.getCubo()[0][2][2].getPieza().getId()))
+        if(!rubikLAuxiliar.getCubo()[0][2][2].getId().equals(rubikLAuxiliar.getCubo()[0][2][2].getPieza().getId()))
             chk = false;
         if(chk)
            this.pasosCompletados=6;
@@ -668,20 +694,20 @@ public class Algoritmos {
     private void orientarEsquinasTercerNivel(){
         ArrayList<String> list = new ArrayList<>();
         Integer n = 0;
-        if(rubikL.getCubo()[0][0][0].getPieza().getOrientacion().equals(2)) n++;
-        if(rubikL.getCubo()[0][0][2].getPieza().getOrientacion().equals(2)) n++;
-        if(rubikL.getCubo()[0][2][0].getPieza().getOrientacion().equals(2)) n++;
-        if(rubikL.getCubo()[0][2][2].getPieza().getOrientacion().equals(2)) n++;
+        if(rubikLAuxiliar.getCubo()[0][0][0].getPieza().getOrientacion().equals(2)) n++;
+        if(rubikLAuxiliar.getCubo()[0][0][2].getPieza().getOrientacion().equals(2)) n++;
+        if(rubikLAuxiliar.getCubo()[0][2][0].getPieza().getOrientacion().equals(2)) n++;
+        if(rubikLAuxiliar.getCubo()[0][2][2].getPieza().getOrientacion().equals(2)) n++;
         if(n<4){
             n = 0;
-            Esquina auxEsq = (Esquina) rubikL.getCubo()[0][2][0].getPieza();
+            Esquina auxEsq = (Esquina) rubikLAuxiliar.getCubo()[0][2][0].getPieza();
             while(!checkPaso7() && n<16){
                 list.clear();
-                if(rubikL.getCubo()[0][2][0].getPieza().getId().equals(auxEsq.getId())
-                && rubikL.getCubo()[0][2][0].getPieza().getOrientacion().equals(2)){
+                if(rubikLAuxiliar.getCubo()[0][2][0].getPieza().getId().equals(auxEsq.getId())
+                && rubikLAuxiliar.getCubo()[0][2][0].getPieza().getOrientacion().equals(2)){
                     Collections.addAll(list, "Ui");
                     secuencia(list);
-                    auxEsq = (Esquina) rubikL.getCubo()[0][2][0].getPieza();
+                    auxEsq = (Esquina) rubikLAuxiliar.getCubo()[0][2][0].getPieza();
                 } else {
                     Collections.addAll(list, "Ri", "Di", "R", "D");
                     secuencia(list);
@@ -695,17 +721,17 @@ public class Algoritmos {
     
     private boolean checkPaso7(){
         boolean chk = true;
-        if(!rubikL.getCubo()[0][0][0].getPieza().getOrientacion().equals(2)
-            || !rubikL.getCubo()[0][0][0].getId().equals(rubikL.getCubo()[0][0][0].getPieza().getId()))
+        if(!rubikLAuxiliar.getCubo()[0][0][0].getPieza().getOrientacion().equals(2)
+            || !rubikLAuxiliar.getCubo()[0][0][0].getId().equals(rubikLAuxiliar.getCubo()[0][0][0].getPieza().getId()))
             chk = false;
-        if(!rubikL.getCubo()[0][0][2].getPieza().getOrientacion().equals(2)
-            || !rubikL.getCubo()[0][0][2].getId().equals(rubikL.getCubo()[0][0][2].getPieza().getId()))
+        if(!rubikLAuxiliar.getCubo()[0][0][2].getPieza().getOrientacion().equals(2)
+            || !rubikLAuxiliar.getCubo()[0][0][2].getId().equals(rubikLAuxiliar.getCubo()[0][0][2].getPieza().getId()))
             chk = false;
-        if(!rubikL.getCubo()[0][2][0].getPieza().getOrientacion().equals(2)
-            || !rubikL.getCubo()[0][2][0].getId().equals(rubikL.getCubo()[0][2][0].getPieza().getId()))
+        if(!rubikLAuxiliar.getCubo()[0][2][0].getPieza().getOrientacion().equals(2)
+            || !rubikLAuxiliar.getCubo()[0][2][0].getId().equals(rubikLAuxiliar.getCubo()[0][2][0].getPieza().getId()))
             chk = false;
-        if(!rubikL.getCubo()[0][2][2].getPieza().getOrientacion().equals(2)
-            || !rubikL.getCubo()[0][2][2].getId().equals(rubikL.getCubo()[0][2][2].getPieza().getId()))
+        if(!rubikLAuxiliar.getCubo()[0][2][2].getPieza().getOrientacion().equals(2)
+            || !rubikLAuxiliar.getCubo()[0][2][2].getId().equals(rubikLAuxiliar.getCubo()[0][2][2].getPieza().getId()))
             chk = false;
         if(chk)
            this.pasosCompletados=7;
@@ -717,7 +743,7 @@ public class Algoritmos {
         list.stream().forEach(str -> {
             //moves.addMove(new Move(str, LocalTime.now().minusNanos(time.toNanoOfDay()).toNanoOfDay()));
             this.asignarMovimientos(str);
-            rubikL.movimientoBasico(str);
+            rubikLAuxiliar.movimientoBasico(str);
             if(algoritmoAuxiliar.isEmpty()){
                 algoritmoAuxiliar = str;
             } else {
@@ -731,7 +757,7 @@ public class Algoritmos {
     }
     
     public void movimientoUnico(String mov){
-        rubikL.movimientoBasico(mov);
+        rubikLAuxiliar.movimientoBasico(mov);
         this.asignarMovimientos(mov);
         if(algoritmoAuxiliar.isEmpty())
             algoritmoAuxiliar = mov;
@@ -745,75 +771,11 @@ public class Algoritmos {
 
     //Setters and Getters
     public RubikL getRubikL() {
-        return rubikL;
+        return rubikLAuxiliar;
     }
 
     public void setRubikL(RubikL rubikL) {
-        this.rubikL = rubikL;
-    }
-
-    public boolean isPaso1() {
-        return paso1;
-    }
-
-    public void setPaso1(boolean paso1) {
-        this.paso1 = paso1;
-    }
-
-    public boolean isPaso2() {
-        return paso2;
-    }
-
-    public void setPaso2(boolean paso2) {
-        this.paso2 = paso2;
-    }
-
-    public boolean isPaso3() {
-        return paso3;
-    }
-
-    public void setPaso3(boolean paso3) {
-        this.paso3 = paso3;
-    }
-
-    public boolean isPaso4() {
-        return paso4;
-    }
-
-    public void setPaso4(boolean paso4) {
-        this.paso4 = paso4;
-    }
-
-    public boolean isPaso5() {
-        return paso5;
-    }
-
-    public void setPaso5(boolean paso5) {
-        this.paso5 = paso5;
-    }
-
-    public boolean isPaso6() {
-        return paso6;
-    }
-
-    public void setPaso6(boolean paso6) {
-        this.paso6 = paso6;
-    }
-
-    public boolean isPaso7() {
-        return paso7;
-    }
-
-    public void setPaso7(boolean paso7) {
-        this.paso7 = paso7;
-    }
-
-    public boolean isPaso8() {
-        return paso8;
-    }
-
-    public void setPaso8(boolean paso8) {
-        this.paso8 = paso8;
+        this.rubikLAuxiliar = rubikL;
     }
 
     public RubikG getRubikG() {
@@ -822,6 +784,38 @@ public class Algoritmos {
 
     public void setRubikG(RubikG rubikG) {
         this.rubikG = rubikG;
+    }  
+
+    public RubikL getRubikLAuxiliar() {
+        return rubikLAuxiliar;
+    }
+
+    public void setRubikLAuxiliar(RubikL rubikLAuxiliar) {
+        this.rubikLAuxiliar = rubikLAuxiliar;
+    }
+
+    public RubikL getRubikLOriginal() {
+        return rubikLOriginal;
+    }
+
+    public void setRubikLOriginal(RubikL rubikLOriginal) {
+        this.rubikLOriginal = rubikLOriginal;
+    }
+
+    public String getAlgoritmoFinal() {
+        return algoritmoFinal;
+    }
+
+    public void setAlgoritmoFinal(String algoritmoFinal) {
+        this.algoritmoFinal = algoritmoFinal;
+    }
+
+    public String getAlgoritmoAuxiliar() {
+        return algoritmoAuxiliar;
+    }
+
+    public void setAlgoritmoAuxiliar(String algoritmoAuxiliar) {
+        this.algoritmoAuxiliar = algoritmoAuxiliar;
     }
     
     public void asignarMovimientos(String mov){

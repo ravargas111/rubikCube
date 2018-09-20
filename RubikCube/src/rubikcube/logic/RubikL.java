@@ -60,6 +60,35 @@ public class RubikL {
         AppContext.getInstance().set("LatEnLat", true);
     }
     
+    public RubikL(RubikL cuboLogico){
+        this.rubickG = cuboLogico.getRubickG();
+        cubo = new Contenedor[3][3][3];
+        for(Integer z=0; z<3; z++){
+            for(Integer x=0; x<3; x++){
+                for(Integer y=0; y<3; y++){
+                    Pieza p = null;
+                    switch(cuboLogico.getCubo()[x][y][z].getTipoPieza()){
+                        case CENTRO:
+                            p = new Centro(cuboLogico.getCubo()[x][y][z].getPieza().getId());
+                            break;
+                        case ARISTA:
+                            p = new Arista(cuboLogico.getCubo()[x][y][z].getPieza().getId());
+                            break;
+                        case ESQUINA:
+                            p = new Esquina(cuboLogico.getCubo()[x][y][z].getPieza().getId());
+                            break;
+                    }
+                    if(p != null){
+                        p.setOrientacion(cuboLogico.getCubo()[x][y][z].getPieza().getOrientacion());
+                        p.setPos(x, y, z);
+                        cubo[x][y][z] = new Contenedor(p);
+                        cubo[x][y][z].setId(cuboLogico.getCubo()[x][y][z].getId());
+                    }
+                }
+            }
+        }
+    }
+    
     //usar este metiendo por parámetros el movimiento,porque creo en la parte gráfica generaría doble movimiento 
     /**
      * llama a la rotacíon del cubo gráfico (y esta llama a la rotación del lógico: "orientarse")
