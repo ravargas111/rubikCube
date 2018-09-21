@@ -2,6 +2,34 @@
  * Empty Stylesheet file.
  */
 
-.mainFxmlClass {
+*{
+    
+}
 
+.label{
+    -fx-alignment: center;
+}
+
+.sp-modo-juego-opciones{
+    -fx-base-color-lbl-cuadro: white;
+    -fx-base-color-lbl-modo: #018989;
+    -fx-base-color-contraste: #018989;
+}
+
+.sp-modo-juego-opciones:hover{
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+}
+
+.lbl-modo-juego-opciones{
+    -fx-text-fill: -fx-base-color-lbl-cuadro;
+    -fx-font-size:15px;
+    -fx-alignment: center;
+}
+
+.lbl-modo-juego-sub{
+    -fx-font-size:30px;
+    -fx-alignment: center;
+     -fx-stroke-width:10px; 
+     -fx-text-fill: -fx-base-color-contraste;
 }

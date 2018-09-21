@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import rubikcube.logic.Jugador;
 import rubikcube.moves.Moves;
 
 
@@ -15,6 +16,9 @@ public class AppContext {
     private static Stage mainStage = new Stage();
     private static ArrayList<String> moveList = new ArrayList<>();
     private ArrayList<Moves> moveLists = new ArrayList<>();
+    private static ArrayList<Jugador> jugadores = new ArrayList<>();
+    private static Jugador jugadorActual;
+    private static Integer modoJuego;
      
     private AppContext() {
         cargarPropiedades();
@@ -92,6 +96,30 @@ public class AppContext {
 
     public void setMoveLists(ArrayList<Moves> moveLists) {
         this.moveLists = moveLists;
+    }
+
+    public static ArrayList<Jugador> getJugadores() {
+        return jugadores;
+    }
+
+    public static void setJugadores(ArrayList<Jugador> jugadores) {
+        AppContext.jugadores = jugadores;
+    }
+
+    public static Jugador getJugadorActual() {
+        return jugadorActual;
+    }
+
+    public static void setJugadorActual(Jugador jugadorActual) {
+        AppContext.jugadorActual = jugadorActual;
+    }
+
+    public static Integer getModoJuego() {
+        return modoJuego;
+    }
+
+    public static void setModoJuego(Integer modoJuego) {
+        AppContext.modoJuego = modoJuego;
     }
     
 }

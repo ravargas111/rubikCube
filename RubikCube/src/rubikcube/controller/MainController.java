@@ -92,7 +92,7 @@ public class MainController extends Controller implements Initializable {
 
     @Override
     public void initialize() {
-         
+         seleccionarModo();
     }
 
     @FXML
@@ -262,6 +262,9 @@ public class MainController extends Controller implements Initializable {
             } else {
                 if(rubikG.getPreviewFace().get().isEmpty()){
                     btnHover=null;
+                    if(AppContext.getInstance().getModoJuego().equals(3)){
+                      System.out.println("aquí hay que comparar");  
+                    }
                 } else {
                     // after rotation
                     if(btnHover!=null && !btnHover.isHover()){
@@ -325,5 +328,16 @@ public class MainController extends Controller implements Initializable {
     
     public void printLogicalCube(){
         this.rubikL.imprimirCubo();
+    }
+    
+    public void seleccionarModo(){
+        Integer modo=AppContext.getInstance().getModoJuego();
+        switch(modo){
+            case 1: break;
+            case 2: break;
+            case 3: break;
+            case 4: break;
+            default: break;
+        }
     }
 }
