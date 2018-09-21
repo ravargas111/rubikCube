@@ -33,3 +33,7 @@
      -fx-stroke-width:10px; 
      -fx-text-fill: -fx-base-color-contraste;
 }
+
+.tool-bar{
+    -fx-background-color: transparent;
+}

@@ -88,6 +88,9 @@ public class MainController extends Controller implements Initializable {
         initToolbarEvents();
         binds();
         initListeners(); 
+        //this.rubikG..setOnMouseClicked(e->{
+            //this.rubikG.resetCam();
+       // });
     }    
 
     @Override
@@ -333,7 +336,7 @@ public class MainController extends Controller implements Initializable {
     }
     
     public void seleccionarModo(){
-        Integer modo=AppContext.getInstance().getModoJuego();
+        Integer modo=AppContext.getModoJuego();
         switch(modo){
             case 1: break;
             case 2: break;
@@ -342,4 +345,5 @@ public class MainController extends Controller implements Initializable {
             default: break;
         }
     }
+    
 }
