@@ -92,7 +92,7 @@ public class MainController extends Controller implements Initializable {
 
     @Override
     public void initialize() {
-         
+         seleccionarModo();
     }
 
     @FXML
@@ -245,6 +245,7 @@ public class MainController extends Controller implements Initializable {
             bReplay.setDisable(moves.getNumMoves()==0);
             lMov.setText("Movements: "+(v1.intValue()+1));
         });
+        
         rubikG.getLastRotation().addListener((ov,v,v1)->{
             if(!rubikG.isOnReplaying().get() && !v1.isEmpty()){
                 moves.addMove(new Move(v1, LocalTime.now().minusNanos(time.toNanoOfDay()).toNanoOfDay()));
@@ -259,9 +260,13 @@ public class MainController extends Controller implements Initializable {
                         ((ToolBar)tb).getItems().stream().filter(withMoveButtons().and(isButtonHovered()))
                             .findFirst().ifPresent(n->btnHover=(JFXButton)n);
                     });
+                
             } else {
                 if(rubikG.getPreviewFace().get().isEmpty()){
                     btnHover=null;
+                    if(AppContext.getInstance().getModoJuego().equals(3)){
+                      System.out.println("prev");  
+                    }
                 } else {
                     // after rotation
                     if(btnHover!=null && !btnHover.isHover()){
@@ -325,5 +330,16 @@ public class MainController extends Controller implements Initializable {
     
     public void printLogicalCube(){
         this.rubikL.imprimirCubo();
+    }
+    
+    public void seleccionarModo(){
+        Integer modo=AppContext.getInstance().getModoJuego();
+        switch(modo){
+            case 1: break;
+            case 2: break;
+            case 3: break;
+            case 4: break;
+            default: break;
+        }
     }
 }

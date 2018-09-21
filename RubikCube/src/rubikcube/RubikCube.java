@@ -13,9 +13,9 @@ public class RubikCube extends Application {
     @Override
     public void start(Stage stage) {
         FlowController.getInstance().InitializeFlow(stage, null);
-        stage.setTitle("Cubo Rubick");
+        stage.setTitle("Cubo Rubik");
         FlowController.getInstance().goMain();
-        FlowController.getInstance().goView("Main");
+        FlowController.getInstance().goView("Inicio");
         }
     
         public static void main(String[] args) {
