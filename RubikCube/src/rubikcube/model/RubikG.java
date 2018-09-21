@@ -40,6 +40,7 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 import javafx.util.Duration;
 import rubikcube.logic.RubikL;
+import rubikcube.util.AppContext;
 
 /**
  *
@@ -99,10 +100,23 @@ public class RubikG {
     private static final int MOUSE_RELEASED=3;
     private final IntegerProperty mouse=new SimpleIntegerProperty(MOUSE_OUT);
     
+    private Boolean movPermitido;
+    private String sigMov;
+    private Boolean asistido;
+    
     public RubikG(){
         /*
         Import RubikG's Cube model and arrows
         */
+        if(AppContext.getModoJuego()==3){
+            this.asistido=true;
+        }else{
+            this.asistido=false;
+        }
+        System.out.print("Asistido: "+this.asistido);
+        
+        this.movPermitido=true;
+        this.sigMov="Ri";//comentar
         Model3D model=new Model3D();
         model.importObj();
         mapMeshes=model.getMapMeshes();
@@ -159,10 +173,13 @@ public class RubikG {
     // called on toolbars buttons click, on mouse released or while scrambling
     public void rotateFace(final String btRot){
         // then bPreview=false, so a full rotation is performed
+        //comparar aquí mejor***********************************************************************
+        //if(this.movPermitido){
         lastRotation.set("");
         lastRotation.set(btRot);
         rotateFace(btRot,false,false);
         this.rubikL.movimientoBasico(btRot);//probar si sirve
+        //}
     }
     
     // called from updateArrow to show a preview with posible cancellation
@@ -337,7 +354,8 @@ public class RubikG {
                 } else if (stopEvents && event.getEventType() == MouseEvent.MOUSE_RELEASED) {
                     mouse.set(MOUSE_RELEASED);
                     if(!onRotation.get() && !myFace.isEmpty() && !myFaceOld.isEmpty()){
-                        if(Utils.radClick<radius){
+                        siguientePermitido(myFace);//comparando
+                        if(Utils.radClick<radius&&movPermitido){ //ver si sirve
                             // if hand is moved far away full rotation
                             rotateFace(myFace);
                         } else { 
@@ -520,5 +538,23 @@ public class RubikG {
     public void setRubikL(RubikL rubikL) {
         this.rubikL = rubikL;
     }
+
+    public String getSigMov() {
+        return sigMov;
+    }
+
+    public void setSigMov(String sigMov) {
+        this.sigMov = sigMov;
+    }
     
+    public void siguientePermitido(String face){
+        if(this.asistido){
+            this.movPermitido=false;
+            if(this.sigMov.equals(face))
+                this.movPermitido=true;
+            System.out.println("Comparando: "+this.sigMov+"con "+face+" --- "+this.movPermitido);
+        }
+            
+          
+    }
 }

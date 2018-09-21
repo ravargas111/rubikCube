@@ -18,8 +18,8 @@ public class AppContext {
     private ArrayList<Moves> moveLists = new ArrayList<>();
     private static ArrayList<Jugador> jugadores = new ArrayList<>();
     private static Jugador jugadorActual;
-    private static Integer modoJuego;
-     
+    private static Integer modoJuego; 
+    
     private AppContext() {
         cargarPropiedades();
     }
