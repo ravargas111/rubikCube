@@ -11,17 +11,16 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-
 <StackPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="691.0" prefWidth="1018.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rubikcube.controller.ModosJuegoController">
    <children>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
          <children>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" prefHeight="66.0" prefWidth="1018.0">
                <children>
                   <Label prefHeight="78.0" prefWidth="489.0" styleClass="lbl-modo-juego-sub" text="Modo de juego" />
                </children>
             </HBox>
-            <GridPane hgap="100.0" maxHeight="500.0" maxWidth="500.0" prefHeight="500.0" prefWidth="500.0" vgap="100.0">
+            <GridPane hgap="40.0" maxHeight="500.0" maxWidth="500.0" prefHeight="404.0" prefWidth="461.0" vgap="40.0">
               <columnConstraints>
                 <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
@@ -31,7 +30,7 @@
                 <RowConstraints maxHeight="206.0" minHeight="10.0" prefHeight="150.0" valignment="CENTER" vgrow="ALWAYS" />
               </rowConstraints>
                <children>
-                  <StackPane onMouseClicked="#irOrdenado" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #444444;" styleClass="sp-modo-juego-opciones">
+                  <StackPane onMouseClicked="#irOrdenado" prefHeight="150.0" prefWidth="200.0" styleClass="sp-modo-juego-opciones">
                      <children>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                            <children>
@@ -45,7 +44,7 @@
                         </VBox>
                      </children>
                   </StackPane>
-                  <StackPane prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #D3CE3E;" styleClass="sp-modo-juego-opciones" GridPane.columnIndex="1">
+                  <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="sp-modo-juego-opciones" GridPane.columnIndex="1">
                      <children>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                            <children>
@@ -59,7 +58,7 @@
                         </VBox>
                      </children>
                   </StackPane>
-                  <StackPane prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #018989;" styleClass="sp-modo-juego-opciones" GridPane.rowIndex="1">
+                  <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="sp-modo-juego-opciones" GridPane.rowIndex="1">
                      <children>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                            <children>
@@ -69,7 +68,7 @@
                         </VBox>
                      </children>
                   </StackPane>
-                  <StackPane prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #444444;" styleClass="sp-modo-juego-opciones" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="sp-modo-juego-opciones" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                            <children>

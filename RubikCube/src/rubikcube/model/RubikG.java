@@ -118,7 +118,7 @@ public class RubikG {
         
         
         this.movPermitido=true;
-        this.sigMov="Ri";//comentar
+        this.sigMov="Ri";//to do
         Model3D model=new Model3D();
         model.importObj();
         mapMeshes=model.getMapMeshes();
@@ -127,7 +127,6 @@ public class RubikG {
         cube.getChildren().setAll(mapMeshes.values());
         cube.getChildren().addAll(faceArrow);
         cube.getChildren().addAll(axisArrow);
-        //cube.getChildren().add(new Label("ASDASDASDASDa"));
         dimCube=cube.getBoundsInParent().getWidth();
         
         /*
@@ -135,8 +134,6 @@ public class RubikG {
         */
         content = new ContentModel(800,600,dimCube); 
         content.setContent(cube);
-        //content.getSubScene().getC
-        //this.content.stopEventHandling();
         //faceArrow.setOnMouseClicked(e->content.resetCam());
         //axisArrow.setOnMouseClicked(e->content.resetCam());
         /*

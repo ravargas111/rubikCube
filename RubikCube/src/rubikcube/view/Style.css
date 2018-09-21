@@ -3,7 +3,14 @@
  */
 
 *{
-    
+    -fx-base-color-root:radial-gradient(focus-distance 0% ,center 50% 50% , radius 50% , #222222, black);
+    -fx-base-color-lbl-cuadro: white;
+    -fx-base-color-lbl-modo: #018989;
+    -fx-base-color-contraste: #018989;
+}
+
+#root{
+    -fx-background-color: -fx-base-color-root;
 }
 
 .label{
@@ -11,9 +18,8 @@
 }
 
 .sp-modo-juego-opciones{
-    -fx-base-color-lbl-cuadro: white;
-    -fx-base-color-lbl-modo: #018989;
-    -fx-base-color-contraste: #018989;
+    -fx-background-color: transparent;
+    
 }
 
 .sp-modo-juego-opciones:hover{
@@ -36,4 +42,21 @@
 
 .tool-bar{
     -fx-background-color: transparent;
+}
+
+.jfx-button{
+    
+}
+
+.jfx-button:hover{
+    -fx-background-color: -fx-base-color-contraste;
+}
+
+.jfx-button-mov{
+    
+}
+
+.jfx-button-mov:hover{
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
 }
