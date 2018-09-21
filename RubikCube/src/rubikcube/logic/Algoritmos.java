@@ -61,9 +61,9 @@ public class Algoritmos {
     }
     
     public void autoArmado(){
-        verificarNiveles();
         algoritmoFinal = "";
         algoritmoAuxiliar = "";
+        checkPaso1();
         if(!paso1){
             algoritmoAuxiliar = "";
             while(!checkPaso1()){
@@ -73,6 +73,7 @@ public class Algoritmos {
             System.out.println("Pasos para el algoritmo 1\n\t" + algoritmoAuxiliar);
             
         }
+        checkPaso2();
         if(!paso2){
             algoritmoAuxiliar = "";
             while(!checkPaso2()){
@@ -81,22 +82,25 @@ public class Algoritmos {
             }
             System.out.println("Pasos para el algoritmo 2\n\t" + algoritmoAuxiliar);
         }
+        checkPaso3();
         if(!paso3){
-//            algoritmoAuxiliar = "";
-//            movimientoUnico("Xi");
-//            movimientoUnico("Xi");
-//            boolean ladoDerecho = true;
-//            while(!checkPaso3()){
-//                if(ladoDerecho){
-//                    aristasDerechasSegundoNivel();
-//                    ladoDerecho = false;
-//                } else {
-//                    aristasIzquierdasSegundoNivel();
-//                    ladoDerecho = true;
-//                    movimientoUnico("Yi");
-//                }
-//            }
-//            System.out.println("Pasos para el algoritmo 3");
+            algoritmoAuxiliar = "";
+            movimientoUnico("Xi");
+            movimientoUnico("Xi");
+            boolean ladoDerecho = true;
+            Integer i = 0;
+            while(!checkPaso3()){
+                if(ladoDerecho){
+                    aristasDerechasSegundoNivel();
+                    ladoDerecho = false;
+                } else {
+                    aristasIzquierdasSegundoNivel();
+                    ladoDerecho = true;
+                    movimientoUnico("Yi");
+                    i++;
+                }
+            }
+            System.out.println("Pasos para el algoritmo 3\n\t" + algoritmoAuxiliar);
         }
         if(!paso4){
             
@@ -288,61 +292,145 @@ public class Algoritmos {
     }
     
     private void aristasDerechasSegundoNivel(){
+        Boolean latEnLat = ((boolean) AppContext.getInstance().get("LatEnLat"));
+        Integer orientFinalNecesaria = latEnLat ? 2:1;
         ArrayList<String> list = new ArrayList<>();
         if(!(rubikL.getCubo()[1][2][0].getId().equals(rubikL.getCubo()[1][2][0].getPieza().getId()))){
             Arista arista = (Arista) rubikL.encontrarPieza(rubikL.getCubo()[1][2][0].getId());
             switch((arista.getPos2())){
                 case SupDer:
-                    if(arista.getOrientacion().equals(1)){
+                    if(arista.getOrientacion().equals(orientFinalNecesaria)){
                         movimientoUnico("Ui");
                         aristasDerechasSegundoNivel();
                     }
                     break;
                 case SupIzq:
-                    if(arista.getOrientacion().equals(1)){
+                    if(arista.getOrientacion().equals(orientFinalNecesaria)){
                         movimientoUnico("U");
                         aristasDerechasSegundoNivel();
                     }
                     break;
                 case SupDel:
-                    if(arista.getOrientacion().equals(1)){
+                    if(arista.getOrientacion().equals(orientFinalNecesaria)){
                         Collections.addAll(list, "U", "U");
                         secuencia(list);
                         aristasDerechasSegundoNivel();
                     }
                     break;
                 case CenDelIzq:
-                    Collections.addAll(list, "Fi");
-                    secuencia(list);
+                    if(arista.getOrientacion().equals(2)){
+                        Collections.addAll(list, "F", "U", "Fi", "Ui", "Li", "Ui", "L", "Ui");
+                        secuencia(list);
+                    } else {
+                        Collections.addAll(list, "Li", "Ui", "L", "U", "F", "U", "Fi");
+                        secuencia(list);
+                    }
                     aristasDerechasSegundoNivel();
                     break;
                 case CenTraIzq:
-                    Collections.addAll(list, "Bi", "Di", "Di", "B");
-                    secuencia(list);
+                    if(arista.getOrientacion().equals(2)){
+                        Collections.addAll(list, "Yi", "Li", "Ui", "L", "U", "F", "U", "Fi", "Ui", "Y");
+                        secuencia(list);
+                    } else {
+                        Collections.addAll(list, "Yi", "F", "U", "Fi", "Ui", "Li", "Ui", "L", "Ui", "Ui", "Y");
+                        secuencia(list);
+                    }
                     aristasDerechasSegundoNivel();
                     break;
                 case CenTraDer:
-                    Collections.addAll(list, "Li", "D", "L");
-                    secuencia(list);
+                    if(arista.getOrientacion().equals(2)){
+                        Collections.addAll(list, "Y", "R", "U", "Ri", "Ui", "Fi", "Ui", "F", "U", "Yi");
+                        secuencia(list);
+                    } else {
+                        Collections.addAll(list, "Y", "Fi", "Ui", "F", "U", "R", "U", "Ri", "Ui", "Ui", "Yi");
+                        secuencia(list);
+                    }
                     aristasDerechasSegundoNivel();
                     break;
                 case SupTra:
                     //Caso final
-                    if(arista.getOrientacion().equals(1)){
+                    if(arista.getOrientacion().equals(orientFinalNecesaria)){
                         Collections.addAll(list, "Fi", "Ui", "F", "U", "R", "U", "Ri");
                         secuencia(list);
                     }
                     break;
             }
-        } else if(!rubikL.getCubo()[0][1][0].getPieza().getOrientacion().equals(1)){
-             Collections.addAll(list, "F", "F");
+        } else if(!rubikL.getCubo()[1][2][0].getPieza().getOrientacion().equals(1)){
+             Collections.addAll(list, "Fi", "Ui", "F", "U", "R", "U", "Ri", "U");
              secuencia(list);
              aristasDerechasSegundoNivel();
         }
     }
     
     private void aristasIzquierdasSegundoNivel(){
-        
+        Boolean latEnLat = ((boolean) AppContext.getInstance().get("LatEnLat"));
+        Integer orientFinalNecesaria = latEnLat ? 2:1;
+        ArrayList<String> list = new ArrayList<>();
+        if(!(rubikL.getCubo()[1][0][0].getId().equals(rubikL.getCubo()[1][0][0].getPieza().getId()))){
+            Arista arista = (Arista) rubikL.encontrarPieza(rubikL.getCubo()[1][0][0].getId());
+            switch((arista.getPos2())){
+                case SupDer:
+                    if(arista.getOrientacion().equals(orientFinalNecesaria)){
+                        movimientoUnico("Ui");
+                        aristasIzquierdasSegundoNivel();
+                    }
+                    break;
+                case SupIzq:
+                    if(arista.getOrientacion().equals(orientFinalNecesaria)){
+                        movimientoUnico("U");
+                        aristasIzquierdasSegundoNivel();
+                    }
+                    break;
+                case SupDel:
+                    if(arista.getOrientacion().equals(orientFinalNecesaria)){
+                        Collections.addAll(list, "U", "U");
+                        secuencia(list);
+                        aristasIzquierdasSegundoNivel();
+                    }
+                    break;
+                case CenDelDer:
+                    if(arista.getOrientacion().equals(2)){
+                        Collections.addAll(list, "Fi", "Ui", "F", "U", "R", "U", "Ri", "U");
+                        secuencia(list);
+                    } else {
+                        Collections.addAll(list, "R", "U", "Ri", "Ui", "Fi", "Ui", "F");
+                        secuencia(list);
+                    }
+                    aristasIzquierdasSegundoNivel();
+                    break;
+                case CenTraIzq:
+                    if(arista.getOrientacion().equals(2)){
+                        Collections.addAll(list, "Yi", "Li", "Ui", "L", "U", "F", "U", "Fi", "Ui", "Y");
+                        secuencia(list);
+                    } else {
+                        Collections.addAll(list, "Yi", "F", "U", "Fi", "Ui", "Li", "Ui", "L", "Ui", "Ui", "Y");
+                        secuencia(list);
+                    }
+                    aristasIzquierdasSegundoNivel();
+                    break;
+                case CenTraDer:
+                    if(arista.getOrientacion().equals(2)){
+                        Collections.addAll(list, "Y", "R", "U", "Ri", "Ui", "Fi", "Ui", "F", "U", "Yi");
+                        secuencia(list);
+                    } else {
+                        Collections.addAll(list, "Y", "Fi", "Ui", "F", "U", "R", "U", "Ri", "Ui", "Ui", "Yi");
+                        secuencia(list);
+                    }
+                    aristasIzquierdasSegundoNivel();
+                    break;
+                case SupTra:
+                    //Caso final
+                    if(arista.getOrientacion().equals(orientFinalNecesaria)){
+                        Collections.addAll(list, "F", "U", "Fi", "Ui", "Li", "Ui", "L");
+                        secuencia(list);
+                    }
+                    break;
+            }
+        } else if(!rubikL.getCubo()[1][0][0].getPieza().getOrientacion().equals(1)){
+             Collections.addAll(list, "F", "U", "Fi", "Ui", "Li", "Ui", "L", "Ui");
+             secuencia(list);
+             aristasIzquierdasSegundoNivel();
+        }
     }
     
     private boolean checkPaso3(){
