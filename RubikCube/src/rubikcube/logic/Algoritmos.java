@@ -768,6 +768,10 @@ public class Algoritmos {
         else
             algoritmoFinal += ", " + mov;
     }
+    
+    public void metodoDePruebaParaElPullRequestDeGitHub(){
+        System.out.println("HOLA GITHUB");
+    }
 
     //Setters and Getters
     public RubikL getRubikL() {
