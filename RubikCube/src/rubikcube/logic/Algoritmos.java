@@ -56,6 +56,7 @@ public class Algoritmos {
     public void autoArmado(){
         algoritmoFinal = "";
         algoritmoAuxiliar = "";
+        this.listaMovGeneral.clear();
         paso0 = checkPaso0();
         if(!paso0){
             algoritmoAuxiliar = "";
@@ -125,7 +126,7 @@ public class Algoritmos {
             orientarEsquinasTercerNivel();
             System.out.println("Pasos para el algoritmo 7\n\t" + algoritmoAuxiliar);
         }
-        System.out.println("\n--Algoritmo final acumulado--\n\t" + algoritmoFinal);
+        //System.out.println("\n--Algoritmo final acumulado--\n\t" + algoritmoFinal);
         rubikLAuxiliar.imprimirCubo();
         rubikLOriginal.imprimirSecuencia3D(this.listaMovGeneral.getMoves());
     }

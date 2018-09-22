@@ -43,6 +43,11 @@
                         <FontAwesomeIconView fill="#f5f5f5" glyphName="FLAG" size="20" />
                      </graphic>
                   </JFXButton>
+                  <JFXButton fx:id="bStop" onAction="#terminarJuego" prefHeight="25.0" prefWidth="140.0" text="Terminar">
+                     <graphic>
+                        <FontAwesomeIconView fill="#f5f5f5" glyphName="STOP" size="20" />
+                     </graphic>
+                  </JFXButton>
                   <JFXButton fx:id="bReset" disable="true" onAction="#resetCube" prefHeight="25.0" prefWidth="140.0" text="Reiniciar">
                      <graphic>
                         <FontAwesomeIconView fill="#f5f5f5" glyphName="REFRESH" size="20" />
@@ -63,10 +68,10 @@
             <HBox fx:id="hbInfo" alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="748.0">
                <children>
                   <FontAwesomeIconView fill="#f5efef" size="20" />
-                  <Label fx:id="lMov" prefHeight="30.0" prefWidth="104.0" text=" " />
                   <Label fx:id="lSolved" alignment="CENTER" prefHeight="7.0" prefWidth="14.0" text=" " />
-                  <FontAwesomeIconView fill="#f5efef" size="20" />
                   <Label fx:id="lSimulated" prefHeight="32.0" prefWidth="95.0" text=" " textFill="#eee8e8" />
+                  <FontAwesomeIconView fill="#f5efef" size="20" />
+                  <Label fx:id="lMov" prefHeight="30.0" prefWidth="104.0" text=" " />
                   <FontAwesomeIconView fill="#f5efef" size="20" />
                   <Label fx:id="lTime" alignment="CENTER" prefHeight="30.0" prefWidth="94.0" text="00:00" />
                </children>

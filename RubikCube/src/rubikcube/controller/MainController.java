@@ -87,6 +87,8 @@ public class MainController extends Controller implements Initializable {
     private HBox hbInfo;
     @FXML
     private JFXButton bGuardar;
+    @FXML
+    private JFXButton bStop;
     /**
      * Initializes the controller class.
      */
@@ -110,67 +112,7 @@ public class MainController extends Controller implements Initializable {
     public void initialize() {
          seleccionarModo();
     }
-    
-    public void reiniciarCubo(){
-        if(moves.getNumMoves()>0){
-            timer.stop();
-            moves.getMoves().clear();
-            rubikG.doReset();
-        }
-    }
-
-    
-    public void mezclarCubo(){
-        if(moves.getNumMoves()>0){
-               /* Action response = Dialogs.create()
-                .owner(getStage())
-                .title("Warning Dialog")
-                .masthead("Scramble Cube")
-                .message( "You will lose all your previous movements. Do you want to continue?")
-                .showConfirm();
-                if(response==Dialog.Actions.YES){*/
-                    rubikG.doReset();
-                    doScramble();
-                //}
-            } else {
-                doScramble();
-            }
-    }
-    
-    private void doScramble(){
-        root.getChildren().stream().filter(withToolbars()).forEach(setDisable(true));
-        rubikG.doScramble();
-        rubikG.isOnScrambling().addListener((ov,v,v1)->{
-            if(v && !v1){
-                root.getChildren().stream().filter(withToolbars()).forEach(setDisable(false));
-                moves=new Moves();
-                time=LocalTime.now();
-                timer.playFromStart();
-            }
-        });
-    }
-    
-    public void repetirSecuencia(){
-        timer.stop();
-        rubikG.getTimestamp().addListener(clockLis);
-        doReplay();
-    }
-    
-    private void doReplay(){
-        root.getChildren().stream().filter(withToolbars()).forEach(setDisable(true));
-        rubikG.doReplay(moves.getMoves());
-        rubikG.isOnReplaying().addListener((ov,v,v1)->{
-            if(v && !v1){
-                root.getChildren().stream().filter(withToolbars()).forEach(setDisable(false));
-            }
-        });
-    }
-    
-    
-    public void cargarCubo(){
-        
-    }
-   
+  
     public void secuenciaCuboBtn(){
         String response;
             if(moves.getNumMoves()>0){
@@ -230,6 +172,64 @@ public class MainController extends Controller implements Initializable {
     // called on button hover
     private void updateArrow(String face, boolean hover){
         rubikG.updateArrow(face,hover);
+    }
+    
+    public void reiniciarCubo(){
+        if(moves.getNumMoves()>0){
+            timer.stop();
+            moves.getMoves().clear();
+            rubikG.doReset();
+        }
+    }
+
+    public void mezclarCubo(){
+        if(moves.getNumMoves()>0){
+               /* Action response = Dialogs.create()
+                .owner(getStage())
+                .title("Warning Dialog")
+                .masthead("Scramble Cube")
+                .message( "You will lose all your previous movements. Do you want to continue?")
+                .showConfirm();
+                if(response==Dialog.Actions.YES){*/
+                    rubikG.doReset();
+                    doScramble();
+                //}
+            } else {
+                doScramble();
+            }
+    }
+    
+    private void doScramble(){
+        root.getChildren().stream().filter(withToolbars()).forEach(setDisable(true));
+        rubikG.doScramble();
+        rubikG.isOnScrambling().addListener((ov,v,v1)->{
+            if(v && !v1){
+                root.getChildren().stream().filter(withToolbars()).forEach(setDisable(false));
+                moves=new Moves();
+                time=LocalTime.now();
+                timer.playFromStart();
+            }
+        });
+    }
+    
+    public void repetirSecuencia(){
+        timer.stop();
+        rubikG.getTimestamp().addListener(clockLis);
+        doReplay();
+    }
+    
+    private void doReplay(){
+        root.getChildren().stream().filter(withToolbars()).forEach(setDisable(true));
+        rubikG.doReplay(moves.getMoves());
+        rubikG.isOnReplaying().addListener((ov,v,v1)->{
+            if(v && !v1){
+                root.getChildren().stream().filter(withToolbars()).forEach(setDisable(false));
+            }
+        });
+    }
+    
+    public void cargarCubo(){
+        
     }
     
     private void initTimer(){
@@ -436,7 +436,12 @@ public class MainController extends Controller implements Initializable {
 
     @FXML
     public void guardarCubo(){
-        
+        autoArmar();
+    }
+
+    @FXML
+    private void terminarJuego(ActionEvent event) {
+        autoArmar();
     }
     
 }

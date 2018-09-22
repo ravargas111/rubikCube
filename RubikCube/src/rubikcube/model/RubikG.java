@@ -435,7 +435,7 @@ public class RubikG {
         if(moves.isEmpty()){
             return;
         }
-        content.resetCam();
+        //content.resetCam();//last change
         //restore scramble
         if(mapTransformsScramble.size()>0){
             //System.out.println("Restoring scramble");

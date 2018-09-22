@@ -38,6 +38,10 @@ public class Moves {
     public long getTimePlay() { return timePlay; }
     public void setTimePlay(long timePlay) { this.timePlay = timePlay; }
 
+    public void clear(){
+        this.moves.clear();
+    }
+    
     @Override
     public String toString() {
         StringBuilder sb=new StringBuilder( "Moves:\n");
