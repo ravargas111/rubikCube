@@ -2,7 +2,6 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.Image?>
@@ -13,21 +12,8 @@
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="691.0" prefWidth="1247.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rubikcube.controller.MainController">
-   <top>
-      <ToolBar prefHeight="45.0" prefWidth="801.0" BorderPane.alignment="CENTER">
-         <items>
-            <JFXButton fx:id="bReset" onAction="#resetCube" prefHeight="25.0" prefWidth="140.0" text="Reset" />
-            <JFXButton onAction="#scrambleCube" prefHeight="25.0" prefWidth="140.0" text="Mezclar" />
-            <JFXButton fx:id="bReplay" onAction="#replayCube" prefHeight="25.0" prefWidth="110.0" text="Replay" />
-            <JFXButton alignment="CENTER" onAction="#sequenceCube" prefHeight="25.0" prefWidth="140.0" text="Secuencia" />
-            <JFXButton alignment="CENTER" onAction="#checkSolved" prefHeight="25.0" prefWidth="140.0" text="Check Solved" />
-            <JFXButton alignment="CENTER" onAction="#printLogicalCube" prefHeight="25.0" prefWidth="140.0" text="Print Logical Cube" />
-            <JFXButton alignment="CENTER" onAction="#autoArmado" prefHeight="25.0" prefWidth="140.0" text="Auto-armado" />
-         </items>
-      </ToolBar>
-   </top>
    <center>
-      <VBox alignment="BOTTOM_CENTER" prefHeight="532.0" prefWidth="832.0" BorderPane.alignment="CENTER">
+      <VBox alignment="BOTTOM_CENTER" onDragDetected="#empezarJuego" prefHeight="532.0" prefWidth="832.0" BorderPane.alignment="CENTER">
          <children>
             <Label />
          </children>
@@ -36,181 +22,206 @@
    <right>
       <StackPane prefHeight="606.0" prefWidth="87.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox alignment="CENTER" prefHeight="606.0" prefWidth="84.0">
-               <children>
-                  <Label fx:id="lSolved" alignment="CENTER" prefHeight="32.0" prefWidth="131.0" text="No resuelto" />
-                  <FontAwesomeIconView glyphName="CLOCK" />
-                  <Label fx:id="lSimulated" prefHeight="32.0" prefWidth="140.0" text=" " />
-                  <Label fx:id="lMov" prefHeight="30.0" prefWidth="131.0" text=" " />
-                  <FontAwesomeIconView glyphName="CLOCK" />
-                  <Label fx:id="lTime" alignment="CENTER" prefHeight="30.0" prefWidth="94.0" text="Time" />
-               </children>
-            </VBox>
+            <VBox alignment="CENTER" prefHeight="606.0" prefWidth="84.0" />
          </children>
       </StackPane>
    </right>
    <left>
-      <HBox alignment="CENTER" prefHeight="593.0" prefWidth="106.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" prefHeight="587.0" prefWidth="63.0" BorderPane.alignment="CENTER">
          <children>
             <ToolBar orientation="VERTICAL" prefHeight="606.0" prefWidth="71.0" />
          </children>
       </HBox>
    </left>
-   <bottom>
-      <HBox alignment="CENTER" prefHeight="51.0" prefWidth="1247.0" BorderPane.alignment="CENTER">
+   <top>
+      <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="1247.0" BorderPane.alignment="CENTER">
          <children>
-            <ToolBar fx:id="tbMov" opacity="0.77" prefHeight="53.0" prefWidth="1093.0">
-               <items>
-                  <JFXButton styleClass="jfx-button-mov" text="L">
+            <HBox alignment="CENTER" opacity="0.72" prefHeight="35.0" prefWidth="701.0" styleClass="hbox-sub-menu">
+               <children>
+                  <JFXButton fx:id="bStart" onAction="#resetCube" prefHeight="25.0" prefWidth="140.0" text="Empezar">
                      <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/icons/movimientos/L.png" />
-                           </image>
-                        </ImageView>
+                        <FontAwesomeIconView fill="#f5f5f5" glyphName="FLAG" size="20" />
                      </graphic>
                   </JFXButton>
-                  <JFXButton styleClass="jfx-button-mov" text="Li">
+                  <JFXButton fx:id="bReset" onAction="#resetCube" prefHeight="25.0" prefWidth="140.0" text="Reiniciar">
                      <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/icons/movimientos/Li.png" />
-                           </image>
-                        </ImageView>
+                        <FontAwesomeIconView fill="#f5f5f5" glyphName="REFRESH" size="20" />
                      </graphic>
                   </JFXButton>
-                  <JFXButton styleClass="jfx-button-mov" text="R">
+                  <JFXButton fx:id="bReplay" onAction="#replayCube" prefHeight="25.0" prefWidth="110.0" text="Repetir">
                      <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/icons/movimientos/R.png" />
-                           </image>
-                        </ImageView>
+                        <FontAwesomeIconView fill="#f5f2f2" glyphName="BACKWARD" size="20" />
                      </graphic>
                   </JFXButton>
-                  <JFXButton styleClass="jfx-button-mov" text="Ri">
+                  <JFXButton fx:id="bReplay1" onAction="#replayCube" prefHeight="25.0" prefWidth="110.0" text="Guardar">
                      <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/icons/movimientos/Ri.png" />
-                           </image>
-                        </ImageView>
+                        <FontAwesomeIconView fill="#f5f2f2" glyphName="SAVE" size="20" />
                      </graphic>
                   </JFXButton>
-                  <JFXButton styleClass="jfx-button-mov" text="U">
-                     <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/icons/movimientos/U.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton styleClass="jfx-button-mov" text="Ui">
-                     <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/icons/movimientos/Ui.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton styleClass="jfx-button-mov" text="D">
-                     <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/icons/movimientos/D.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton styleClass="jfx-button-mov" text="Di">
-                     <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/icons/movimientos/Di.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton styleClass="jfx-button-mov" text="F">
-                     <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/icons/movimientos/F.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton styleClass="jfx-button-mov" text="Fi">
-                     <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/icons/movimientos/Fi.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton styleClass="jfx-button-mov" text="B">
-                     <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/icons/movimientos/B.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton styleClass="jfx-button-mov" text="Bi">
-                     <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/icons/movimientos/Bi.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton styleClass="jfx-button-mov" text="X">
-                     <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/icons/movimientos/Bi.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton styleClass="jfx-button-mov" text="Xi">
-                     <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/icons/movimientos/Bi.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton styleClass="jfx-button-mov" text="Y">
-                     <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/icons/movimientos/Bi.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton styleClass="jfx-button-mov" text="Yi">
-                     <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/icons/movimientos/Bi.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-               </items>
-               <cursor>
-                  <Cursor fx:constant="OPEN_HAND" />
-               </cursor>
-            </ToolBar>
+               </children>
+            </HBox>
+            <HBox fx:id="hbInfo" alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="748.0">
+               <children>
+                  <FontAwesomeIconView fill="#f5efef" size="20" />
+                  <Label fx:id="lMov" prefHeight="30.0" prefWidth="104.0" text=" " />
+                  <Label fx:id="lSolved" alignment="CENTER" prefHeight="7.0" prefWidth="14.0" text=" " />
+                  <FontAwesomeIconView fill="#f5efef" size="20" />
+                  <Label fx:id="lSimulated" prefHeight="32.0" prefWidth="95.0" text=" " textFill="#eee8e8" />
+                  <FontAwesomeIconView fill="#f5efef" size="20" />
+                  <Label fx:id="lTime" alignment="CENTER" prefHeight="30.0" prefWidth="94.0" text="00:00" />
+               </children>
+            </HBox>
          </children>
       </HBox>
+   </top>
+   <bottom>
+      <ToolBar fx:id="tbMov" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <items>
+            <JFXButton styleClass="jfx-button-mov" text="L">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/icons/movimientos/L.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton styleClass="jfx-button-mov" text="Li">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/icons/movimientos/Li.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton styleClass="jfx-button-mov" text="R">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/icons/movimientos/R.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton styleClass="jfx-button-mov" text="Ri">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/icons/movimientos/Ri.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton styleClass="jfx-button-mov" text="U">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/icons/movimientos/U.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton styleClass="jfx-button-mov" text="Ui">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/icons/movimientos/Ui.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton styleClass="jfx-button-mov" text="D">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/icons/movimientos/D.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton styleClass="jfx-button-mov" text="Di">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/icons/movimientos/Di.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton styleClass="jfx-button-mov" text="F">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/icons/movimientos/F.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton styleClass="jfx-button-mov" text="Fi">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/icons/movimientos/Fi.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton styleClass="jfx-button-mov" text="B">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/icons/movimientos/B.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton styleClass="jfx-button-mov" text="Bi">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/icons/movimientos/Bi.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton styleClass="jfx-button-mov" text="X">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/icons/movimientos/Bi.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton styleClass="jfx-button-mov" text="Xi">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/icons/movimientos/Bi.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton styleClass="jfx-button-mov" text="Y">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/icons/movimientos/Bi.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton styleClass="jfx-button-mov" text="Yi">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/icons/movimientos/Bi.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+         </items>
+      </ToolBar>
    </bottom>
 </BorderPane>

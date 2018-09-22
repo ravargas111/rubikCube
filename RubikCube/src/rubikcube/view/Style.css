@@ -7,6 +7,7 @@
     -fx-base-color-lbl-cuadro: white;
     -fx-base-color-lbl-modo: #018989;
     -fx-base-color-contraste: #018989;
+    -fx-base-color-main-lbl: white;
 }
 
 #root{
@@ -15,6 +16,14 @@
 
 .label{
     -fx-alignment: center;
+    -fx-text-fill: -fx-base-color-main-lbl;
+    -fx-border-width: 10px;
+    -fx-font-size: 20px; 
+}
+
+.label-main{
+    -fx-text-fill: -fx-base-color-main-lbl;
+    
 }
 
 .sp-modo-juego-opciones{
@@ -45,7 +54,7 @@
 }
 
 .jfx-button{
-    
+    -fx-text-fill: white;
 }
 
 .jfx-button:hover{
@@ -53,10 +62,33 @@
 }
 
 .jfx-button-mov{
-    
+    -fx-text-fill: white;
 }
 
 .jfx-button-mov:hover{
+    -fx-text-fill: black;
     -fx-scale-x: 1.2;
     -fx-scale-y: 1.2;
+}
+
+.hbox-sub-menu{
+    -fx-background-color: #222222;
+    -fx-opacity: 0.50;
+    -fx-background-radius: 8,80;
+}
+
+.jfx-text-field{
+    -fx-alignment: center;
+    -fx-font-size:10px;
+    -fx-background-color: transparent;
+    -jfx-unfocus-color:white;
+    -jfx-focus-color:-fx-base-color-contraste;
+    -fx-text-fill:white;
+    -fx-prompt-text-fill: -fx-base-color-contraste;     
+}
+
+.jfx-text-field:focused{
+    -fx-text-fill:-fx-base-color-contraste;
+    -fx-font-size:13px;
+    -fx-prompt-text-fill: white;
 }

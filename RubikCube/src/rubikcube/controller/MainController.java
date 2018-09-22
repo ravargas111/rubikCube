@@ -81,6 +81,12 @@ public class MainController extends Controller implements Initializable {
     private Integer movesCount;
     @FXML
     private ToolBar tbMov;
+    @FXML
+    private JFXButton bStart;
+    @FXML
+    private JFXButton bReplay1;
+    @FXML
+    private HBox hbInfo;
     /**
      * Initializes the controller class.
      */
@@ -117,23 +123,19 @@ public class MainController extends Controller implements Initializable {
         }
     }
 
-    @FXML
-    private void scrambleCube(ActionEvent event) {
-        
-    }
     
     public void mezclarCubo(){
         if(moves.getNumMoves()>0){
-                Action response = Dialogs.create()
+               /* Action response = Dialogs.create()
                 .owner(getStage())
                 .title("Warning Dialog")
                 .masthead("Scramble Cube")
                 .message( "You will lose all your previous movements. Do you want to continue?")
                 .showConfirm();
-                if(response==Dialog.Actions.YES){
+                if(response==Dialog.Actions.YES){*/
                     rubikG.doReset();
                     doScramble();
-                }
+                //}
             } else {
                 doScramble();
             }
@@ -183,8 +185,8 @@ public class MainController extends Controller implements Initializable {
     }
     
     
-    @FXML
-    private void sequenceCube(ActionEvent event) {
+    
+    public void secuenciaCuboBtn(){
         String response;
             if(moves.getNumMoves()>0){
                 /*response = Dialogs.create()
@@ -350,7 +352,6 @@ public class MainController extends Controller implements Initializable {
             });
     }
     
-    @FXML
     public void autoArmado(){
         
     }
@@ -361,7 +362,6 @@ public class MainController extends Controller implements Initializable {
     }
     
     //Metodos para pruebas logicas
-    @FXML
     public void checkSolved(){
         
     }
@@ -370,7 +370,6 @@ public class MainController extends Controller implements Initializable {
         this.rubikL.evaluarCuboArmado();
     }
     
-    @FXML
     public void printLogicalCube(){
         
     }
@@ -382,8 +381,8 @@ public class MainController extends Controller implements Initializable {
     public void seleccionarModo(){
         Integer modo=AppContext.getModoJuego();
         switch(modo){
-            case 1: break;
-            case 2: this.rubikG.doScramble();break;
+            case 1: modoOrdenado();break;
+            case 2: modoOrdenado();break;
             case 3: break;
             case 4: break;
             default: break;
@@ -401,6 +400,26 @@ public class MainController extends Controller implements Initializable {
             //btn.setText(e);
             this.tbMov.getItems().add(btn);
         });
+    }
+
+    @FXML
+    private void empezarJuego(MouseEvent event) {
+    }
+    
+    public void modoOrdenado(){
+        this.initTimer();
+    }
+    
+    public void modoDesordenado(){
+        this.rubikG.doScramble();
+    }
+    
+    public void modoAsistido(){
+        
+    }
+    
+    public void modoCargado(){
+        
     }
     
 }
