@@ -2,6 +2,93 @@
  * Empty Stylesheet file.
  */
 
-.mainFxmlClass {
+*{
+    -fx-base-color-root:radial-gradient(focus-distance 0% ,center 50% 50% , radius 50% , #222222, black);
+    -fx-base-color-lbl-cuadro: white;
+    -fx-base-color-lbl-modo: #018989;
+    -fx-base-color-contraste: #018989;
+    -fx-base-color-main-lbl: white;
+}
 
+#root{
+    -fx-background-color: -fx-base-color-root;
+}
+
+.label{
+    -fx-alignment: center;
+    -fx-text-fill: -fx-base-color-main-lbl;
+    -fx-border-width: 10px;
+    -fx-font-size: 20px; 
+}
+
+.label-main{
+    -fx-text-fill: -fx-base-color-main-lbl;
+    
+}
+
+.sp-modo-juego-opciones{
+    -fx-background-color: transparent;
+    
+}
+
+.sp-modo-juego-opciones:hover{
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+}
+
+.lbl-modo-juego-opciones{
+    -fx-text-fill: -fx-base-color-lbl-cuadro;
+    -fx-font-size:15px;
+    -fx-alignment: center;
+}
+
+.lbl-modo-juego-sub{
+    -fx-font-size:30px;
+    -fx-alignment: center;
+     -fx-stroke-width:10px; 
+     -fx-text-fill: -fx-base-color-contraste;
+}
+
+.tool-bar{
+    -fx-background-color: transparent;
+}
+
+.jfx-button{
+    -fx-text-fill: white;
+}
+
+.jfx-button:hover{
+    -fx-background-color: -fx-base-color-contraste;
+}
+
+.jfx-button-mov{
+    -fx-text-fill: white;
+}
+
+.jfx-button-mov:hover{
+    -fx-text-fill: black;
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+}
+
+.hbox-sub-menu{
+    -fx-background-color: #222222;
+    -fx-opacity: 0.50;
+    -fx-background-radius: 8,80;
+}
+
+.jfx-text-field{
+    -fx-alignment: center;
+    -fx-font-size:10px;
+    -fx-background-color: transparent;
+    -jfx-unfocus-color:white;
+    -jfx-focus-color:-fx-base-color-contraste;
+    -fx-text-fill:white;
+    -fx-prompt-text-fill: -fx-base-color-contraste;     
+}
+
+.jfx-text-field:focused{
+    -fx-text-fill:-fx-base-color-contraste;
+    -fx-font-size:13px;
+    -fx-prompt-text-fill: white;
 }

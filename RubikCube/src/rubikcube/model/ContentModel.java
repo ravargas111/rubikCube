@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.PointLight;
 import javafx.scene.SubScene;
+import javafx.scene.control.Label;
 import javafx.scene.input.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
@@ -98,7 +99,10 @@ public class ContentModel {
         
         subScene = new SubScene(root3D,paneW,paneH,true,javafx.scene.SceneAntialiasing.BALANCED);
         subScene.setCamera(camera);
-        //subScene.setFill(Color.CADETBLUE);
+        //root3D.getChildren().add(new Label("ASdasdasd"));
+       //-*/a.setOnMouseClicked(e->camera.relocate(0, 0));//ult agregado
+        subScene.setFill(Color.TRANSPARENT);
+        subScene.setOnMouseClicked(e->resetCam());//reseteo cámara aquí
         setListeners(true);
     }
     
