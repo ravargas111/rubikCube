@@ -3,3 +3,5 @@
 /RubikCube/lib/
 *.properties
 *.properties
+*.properties
+RubikCube/build/built-jar.properties
