@@ -13,7 +13,7 @@
 
 <BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="691.0" prefWidth="1247.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rubikcube.controller.MainController">
    <center>
-      <VBox alignment="BOTTOM_CENTER" onDragDetected="#empezarJuego" prefHeight="532.0" prefWidth="832.0" BorderPane.alignment="CENTER">
+      <VBox alignment="BOTTOM_CENTER" prefHeight="532.0" prefWidth="832.0" BorderPane.alignment="CENTER">
          <children>
             <Label />
          </children>
@@ -38,22 +38,22 @@
          <children>
             <HBox alignment="CENTER" opacity="0.72" prefHeight="35.0" prefWidth="701.0" styleClass="hbox-sub-menu">
                <children>
-                  <JFXButton fx:id="bStart" onAction="#resetCube" prefHeight="25.0" prefWidth="140.0" text="Empezar">
+                  <JFXButton fx:id="bStart" onAction="#iniciarJuego" prefHeight="25.0" prefWidth="140.0" text="Empezar">
                      <graphic>
                         <FontAwesomeIconView fill="#f5f5f5" glyphName="FLAG" size="20" />
                      </graphic>
                   </JFXButton>
-                  <JFXButton fx:id="bReset" onAction="#resetCube" prefHeight="25.0" prefWidth="140.0" text="Reiniciar">
+                  <JFXButton fx:id="bReset" disable="true" onAction="#resetCube" prefHeight="25.0" prefWidth="140.0" text="Reiniciar">
                      <graphic>
                         <FontAwesomeIconView fill="#f5f5f5" glyphName="REFRESH" size="20" />
                      </graphic>
                   </JFXButton>
-                  <JFXButton fx:id="bReplay" onAction="#replayCube" prefHeight="25.0" prefWidth="110.0" text="Repetir">
+                  <JFXButton fx:id="bReplay" disable="true" onAction="#replayCube" prefHeight="25.0" prefWidth="110.0" text="Repetir">
                      <graphic>
                         <FontAwesomeIconView fill="#f5f2f2" glyphName="BACKWARD" size="20" />
                      </graphic>
                   </JFXButton>
-                  <JFXButton fx:id="bReplay1" onAction="#replayCube" prefHeight="25.0" prefWidth="110.0" text="Guardar">
+                  <JFXButton fx:id="bGuardar" disable="true" onAction="#guardarCubo" prefHeight="25.0" prefWidth="110.0" text="Guardar">
                      <graphic>
                         <FontAwesomeIconView fill="#f5f2f2" glyphName="SAVE" size="20" />
                      </graphic>

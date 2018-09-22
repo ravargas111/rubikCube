@@ -84,9 +84,9 @@ public class MainController extends Controller implements Initializable {
     @FXML
     private JFXButton bStart;
     @FXML
-    private JFXButton bReplay1;
-    @FXML
     private HBox hbInfo;
+    @FXML
+    private JFXButton bGuardar;
     /**
      * Initializes the controller class.
      */
@@ -110,14 +110,10 @@ public class MainController extends Controller implements Initializable {
     public void initialize() {
          seleccionarModo();
     }
-
-    @FXML
-    private void resetCube(ActionEvent event) {
-        
-    }
     
     public void reiniciarCubo(){
         if(moves.getNumMoves()>0){
+            timer.stop();
             moves.getMoves().clear();
             rubikG.doReset();
         }
@@ -154,11 +150,6 @@ public class MainController extends Controller implements Initializable {
         });
     }
     
-    @FXML
-    private void replayCube(ActionEvent event) {
-        
-    }
-    
     public void repetirSecuencia(){
         timer.stop();
         rubikG.getTimestamp().addListener(clockLis);
@@ -179,13 +170,7 @@ public class MainController extends Controller implements Initializable {
     public void cargarCubo(){
         
     }
-    
-    public void guardarCubo(){
-        
-    }
-    
-    
-    
+   
     public void secuenciaCuboBtn(){
         String response;
             if(moves.getNumMoves()>0){
@@ -382,7 +367,7 @@ public class MainController extends Controller implements Initializable {
         Integer modo=AppContext.getModoJuego();
         switch(modo){
             case 1: modoOrdenado();break;
-            case 2: modoOrdenado();break;
+            case 2: modoDesordenado();break;
             case 3: break;
             case 4: break;
             default: break;
@@ -402,12 +387,11 @@ public class MainController extends Controller implements Initializable {
         });
     }
 
-    @FXML
-    private void empezarJuego(MouseEvent event) {
-    }
+    
     
     public void modoOrdenado(){
-        this.initTimer();
+        
+        //this.initTimer();
     }
     
     public void modoDesordenado(){
@@ -419,6 +403,39 @@ public class MainController extends Controller implements Initializable {
     }
     
     public void modoCargado(){
+        
+    }
+    
+    @FXML
+    private void replayCube(ActionEvent event) {
+        doReplay();
+    }
+    
+    @FXML
+    private void resetCube(ActionEvent event) {
+        reiniciarCubo();
+        this.bStart.setDisable(false);
+        this.bGuardar.setDisable(true);
+    }
+
+    @FXML
+    private void iniciarJuego(ActionEvent event) {
+        if(moves.getNumMoves()>0){
+            //timer.stop();
+            moves=new Moves();
+            time=LocalTime.now();
+            timer.playFromStart();
+            this.bStart.setDisable(true);
+            this.bReset.setDisable(false);
+            this.bReplay.setDisable(false);
+            this.bGuardar.setDisable(false);
+        }
+            
+        
+    }
+
+    @FXML
+    public void guardarCubo(){
         
     }
     
