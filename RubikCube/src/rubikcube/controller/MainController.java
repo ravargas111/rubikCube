@@ -10,6 +10,8 @@ import java.net.URL;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -28,11 +30,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 import org.controlsfx.control.action.Action;
 import org.controlsfx.dialog.Dialog;
 import org.controlsfx.dialog.Dialogs;
 import rubikcube.logic.Algoritmos;
+import rubikcube.logic.MovBtn;
 import rubikcube.logic.RubikL;
 import rubikcube.model.RubikG;
 import rubikcube.moves.Move;
@@ -75,6 +79,14 @@ public class MainController extends Controller implements Initializable {
     private Label lTime;
 
     private Integer movesCount;
+    @FXML
+    private ToolBar tbMov;
+    @FXML
+    private JFXButton bStart;
+    @FXML
+    private HBox hbInfo;
+    @FXML
+    private JFXButton bGuardar;
     /**
      * Initializes the controller class.
      */
@@ -85,37 +97,41 @@ public class MainController extends Controller implements Initializable {
         rubikL=new RubikL(rubikG);//*este es el cubo lógico que tiene que usar
         rubikG.setRubikL(rubikL);//ambos quedan relacionados (rotación del gráfico llama rotación del lógico)
         root.setCenter(rubikG.getSubScene());
-        initToolbarEvents();
         binds();
+        //llenarBotones();
+        initToolbarEvents();
         initListeners(); 
+        //this.rubikG..setOnMouseClicked(e->{
+            //this.rubikG.resetCam();
+       // });
     }    
 
     @Override
     public void initialize() {
-         
+         seleccionarModo();
     }
-
-    @FXML
-    private void resetCube(ActionEvent event) {
+    
+    public void reiniciarCubo(){
         if(moves.getNumMoves()>0){
+            timer.stop();
             moves.getMoves().clear();
             rubikG.doReset();
         }
     }
 
-    @FXML
-    private void scrambleCube(ActionEvent event) {
+    
+    public void mezclarCubo(){
         if(moves.getNumMoves()>0){
-                Action response = Dialogs.create()
+               /* Action response = Dialogs.create()
                 .owner(getStage())
                 .title("Warning Dialog")
                 .masthead("Scramble Cube")
                 .message( "You will lose all your previous movements. Do you want to continue?")
                 .showConfirm();
-                if(response==Dialog.Actions.YES){
+                if(response==Dialog.Actions.YES){*/
                     rubikG.doReset();
                     doScramble();
-                }
+                //}
             } else {
                 doScramble();
             }
@@ -134,11 +150,10 @@ public class MainController extends Controller implements Initializable {
         });
     }
     
-    @FXML
-    private void replayCube(ActionEvent event) {
+    public void repetirSecuencia(){
         timer.stop();
-            rubikG.getTimestamp().addListener(clockLis);
-            doReplay();
+        rubikG.getTimestamp().addListener(clockLis);
+        doReplay();
     }
     
     private void doReplay(){
@@ -151,8 +166,12 @@ public class MainController extends Controller implements Initializable {
         });
     }
     
-    @FXML
-    private void sequenceCube(ActionEvent event) {
+    
+    public void cargarCubo(){
+        
+    }
+   
+    public void secuenciaCuboBtn(){
         String response;
             if(moves.getNumMoves()>0){
                 /*response = Dialogs.create()
@@ -245,6 +264,7 @@ public class MainController extends Controller implements Initializable {
             bReplay.setDisable(moves.getNumMoves()==0);
             lMov.setText("Movements: "+(v1.intValue()+1));
         });
+        
         rubikG.getLastRotation().addListener((ov,v,v1)->{
             if(!rubikG.isOnReplaying().get() && !v1.isEmpty()){
                 moves.addMove(new Move(v1, LocalTime.now().minusNanos(time.toNanoOfDay()).toNanoOfDay()));
@@ -262,6 +282,10 @@ public class MainController extends Controller implements Initializable {
             } else {
                 if(rubikG.getPreviewFace().get().isEmpty()){
                     btnHover=null;
+                    if(AppContext.getInstance().getModoJuego().equals(3)){
+                      System.out.println("aquí hay que comparar");
+                      //set mov permitido (hacer en cubo gráfio)
+                    }
                 } else {
                     // after rotation
                     if(btnHover!=null && !btnHover.isHover()){
@@ -300,7 +324,7 @@ public class MainController extends Controller implements Initializable {
     }
     
     private void initToolbarEvents(){
-        root.getChildren().stream()
+        this.root.getChildren().stream()
             .filter(withToolbars())
             .forEach(tb->{
                 ((ToolBar)tb).getItems().stream()
@@ -314,16 +338,105 @@ public class MainController extends Controller implements Initializable {
     }
     
     public void autoArmado(){
+        
+    }
+    
+    public void autoArmar(){
         this.algoritmos = new Algoritmos(rubikL, rubikG);
         this.algoritmos.autoArmado();
     }
     
     //Metodos para pruebas logicas
     public void checkSolved(){
+        
+    }
+    
+    public void evaluarCubo(){
         this.rubikL.evaluarCuboArmado();
     }
     
     public void printLogicalCube(){
+        
+    }
+    
+    public void imprimirCubo(){
         this.rubikL.imprimirCubo();
     }
+    
+    public void seleccionarModo(){
+        Integer modo=AppContext.getModoJuego();
+        switch(modo){
+            case 1: modoOrdenado();break;
+            case 2: modoDesordenado();break;
+            case 3: break;
+            case 4: break;
+            default: break;
+        }
+    }
+    
+    public void llenarBotones(){
+        
+        //String nomBotones[]={"L","Li","R","Ri","U","Ui","D","Di"};
+        ArrayList<String> nombres=new ArrayList<>();
+        nombres.addAll(Arrays.asList("L","Li","R","Ri","U","Ui","D","Di","Y","Yi","X","Xi"));
+        nombres.stream().forEach(e->{
+            //JFXButton btn=new JFXButton();
+            MovBtn btn=new MovBtn(e);
+            //btn.setText(e);
+            this.tbMov.getItems().add(btn);
+        });
+    }
+
+    
+    
+    public void modoOrdenado(){
+        
+        //this.initTimer();
+    }
+    
+    public void modoDesordenado(){
+        this.rubikG.doScramble();
+    }
+    
+    public void modoAsistido(){
+        
+    }
+    
+    public void modoCargado(){
+        
+    }
+    
+    @FXML
+    private void replayCube(ActionEvent event) {
+        doReplay();
+    }
+    
+    @FXML
+    private void resetCube(ActionEvent event) {
+        reiniciarCubo();
+        this.bStart.setDisable(false);
+        this.bGuardar.setDisable(true);
+    }
+
+    @FXML
+    private void iniciarJuego(ActionEvent event) {
+        if(moves.getNumMoves()>0){
+            //timer.stop();
+            moves=new Moves();
+            time=LocalTime.now();
+            timer.playFromStart();
+            this.bStart.setDisable(true);
+            this.bReset.setDisable(false);
+            this.bReplay.setDisable(false);
+            this.bGuardar.setDisable(false);
+        }
+            
+        
+    }
+
+    @FXML
+    public void guardarCubo(){
+        
+    }
+    
 }
