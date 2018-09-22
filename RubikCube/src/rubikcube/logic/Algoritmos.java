@@ -37,6 +37,7 @@ public class Algoritmos {
     private Integer pasosCompletados=0;
     Moves listaMovEtapa;
     Moves listaMovGeneral;
+    ArrayList<Moves> listasMovsEtapas;
     
     private final LocalTime time=LocalTime.now();
     
@@ -47,9 +48,10 @@ public class Algoritmos {
     //Constructors
     public Algoritmos(RubikL rubikL, RubikG rubikG) {
         this.rubikLOriginal = rubikL;
+        this.listasMovsEtapas=AppContext.getInstance().getMoveLists();
         this.rubikG = rubikG;
         this.rubikLAuxiliar = new RubikL(rubikL);
-        this.listaMovGeneral=AppContext.getInstance().getMoveLists().get(0); 
+        this.listaMovGeneral=AppContext.getMoveListGen(); 
     }
     
     //Methods
@@ -57,35 +59,36 @@ public class Algoritmos {
         algoritmoFinal = "";
         algoritmoAuxiliar = "";
         this.listaMovGeneral.clear();
+        this.listasMovsEtapas.stream().forEach(m->m.clear());
         paso0 = checkPaso0();
         if(!paso0){
             algoritmoAuxiliar = "";
             orientarCubo();
-            System.out.println("Pasos para el algoritmo 0\n\t" + algoritmoAuxiliar);
+            //System.out.println("Pasos para el algoritmo 0\n\t" + algoritmoAuxiliar);
         }
         paso1 = checkPaso1();
         if(!paso1){
             algoritmoAuxiliar = "";
             while(!checkPaso1()){
                 primeraCruz();
-                movimientoUnico("Yi");
+                movimientoUnico("Yi",1);
             }
-            System.out.println("Pasos para el algoritmo 1\n\t" + algoritmoAuxiliar);
+            //System.out.println("Pasos para el algoritmo 1\n\t" + algoritmoAuxiliar);
         }
         paso2 = checkPaso2();
         if(!paso2){
             algoritmoAuxiliar = "";
             while(!checkPaso2()){
                 esquinasPrimerNivel();
-                movimientoUnico("Yi");
+                movimientoUnico("Yi",2);
             }
-            System.out.println("Pasos para el algoritmo 2\n\t" + algoritmoAuxiliar);
+            //System.out.println("Pasos para el algoritmo 2\n\t" + algoritmoAuxiliar);
         }
         paso3 = checkPaso3();
         if(!paso3){
             algoritmoAuxiliar = "";
-            movimientoUnico("Xi");
-            movimientoUnico("Xi");
+            movimientoUnico("Xi",3);
+            movimientoUnico("Xi",3);
             boolean ladoDerecho = true;
             while(!checkPaso3()){
                 if(ladoDerecho){
@@ -94,19 +97,19 @@ public class Algoritmos {
                 } else {
                     aristasIzquierdasSegundoNivel();
                     ladoDerecho = true;
-                    movimientoUnico("Yi");
+                    movimientoUnico("Yi",3);
                 }
             }
-            System.out.println("Pasos para el algoritmo 3\n\t" + algoritmoAuxiliar);
+            //System.out.println("Pasos para el algoritmo 3\n\t" + algoritmoAuxiliar);
         } else {
-            movimientoUnico("Xi");
-            movimientoUnico("Xi");
+            movimientoUnico("Xi",3);
+            movimientoUnico("Xi",3);
         }
         paso4 = checkPaso4();
         if(!paso4){
             algoritmoAuxiliar = "";
             aristasTercerNivel();
-            System.out.println("Pasos para el algoritmo 4\n\t" + algoritmoAuxiliar);
+            //System.out.println("Pasos para el algoritmo 4\n\t" + algoritmoAuxiliar);
         }
         paso5 = checkPaso5();
         if(!paso5){
@@ -118,16 +121,16 @@ public class Algoritmos {
         if(!paso6){
             algoritmoAuxiliar = "";
             ubicarEsquinasTercerNivel();
-            System.out.println("Pasos para el algoritmo 6\n\t" + algoritmoAuxiliar);
+            //System.out.println("Pasos para el algoritmo 6\n\t" + algoritmoAuxiliar);
         }
         paso7 = checkPaso7();
         if(!paso7){
             algoritmoAuxiliar = "";
             orientarEsquinasTercerNivel();
-            System.out.println("Pasos para el algoritmo 7\n\t" + algoritmoAuxiliar);
+            //System.out.println("Pasos para el algoritmo 7\n\t" + algoritmoAuxiliar);
         }
         //System.out.println("\n--Algoritmo final acumulado--\n\t" + algoritmoFinal);
-        rubikLAuxiliar.imprimirCubo();
+        //rubikLAuxiliar.imprimirCubo();
         rubikLOriginal.imprimirSecuencia3D(this.listaMovGeneral.getMoves());
     }
     
@@ -136,21 +139,21 @@ public class Algoritmos {
         switch(((Centro) rubikLAuxiliar.encontrarPieza(11)).getPos()){
             case INFERIOR:
                 Collections.addAll(list, "Xi", "Xi");
-                secuencia(list);
+                secuencia(list,0);
                 break;
             case IZQUIERDA:
                 Collections.addAll(list, "Yi", "X");
-                secuencia(list);
+                secuencia(list,0);
                 break;
             case DERECHA:
                 Collections.addAll(list, "Y", "X");
-                secuencia(list);
+                secuencia(list,0);
                 break;
             case FRONTAL:
-                movimientoUnico("X");
+                movimientoUnico("X",0);
                 break;
             case TRASERA:
-                movimientoUnico("Xi");
+                movimientoUnico("Xi",0);
                 break;
         }
     }
@@ -166,52 +169,52 @@ public class Algoritmos {
             switch((arista.getPos2())){
                 case SupDer:
                     Collections.addAll(list, "Ri", "Ri", "Di");
-                    secuencia(list);
+                    secuencia(list,1);
                     primeraCruz();
                     break;
                 case SupTra:
                     Collections.addAll(list, "B", "B", "Di", "Di");
-                    secuencia(list);
+                    secuencia(list,1);
                     primeraCruz();
                     break;
                 case SupIzq:
                     Collections.addAll(list, "L", "L", "D");
-                    secuencia(list);
+                    secuencia(list,1);
                     primeraCruz();
                     break;
                 case CenDelIzq:
                     Collections.addAll(list, "Fi");
-                    secuencia(list);
+                    secuencia(list,1);
                     primeraCruz();
                     break;
                 case CenDelDer:
                     Collections.addAll(list, "F");
-                    secuencia(list);
+                    secuencia(list,1);
                     primeraCruz();
                     break;
                 case CenTraDer:
                     Collections.addAll(list, "Bi", "Di", "Di", "B");
-                    secuencia(list);
+                    secuencia(list,1);
                     primeraCruz();
                     break;
                 case CenTraIzq:
                     Collections.addAll(list, "Li", "D", "L");
-                    secuencia(list);
+                    secuencia(list,1);
                     primeraCruz();
                     break;
                 case InfDer:
                     Collections.addAll(list, "Di");
-                    secuencia(list);
+                    secuencia(list,1);
                     primeraCruz();
                     break;
                 case InfTra:
                     Collections.addAll(list, "Di", "Di");
-                    secuencia(list);
+                    secuencia(list,1);
                     primeraCruz();
                     break;
                 case InfIzq:
                     Collections.addAll(list, "D");
-                    secuencia(list);
+                    secuencia(list,1);
                     primeraCruz();
                     break;
                 case InfDel:
@@ -223,12 +226,12 @@ public class Algoritmos {
                             Collections.addAll(list, "L", "Di", "Li", "F");
                             break;
                     }
-                    secuencia(list);
+                    secuencia(list,1);
                     break;
             }
         } else if(!rubikLAuxiliar.getCubo()[0][1][0].getPieza().getOrientacion().equals(1)){
              Collections.addAll(list, "F", "F");
-             secuencia(list);
+             secuencia(list,1);
              primeraCruz();
         }
     }
@@ -260,32 +263,32 @@ public class Algoritmos {
             switch((arista.getPos())){
                 case SupDerTra:
                     Collections.addAll(list, "Bi", "Di", "B");
-                    secuencia(list);
+                    secuencia(list,2);
                     esquinasPrimerNivel();
                     break;
                 case SupIzqTra:
                     Collections.addAll(list, "B", "D", "D", "Bi");
-                    secuencia(list);
+                    secuencia(list,2);
                     esquinasPrimerNivel();
                     break;
                 case SupIzqDel:
                     Collections.addAll(list, "L", "D", "Li");
-                    secuencia(list);
+                    secuencia(list,2);
                     esquinasPrimerNivel();
                     break;
                 case InfDerTra:
                     Collections.addAll(list, "Di");
-                    secuencia(list);
+                    secuencia(list,2);
                     esquinasPrimerNivel();
                     break;
                 case InfIzqTra:
                     Collections.addAll(list, "D", "D");
-                    secuencia(list);
+                    secuencia(list,2);
                     esquinasPrimerNivel();
                     break;
                 case InfIzqDel:
                     Collections.addAll(list, "D");
-                    secuencia(list);
+                    secuencia(list,2);
                     esquinasPrimerNivel();
                     break;
                 case InfDerDel:
@@ -300,12 +303,12 @@ public class Algoritmos {
                             Collections.addAll(list, "Di", "Ri", "D", "D", "R", "Di", "Ri", "D", "R");
                             break;
                     }
-                    secuencia(list);
+                    secuencia(list,2);
                     break;
             }
         } else if(!rubikLAuxiliar.getCubo()[0][2][0].getPieza().getOrientacion().equals(1)){
             Collections.addAll(list, "Ri", "Di", "R", "D");
-            secuencia(list);
+            secuencia(list,2);
             esquinasPrimerNivel();
         }
     }
@@ -338,50 +341,50 @@ public class Algoritmos {
             switch((arista.getPos2())){
                 case SupDer:
                     if(arista.getOrientacion().equals(orientFinalNecesaria)){
-                        movimientoUnico("Ui");
+                        movimientoUnico("Ui",3);
                         aristasDerechasSegundoNivel();
                     }
                     break;
                 case SupIzq:
                     if(arista.getOrientacion().equals(orientFinalNecesaria)){
-                        movimientoUnico("U");
+                        movimientoUnico("U",3);
                         aristasDerechasSegundoNivel();
                     }
                     break;
                 case SupDel:
                     if(arista.getOrientacion().equals(orientFinalNecesaria)){
                         Collections.addAll(list, "U", "U");
-                        secuencia(list);
+                        secuencia(list,3);
                         aristasDerechasSegundoNivel();
                     }
                     break;
                 case CenDelIzq:
                     if(arista.getOrientacion().equals(2)){
                         Collections.addAll(list, "F", "U", "Fi", "Ui", "Li", "Ui", "L", "Ui");
-                        secuencia(list);
+                        secuencia(list,3);
                     } else {
                         Collections.addAll(list, "Li", "Ui", "L", "U", "F", "U", "Fi");
-                        secuencia(list);
+                        secuencia(list,3);
                     }
                     aristasDerechasSegundoNivel();
                     break;
                 case CenTraIzq:
                     if(arista.getOrientacion().equals(2)){
                         Collections.addAll(list, "Yi", "Li", "Ui", "L", "U", "F", "U", "Fi", "Ui", "Y");
-                        secuencia(list);
+                        secuencia(list,3);
                     } else {
                         Collections.addAll(list, "Yi", "F", "U", "Fi", "Ui", "Li", "Ui", "L", "Ui", "Ui", "Y");
-                        secuencia(list);
+                        secuencia(list,3);
                     }
                     aristasDerechasSegundoNivel();
                     break;
                 case CenTraDer:
                     if(arista.getOrientacion().equals(2)){
                         Collections.addAll(list, "Y", "R", "U", "Ri", "Ui", "Fi", "Ui", "F", "U", "Yi");
-                        secuencia(list);
+                        secuencia(list,3);
                     } else {
                         Collections.addAll(list, "Y", "Fi", "Ui", "F", "U", "R", "U", "Ri", "Ui", "Ui", "Yi");
-                        secuencia(list);
+                        secuencia(list,3);
                     }
                     aristasDerechasSegundoNivel();
                     break;
@@ -389,13 +392,13 @@ public class Algoritmos {
                     //Caso final
                     if(arista.getOrientacion().equals(orientFinalNecesaria)){
                         Collections.addAll(list, "Fi", "Ui", "F", "U", "R", "U", "Ri");
-                        secuencia(list);
+                        secuencia(list,3);
                     }
                     break;
             }
         } else if(!rubikLAuxiliar.getCubo()[1][2][0].getPieza().getOrientacion().equals(1)){
              Collections.addAll(list, "Fi", "Ui", "F", "U", "R", "U", "Ri", "U");
-             secuencia(list);
+             secuencia(list,3);
              aristasDerechasSegundoNivel();
         }
     }
@@ -409,50 +412,50 @@ public class Algoritmos {
             switch((arista.getPos2())){
                 case SupDer:
                     if(arista.getOrientacion().equals(orientFinalNecesaria)){
-                        movimientoUnico("Ui");
+                        movimientoUnico("Ui",3);
                         aristasIzquierdasSegundoNivel();
                     }
                     break;
                 case SupIzq:
                     if(arista.getOrientacion().equals(orientFinalNecesaria)){
-                        movimientoUnico("U");
+                        movimientoUnico("U",3);
                         aristasIzquierdasSegundoNivel();
                     }
                     break;
                 case SupDel:
                     if(arista.getOrientacion().equals(orientFinalNecesaria)){
                         Collections.addAll(list, "U", "U");
-                        secuencia(list);
+                        secuencia(list,3);
                         aristasIzquierdasSegundoNivel();
                     }
                     break;
                 case CenDelDer:
                     if(arista.getOrientacion().equals(2)){
                         Collections.addAll(list, "Fi", "Ui", "F", "U", "R", "U", "Ri", "U");
-                        secuencia(list);
+                        secuencia(list,3);
                     } else {
                         Collections.addAll(list, "R", "U", "Ri", "Ui", "Fi", "Ui", "F");
-                        secuencia(list);
+                        secuencia(list,3);
                     }
                     aristasIzquierdasSegundoNivel();
                     break;
                 case CenTraIzq:
                     if(arista.getOrientacion().equals(2)){
                         Collections.addAll(list, "Yi", "Li", "Ui", "L", "U", "F", "U", "Fi", "Ui", "Y");
-                        secuencia(list);
+                        secuencia(list,3);
                     } else {
                         Collections.addAll(list, "Yi", "F", "U", "Fi", "Ui", "Li", "Ui", "L", "Ui", "Ui", "Y");
-                        secuencia(list);
+                        secuencia(list,3);
                     }
                     aristasIzquierdasSegundoNivel();
                     break;
                 case CenTraDer:
                     if(arista.getOrientacion().equals(2)){
                         Collections.addAll(list, "Y", "R", "U", "Ri", "Ui", "Fi", "Ui", "F", "U", "Yi");
-                        secuencia(list);
+                        secuencia(list,3);
                     } else {
                         Collections.addAll(list, "Y", "Fi", "Ui", "F", "U", "R", "U", "Ri", "Ui", "Ui", "Yi");
-                        secuencia(list);
+                        secuencia(list,3);
                     }
                     aristasIzquierdasSegundoNivel();
                     break;
@@ -460,13 +463,13 @@ public class Algoritmos {
                     //Caso final
                     if(arista.getOrientacion().equals(orientFinalNecesaria)){
                         Collections.addAll(list, "F", "U", "Fi", "Ui", "Li", "Ui", "L");
-                        secuencia(list);
+                        secuencia(list,3);
                     }
                     break;
             }
         } else if(!rubikLAuxiliar.getCubo()[1][0][0].getPieza().getOrientacion().equals(1)){
              Collections.addAll(list, "F", "U", "Fi", "Ui", "Li", "Ui", "L", "Ui");
-             secuencia(list);
+             secuencia(list,3);
              aristasIzquierdasSegundoNivel();
         }
     }
@@ -504,41 +507,41 @@ public class Algoritmos {
         switch(n){
             case 1:
                 if(ariF) {
-                    movimientoUnico("U");
+                    movimientoUnico("U",4);
                     aristasTercerNivel();
                 }
                 else if(ariD){
                     Collections.addAll(list, "U", "U");
-                    secuencia(list);
+                    secuencia(list,4);
                     aristasTercerNivel();
                 }
                 else if(ariT){
-                    movimientoUnico("Ui");
+                    movimientoUnico("Ui",4);
                     aristasTercerNivel();
                 }
                 else if(ariI){
                     Collections.addAll(list, "F", "R", "U", "Ri", "Ui");
-                    secuencia(list);
+                    secuencia(list,4);
                     list.clear();
                     if(!rubikLAuxiliar.getCubo()[0][1][2].getPieza().getOrientacion().equals(1))
                         Collections.addAll(list, "R", "U", "Ri", "Ui", "Fi");
                     else 
                         Collections.addAll(list, "Fi");
-                    secuencia(list);
+                    secuencia(list,4);
                 }
                 break;
             case 2:
                 if(ariI && !ariF){
                     Collections.addAll(list, "F", "R", "U", "Ri", "Ui");
-                    secuencia(list);
+                    secuencia(list,4);
                     list.clear();
                     if(!rubikLAuxiliar.getCubo()[0][1][2].getPieza().getOrientacion().equals(1))
                         Collections.addAll(list, "R", "U", "Ri", "Ui", "Fi");
                     else 
                         Collections.addAll(list, "Fi");
-                    secuencia(list);
+                    secuencia(list,4);
                 } else {
-                    movimientoUnico("U");
+                    movimientoUnico("U",4);
                     aristasTercerNivel();
                 }
                 break;
@@ -547,13 +550,13 @@ public class Algoritmos {
                 break;
             case 0:
                 Collections.addAll(list, "F", "R", "U", "Ri", "Ui");
-                secuencia(list);
+                secuencia(list,4);
                 list.clear();
                 if(!rubikLAuxiliar.getCubo()[0][1][2].getPieza().getOrientacion().equals(1))
                     Collections.addAll(list, "R", "U", "Ri", "Ui", "Fi");
                 else 
                     Collections.addAll(list, "Fi");
-                secuencia(list);
+                secuencia(list,4);
                 aristasTercerNivel();
                 break;
         }
@@ -589,30 +592,30 @@ public class Algoritmos {
             case 1:
                 if(ariF) {
                     Collections.addAll(list, "R", "U", "Ri", "U", "R", "U", "U", "Ri");
-                    secuencia(list);
+                    secuencia(list,5);
                     orientarCruzTercerNivel();
                 }
                 else if(ariD){
-                    movimientoUnico("Y");
+                    movimientoUnico("Y",5);
                     orientarCruzTercerNivel();
                 }
                 else if(ariT){
                     Collections.addAll(list, "Y", "Y");
-                    secuencia(list);
+                    secuencia(list,5);
                     orientarCruzTercerNivel();
                 }
                 else if(ariI){
-                    movimientoUnico("Yi");
+                    movimientoUnico("Yi",5);
                     orientarCruzTercerNivel();
                 }
                 break;
             case 2:
                 if((ariI && ariD) || (ariT && ariF)){
                     Collections.addAll(list, "U", "R", "U", "Ri", "U", "R", "U", "U", "Ri");
-                    secuencia(list);
+                    secuencia(list,5);
                     orientarCruzTercerNivel();
                 } else {
-                    movimientoUnico("U");
+                    movimientoUnico("U",5);
                     orientarCruzTercerNivel();
                 }
                 break;
@@ -620,7 +623,7 @@ public class Algoritmos {
                 this.paso5 = true;
                 break;
             case 0:
-                movimientoUnico("U");
+                movimientoUnico("U",5);
                 orientarCruzTercerNivel();
                 break;
         }
@@ -654,22 +657,22 @@ public class Algoritmos {
         if(traDer) n++;
         if(n.equals(0)){
             Collections.addAll(list, "U", "R", "Ui", "Li", "U", "Ri", "Ui", "L");
-            secuencia(list);
+            secuencia(list,6);
             ubicarEsquinasTercerNivel();
         } else if(n<4){
             if(delDer){
                 Collections.addAll(list, "U", "R", "Ui", "Li", "U", "Ri", "Ui", "L");
-                secuencia(list);
+                secuencia(list,6);
                 ubicarEsquinasTercerNivel();
             } else if(delIzq){
-                movimientoUnico("Yi");
+                movimientoUnico("Yi",6);
                 ubicarEsquinasTercerNivel();
             } else if(traDer){
-                movimientoUnico("Y");
+                movimientoUnico("Y",6);
                 ubicarEsquinasTercerNivel();
             } else {
                 Collections.addAll(list, "Y", "Y");
-                secuencia(list);
+                secuencia(list,6);
                 ubicarEsquinasTercerNivel();
             }
         } else {
@@ -707,11 +710,11 @@ public class Algoritmos {
                 if(rubikLAuxiliar.getCubo()[0][2][0].getPieza().getId().equals(auxEsq.getId())
                 && rubikLAuxiliar.getCubo()[0][2][0].getPieza().getOrientacion().equals(2)){
                     Collections.addAll(list, "Ui");
-                    secuencia(list);
+                    secuencia(list,7);
                     auxEsq = (Esquina) rubikLAuxiliar.getCubo()[0][2][0].getPieza();
                 } else {
                     Collections.addAll(list, "Ri", "Di", "R", "D");
-                    secuencia(list);
+                    secuencia(list,7);
                 }
                 n++;
             }
@@ -739,11 +742,11 @@ public class Algoritmos {
         return chk;
     }
     
-    public void secuencia(ArrayList<String> list){
+    public void secuencia(ArrayList<String> list,Integer etapa){
         
         list.stream().forEach(str -> {
             //moves.addMove(new Move(str, LocalTime.now().minusNanos(time.toNanoOfDay()).toNanoOfDay()));
-            this.asignarMovimientos(str);
+            this.asignarMovimientos(str,etapa);
             rubikLAuxiliar.movimientoBasico(str);
             if(algoritmoAuxiliar.isEmpty()){
                 algoritmoAuxiliar = str;
@@ -757,9 +760,9 @@ public class Algoritmos {
         });
     }
     
-    public void movimientoUnico(String mov){
+    public void movimientoUnico(String mov,Integer etapa){
         rubikLAuxiliar.movimientoBasico(mov);
-        this.asignarMovimientos(mov);
+        this.asignarMovimientos(mov,etapa);
         if(algoritmoAuxiliar.isEmpty())
             algoritmoAuxiliar = mov;
         else
@@ -819,9 +822,9 @@ public class Algoritmos {
         this.algoritmoAuxiliar = algoritmoAuxiliar;
     }
     
-    public void asignarMovimientos(String mov){
+    public void asignarMovimientos(String mov,Integer etapa){
         //selecciona la etapa para separar por listas (pasos completados se asigna al checkear etapas)
-        this.listaMovEtapa=AppContext.getInstance().getMoveLists().get(this.pasosCompletados+1);
+        this.listaMovEtapa=this.listasMovsEtapas.get(etapa);
         //asigna a la lista por etapas y a la general
         this.listaMovEtapa.addMove(new Move(mov, LocalTime.now().minusNanos(time.toNanoOfDay()).toNanoOfDay()));
         this.listaMovGeneral.addMove(new Move(mov, LocalTime.now().minusNanos(time.toNanoOfDay()).toNanoOfDay()));

@@ -770,6 +770,12 @@ public class RubikL {
             }
             cont++;
         }
+        
+        System.out.println("\nLista general");
+        //Integer c=0;
+        AppContext.getMoveListGen().getMoves().stream().forEach(m->{
+            System.out.print(m.getFace()+",");
+        });
         //fin prueba
     }
     

@@ -14,7 +14,7 @@ public class AppContext {
     private static AppContext INSTANCE = null;
     private static HashMap<String, Object> context = new HashMap<>();
     private static Stage mainStage = new Stage();
-    private static ArrayList<String> moveList = new ArrayList<>();
+    private static Moves moveListGen = new Moves();
     private ArrayList<Moves> moveLists = new ArrayList<>();
     private static ArrayList<Jugador> jugadores = new ArrayList<>();
     private static Jugador jugadorActual;
@@ -120,6 +120,14 @@ public class AppContext {
 
     public static void setModoJuego(Integer modoJuego) {
         AppContext.modoJuego = modoJuego;
+    }
+
+    public static Moves getMoveListGen() {
+        return moveListGen;
+    }
+
+    public static void setMoveListGen(Moves moveListGen) {
+        AppContext.moveListGen = moveListGen;
     }
     
 }

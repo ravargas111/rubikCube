@@ -397,6 +397,7 @@ public class RubikG {
     }
     
     public void doSequence(String list){
+        //System.out.println("\ndoSequence()\n"+list);
         onScrambling.set(true);
         sequence=Utils.unifyNotation(list);
         
@@ -432,7 +433,15 @@ public class RubikG {
     }
     
     public void doMoveList(List<Move> moves){
-        if(moves.isEmpty()){
+        StringBuilder sb=new StringBuilder();
+        moves.stream().forEach(m->{ 
+            sb.append(m.getFace()).append(" ");
+        });
+        doSequence(sb.toString().trim());
+    }
+    
+    /*public void doMoveList(List<Move> moves){
+        /*if(moves.isEmpty()){
             return;
         }
         //content.resetCam();//last change
@@ -468,7 +477,8 @@ public class RubikG {
         onRotation.addListener(lis);
         timestamp.set(moves.get(0).getTimestamp());
         rotateFace(moves.get(0).getFace());
-    }
+        StringBuilder sb=new StringBuilder();
+    }*/
     
     public void doReplay(List<Move> moves){
         if(moves.isEmpty()){
