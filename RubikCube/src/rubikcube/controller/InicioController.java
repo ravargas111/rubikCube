@@ -51,21 +51,25 @@ public class InicioController extends Controller implements Initializable {
 
     @FXML
     private void selModo(ActionEvent event) {
-        
         if(!this.txtNombre.getText().isEmpty()){
-
-           String nombre = this.txtNombre.getText();
-           ArrayList<Jugador> jugadores= AppContext.getJugadores();
-           Boolean existe=jugadores.stream().anyMatch(x->x.getNombre().equalsIgnoreCase(nombre));
-           if(!existe){
-               Jugador nuevo= new Jugador(nombre);
-               jugadores.add(nuevo);
-               AppContext.setJugadorActual(nuevo);
-           }
-           else{
-               
-           }
-           FlowController.getInstance().goView("ModosJuego");
+            String nombre = this.txtNombre.getText();
+            //No se si utiliza esto para otras cosas pero para guardar/cargar partidas lo voy a hacer diferente
+//            ArrayList<Jugador> jugadores= AppContext.getJugadores();
+//            Boolean existe=jugadores.stream().anyMatch(x->x.getNombre().equalsIgnoreCase(nombre));
+//            if(!existe){
+//                Jugador nuevo= new Jugador(nombre);
+//                jugadores.add(nuevo);
+//                AppContext.setJugadorActual(nuevo);
+//            }
+//            else{
+//                
+//            }
+//            Voy a manejar un txt para cada jugador, con el mismo nombre del jugador
+//            Simplemente en el appContext se guarda el nombre del usuario directamente
+//            Cuando el usuario intente cargar una partida, se busca un txt con el nombre del usuario 
+//            Si el txt existe es porque el jugador tiene partida guardada, sino no y ya
+            AppContext.getInstance().set("user", nombre);
+            FlowController.getInstance().goView("ModosJuego");
         }
         else{
             Mensaje msj=new Mensaje();

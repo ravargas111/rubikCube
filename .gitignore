@@ -1,7 +1,11 @@
 /RubikCube/build/
 /RubikCube/dist/
 /RubikCube/lib/
-*.properties
-*.properties
-*.properties
+/RubikCube/build/built-jar.properties
+/RubikCube/data/
+RubikCube/build/
+RubikCube/dist/
+RubikCube/lib/
 RubikCube/build/built-jar.properties
+RubikCube/data/
+*.properties
