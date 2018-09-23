@@ -5,6 +5,8 @@
  */
 package rubikcube.util;
 
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.ResourceBundle;
@@ -17,6 +19,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -33,6 +36,7 @@ public class FlowController {
     private static Stage mainStage;
     private static ResourceBundle idioma;
     private static HashMap<String, FXMLLoader> loaders = new HashMap<>();
+    private boolean showingDialog = false;
 
     private FlowController() {
     }
@@ -145,13 +149,30 @@ public class FlowController {
         stage.getScene().setRoot(loader.getRoot());
     }
 
-    public Controller goViewInNode(String viewName,Node node){
+    public void goViewInNode(String viewName,Node node){
+        //System.out.print("iasdasd");
         FXMLLoader loader = getLoader(viewName);
         Controller controller = loader.getController();
         controller.initialize();
         Stage stage = controller.getStage();
-        ((AnchorPane)node).getChildren().add(loader.getRoot());
-        return controller;
+        ((StackPane)node).getChildren().add(loader.getRoot());
+        //return controller;
+    }
+    
+    public void goViewOnDialog(String viewName, StackPane sp){
+        FXMLLoader loader = getLoader(viewName);
+        JFXDialogLayout dialogLay = loader.getRoot();
+        Controller dialogCntrl = loader.getController();
+        dialogCntrl.initialize();
+        JFXDialog dialog = new JFXDialog(sp, dialogLay, JFXDialog.DialogTransition.CENTER, true);
+        sp.setVisible(true);
+        dialog.setOnDialogClosed(event -> {
+            sp.setVisible(false);
+            showingDialog = false;
+            event.consume();
+        });
+        showingDialog = true;
+        dialog.show();
     }
     
     public void goViewInWindow(String viewName) {

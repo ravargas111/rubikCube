@@ -4,9 +4,16 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/robri/Documents/NetBeansProjects/Estructuras%20Cubo%20Rubik/RubikCube/src/rubikcube/view/Style.css</file>
+            <file>file:/C:/Users/robri/Documents/NetBeansProjects/Estructuras%20Cubo%20Rubik/RubikCube/src/rubikcube/logic/Algoritmos.java</file>
+            <file>file:/C:/Users/robri/Documents/NetBeansProjects/Estructuras%20Cubo%20Rubik/RubikCube/src/rubikcube/view/ListaMovimientosController.java</file>
+            <file>file:/C:/Users/robri/Documents/NetBeansProjects/Estructuras%20Cubo%20Rubik/RubikCube/src/rubikcube/moves/Moves.java</file>
+            <file>file:/C:/Users/robri/Documents/NetBeansProjects/Estructuras%20Cubo%20Rubik/RubikCube/src/rubikcube/model/ContentModel.java</file>
             <file>file:/C:/Users/robri/Documents/NetBeansProjects/Estructuras%20Cubo%20Rubik/RubikCube/src/rubikcube/model/RubikG.java</file>
-            <file>file:/C:/Users/robri/Documents/NetBeansProjects/Estructuras%20Cubo%20Rubik/RubikCube/src/rubikcube/util/AppContext.java</file>
+            <file>file:/C:/Users/robri/Documents/NetBeansProjects/Estructuras%20Cubo%20Rubik/RubikCube/src/rubikcube/model/Utils.java</file>
+            <file>file:/C:/Users/robri/Documents/NetBeansProjects/Estructuras%20Cubo%20Rubik/RubikCube/src/rubikcube/controller/ListaMovimientosController.java</file>
             <file>file:/C:/Users/robri/Documents/NetBeansProjects/Estructuras%20Cubo%20Rubik/RubikCube/src/rubikcube/controller/MainController.java</file>
+            <file>file:/C:/Users/robri/Documents/NetBeansProjects/Estructuras%20Cubo%20Rubik/RubikCube/src/rubikcube/logic/RubikL.java</file>
+            <file>file:/C:/Users/robri/Documents/NetBeansProjects/Estructuras%20Cubo%20Rubik/RubikCube/src/rubikcube/util/FlowController.java</file>
         </group>
     </open-files>
 </project-private>

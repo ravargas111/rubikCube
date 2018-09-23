@@ -23,7 +23,6 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -32,11 +31,8 @@ import javafx.scene.control.ToolBar;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
-import org.controlsfx.control.action.Action;
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
 import rubikcube.logic.Algoritmos;
 import rubikcube.logic.MovBtn;
 import rubikcube.logic.RubikL;
@@ -44,6 +40,7 @@ import rubikcube.model.RubikG;
 import rubikcube.moves.Move;
 import rubikcube.moves.Moves;
 import rubikcube.util.AppContext;
+import rubikcube.util.FlowController;
 
 /**
  * FXML Controller class
@@ -63,9 +60,10 @@ public class MainController extends Controller implements Initializable {
     private final StringProperty clock = new SimpleStringProperty("00:00:00");
     private final DateTimeFormatter fmt = DateTimeFormatter.ofPattern("HH:mm:ss").withZone(ZoneId.systemDefault());
     private ChangeListener<Number> clockLis;
+    private final StringProperty contMovs = new SimpleStringProperty();
     
     private JFXButton btnHover;
-    
+    private Boolean empezado;
     private Moves moves=new Moves();
     @FXML
     private Label lSolved;
@@ -91,23 +89,23 @@ public class MainController extends Controller implements Initializable {
     private JFXButton bGuardar;
     @FXML
     private JFXButton bStop;
+    @FXML
+    private StackPane infoSP;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //this.infoSP.setVisible(true);
+        empezado=false;
         movesCount=0;
         rubikG=new RubikG();
-        rubikL=new RubikL(rubikG);//*este es el cubo lógico que tiene que usar
+        rubikL=new RubikL(rubikG);
         rubikG.setRubikL(rubikL);//ambos quedan relacionados (rotación del gráfico llama rotación del lógico)
         root.setCenter(rubikG.getSubScene());
         binds();
-        //llenarBotones();
         initToolbarEvents();
-        initListeners(); 
-        //this.rubikG..setOnMouseClicked(e->{
-            //this.rubikG.resetCam();
-       // });
+        initListeners();
     }    
 
     @Override
@@ -264,7 +262,8 @@ public class MainController extends Controller implements Initializable {
         rubikG.getCount().addListener((ov,v,v1)->{
             bReset.setDisable(moves.getNumMoves()==0);
             bReplay.setDisable(moves.getNumMoves()==0);
-            lMov.setText("Movements: "+(v1.intValue()+1));
+            if(this.empezado)
+            lMov.setText(""+(v1.intValue()+1));
         });
         
         rubikG.getLastRotation().addListener((ov,v,v1)->{
@@ -390,7 +389,7 @@ public class MainController extends Controller implements Initializable {
     }
 
     public void modoOrdenado(){
-        
+        //FlowController.getInstance().goViewOnDialog("ListaMovimientos", (StackPane)root.getLeft());
         //this.initTimer();
     }
     
@@ -403,8 +402,15 @@ public class MainController extends Controller implements Initializable {
     }
     
     public void modoCargado(){
-        
+       // root.getC
     } 
+    
+    public void reiniciarInfo(){
+        empezado=false;
+        //this.lMov.setText("0");
+        //this.lTime.setText("00:00");
+        this.rubikG.getCount().set(-1);
+    }
     
     @FXML
     private void replayCube(ActionEvent event) {
@@ -416,6 +422,7 @@ public class MainController extends Controller implements Initializable {
         reiniciarCubo();
         this.bStart.setDisable(false);
         this.bGuardar.setDisable(true);
+        reiniciarInfo();
     }
 
     @FXML
@@ -429,6 +436,8 @@ public class MainController extends Controller implements Initializable {
             this.bReset.setDisable(false);
             this.bReplay.setDisable(false);
             this.bGuardar.setDisable(false);
+            empezado=true;
+            //reiniciarInfo();
         }
             
         

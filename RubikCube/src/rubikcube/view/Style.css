@@ -92,3 +92,97 @@
     -fx-font-size:13px;
     -fx-prompt-text-fill: white;
 }
+
+.jfx-tab-pane
+{
+    -fx-side: top;
+    -fx-background-color: transparent;
+    /*-fx-tab-min-width:90px;*/
+}
+
+.jfx-tab-pane .tab-header-area .tab-header-background {
+    -fx-side: top;
+    -fx-opacity:0;
+    -fx-background-radius: 5%;
+    -fx-background-color: transparent;
+}
+
+.jfx-tab-pane .tab
+{
+    -fx-background-radius: 30 30 30 30;
+    -fx-border-radius: 30 30 30 30;
+    -fx-background-color: transparent;
+}
+
+.jfx-tab-pane .tab:hover{
+    -fx-translate-y: -3;
+}
+
+.jfx-tab-pane .tab:selected
+{
+    -fx-background-color: transparent;
+    -fx-traslate-x: 1.2;
+    -fx-traslate-y: 1.2;
+}
+
+.tab .tab-label { 
+    -fx-alignment: CENTER;
+    -fx-text-fill: transparent;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.tab:selected .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: transparent;
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+}
+
+.jfx-combo-box{
+    -fx-base-color:transparent;
+    -jfx-focus-color:transparent;
+    -jfx-unfocus-color:transparent;
+    -fx-text-fill:transparent;
+    -fx-font-size:10px;
+    -fx-text-fill: transparent;
+    -fx-prompt-text-fill: transparent;
+}
+
+.jfx-combo-box:hover{
+    -fx-color: -fx-primary-color;
+}
+
+.jfx-combo-box .list-cell 
+{
+    -fx-background: transparent;
+    -fx-background-color:transparent;
+    -fx-text-fill: transparent;
+    -fx-padding: 3 0 2 7;
+    -fx-cell-size: 1.66667em; 
+}
+
+.vbox-pasos{
+    -fx-background-color: transparent;
+}
+
+.scroll-pane{
+     -fx-background-color: transparent;
+}
+
+.scroll-bar:horizontal,.scroll-bar:vertical{
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:horizontal .track,.scroll-bar:vertical .track{
+    -fx-background-color: -fx-base-color-contraste;
+}
+
+.scroll-bar:horizontal .thumb,.scroll-bar:vertical .thumb {
+    -fx-background-color: -fx-base-color-contraste;
+    -fx-background-radius: 5em;
+}
+
+.anchor-pasos{
+    -fx-background-color: transparent;
+}

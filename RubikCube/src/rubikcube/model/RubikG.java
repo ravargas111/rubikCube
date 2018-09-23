@@ -391,7 +391,6 @@ public class RubikG {
             sb.append(get).append(" ");
         });
 
-        //System.out.println("sb: "+sb.toString());
         doSequence(sb.toString().trim());
     }
     
@@ -487,6 +486,12 @@ public class RubikG {
         count.set(-1);
     }
     
+    public void doReset2(){
+        order=orderOriginal.stream().collect(Collectors.toList());
+        rot.setCube(order);
+        count.set(-1);
+    }
+    
     public SubScene getSubScene(){ return content.getSubScene(); }
     public BooleanProperty isSolved() { return solved; }
     public BooleanProperty isOnRotation() { return onRotation; }
@@ -532,4 +537,5 @@ public class RubikG {
     public void resetCam(){
         content.resetCam();
     }
+    
 }
