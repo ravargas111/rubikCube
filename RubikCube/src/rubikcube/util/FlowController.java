@@ -39,6 +39,7 @@ public class FlowController {
     private boolean showingDialog = false;
 
     private FlowController() {
+        
     }
 
     private static void createInstance() {
