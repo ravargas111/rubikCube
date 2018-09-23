@@ -262,16 +262,6 @@ public class Esquina extends Pieza {
     }
 
     @Override
-    public void orientU(boolean i) {
-        //La pieza no cambia de orientacion en este movimiento
-    }
-
-    @Override
-    public void orientD(boolean i) {
-        //La pieza no cambia de orientacion en este movimiento
-    }
-
-    @Override
     public void orientF(boolean i) {
         switch(getPos()){
             case SupIzqDel:
@@ -457,6 +447,16 @@ public class Esquina extends Pieza {
                 }
                 break;
         }
+    }
+
+    @Override
+    public void orientU(boolean i) {
+        //La pieza no cambia de orientacion en este movimiento
+    }
+
+    @Override
+    public void orientD(boolean i) {
+        //La pieza no cambia de orientacion en este movimiento
     }
     
     @Override
