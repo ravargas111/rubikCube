@@ -398,6 +398,7 @@ public class Algoritmos {
                     if(arista.getOrientacion().equals(orientFinalNecesaria)){
                         Collections.addAll(list, "Fi", "Ui", "F", "U", "R", "U", "Ri");
                         secuencia(list,3);
+                        rubikLAuxiliar.getCubo()[1][2][0].getPieza().setOrientacion(1);
                     }
                     break;
             }
@@ -469,6 +470,7 @@ public class Algoritmos {
                     if(arista.getOrientacion().equals(orientFinalNecesaria)){
                         Collections.addAll(list, "F", "U", "Fi", "Ui", "Li", "Ui", "L");
                         secuencia(list,3);
+                        rubikLAuxiliar.getCubo()[1][0][0].getPieza().setOrientacion(1);
                     }
                     break;
             }

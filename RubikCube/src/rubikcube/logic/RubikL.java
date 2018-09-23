@@ -6,6 +6,7 @@
 package rubikcube.logic;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import rubikcube.model.RubikG;
 import rubikcube.moves.Move;
@@ -543,19 +544,15 @@ public class RubikL {
             auxAri = cubo[0][0][1];
             auxEsq = cubo[0][0][0];
             cubo[0][0][1] = cubo[1][0][0];
-            cubo[0][0][1].getPieza().orientar("Li", 0, 0, 1);
             cubo[0][0][0] = cubo[2][0][0];
             cubo[0][0][0].getPieza().orientar("Li", 0, 0, 0);
             cubo[1][0][0] = cubo[2][0][1];
-            cubo[1][0][0].getPieza().orientar("Li", 1, 0, 0);
             cubo[2][0][0] = cubo[2][0][2];
             cubo[2][0][0].getPieza().orientar("Li", 2, 0, 0);
             cubo[2][0][1] = cubo[1][0][2];
-            cubo[2][0][1].getPieza().orientar("Li", 2, 0, 1);
             cubo[2][0][2] = cubo[0][0][2];
             cubo[2][0][2].getPieza().orientar("Li", 2, 0, 2);
             cubo[1][0][2] = auxAri;
-            cubo[1][0][2].getPieza().orientar("Li", 1, 0, 2);
             cubo[0][0][2] = auxEsq;
             cubo[0][0][2].getPieza().orientar("Li", 0, 0, 2);
         }
@@ -566,19 +563,15 @@ public class RubikL {
             cubo[0][0][0] = cubo[0][0][2];
             cubo[0][0][0].getPieza().orientar("L", 0, 0, 0);
             cubo[0][0][1] = cubo[1][0][2];
-            cubo[0][0][1].getPieza().orientar("L", 0, 0, 1);
             cubo[0][0][2] = cubo[2][0][2];
             cubo[0][0][2].getPieza().orientar("L", 0, 0, 2);
             cubo[1][0][2] = cubo[2][0][1];
-            cubo[1][0][2].getPieza().orientar("L", 1, 0, 2);
             cubo[2][0][2] = cubo[2][0][0];
             cubo[2][0][2].getPieza().orientar("L", 2, 0, 2);
             cubo[2][0][1] = cubo[1][0][0];
-            cubo[2][0][1].getPieza().orientar("L", 2, 0, 1);
             cubo[2][0][0] = auxEsq;
             cubo[2][0][0].getPieza().orientar("L", 2, 0, 0);
             cubo[1][0][0] = auxAri;
-            cubo[1][0][0].getPieza().orientar("L", 1, 0, 0);
         }
     }
     
@@ -590,38 +583,30 @@ public class RubikL {
             cubo[0][2][0] = cubo[0][2][2];
             cubo[0][2][0].getPieza().orientar("Ri", 0, 2, 0);
             cubo[0][2][1] = cubo[1][2][2];
-            cubo[0][2][1].getPieza().orientar("Ri", 0, 2, 1);
             cubo[0][2][2] = cubo[2][2][2];
             cubo[0][2][2].getPieza().orientar("Ri", 0, 2, 2);
             cubo[1][2][2] = cubo[2][2][1];
-            cubo[1][2][2].getPieza().orientar("Ri", 1, 2, 2);
             cubo[2][2][2] = cubo[2][2][0];
             cubo[2][2][2].getPieza().orientar("Ri", 2, 2, 2);
             cubo[2][2][1] = cubo[1][2][0];
-            cubo[2][2][1].getPieza().orientar("Ri", 2, 2, 1);
             cubo[2][2][0] = auxEsq;
             cubo[2][2][0].getPieza().orientar("Ri", 2, 2, 0);
             cubo[1][2][0] = auxAri;
-            cubo[1][2][0].getPieza().orientar("Ri", 1, 2, 0);
         }
         else{
             Contenedor auxAri, auxEsq;
             auxAri = cubo[0][2][1];
             auxEsq = cubo[0][2][0];
             cubo[0][2][1] = cubo[1][2][0];
-            cubo[0][2][1].getPieza().orientar("R", 0, 2, 1);
             cubo[0][2][0] = cubo[2][2][0];
             cubo[0][2][0].getPieza().orientar("R", 0, 2, 0);
             cubo[1][2][0] = cubo[2][2][1];
-            cubo[1][2][0].getPieza().orientar("R", 1, 2, 0);
             cubo[2][2][0] = cubo[2][2][2];
             cubo[2][2][0].getPieza().orientar("R", 2, 2, 0);
             cubo[2][2][1] = cubo[1][2][2];
-            cubo[2][2][1].getPieza().orientar("R", 2, 2, 1);
             cubo[2][2][2] = cubo[0][2][2];
             cubo[2][2][2].getPieza().orientar("R", 2, 2, 2);
             cubo[1][2][2] = auxAri;
-            cubo[1][2][2].getPieza().orientar("R", 1, 2, 2);
             cubo[0][2][2] = auxEsq;
             cubo[0][2][2].getPieza().orientar("R", 0, 2, 2);
         }
@@ -709,8 +694,31 @@ public class RubikL {
         rotarContenedoresR(i);
     }
     
-    public void evaluarCuboArmado(){
+    public boolean evaluarCuboArmado(){
         boolean estado = true;
+        ArrayList<String> list = new ArrayList<>();
+        switch(((Centro) encontrarPieza(11)).getPos()){
+            case INFERIOR:
+                movimientoBasico("X"); movimientoBasico("X");
+                Collections.addAll(list, "Xi", "Xi");
+                break;
+            case IZQUIERDA:
+                movimientoBasico("Yi"); movimientoBasico("X");
+                Collections.addAll(list, "Xi", "Y");
+                break;
+            case DERECHA:
+                movimientoBasico("Y"); movimientoBasico("X");
+                Collections.addAll(list, "Xi", "Yi");
+                break;
+            case FRONTAL:
+                movimientoBasico("X");
+                Collections.addAll(list, "Xi");
+                break;
+            case TRASERA:
+                movimientoBasico("Xi");
+                Collections.addAll(list, "X");
+                break;
+        }
         for(Integer z=0; z<3; z++){
             for(Integer x=0; x<3; x++){
                 for(Integer y=0; y<3; y++){
@@ -723,6 +731,8 @@ public class RubikL {
             }
         }
         System.out.println(estado? "Cubo Armado! c:":"Cubo Desarmado! :c");
+        list.stream().forEach(str -> movimientoBasico(str));
+        return estado;
     }
     
     public Pieza encontrarPieza(Integer id){
@@ -820,6 +830,5 @@ public class RubikL {
         }
         System.out.println("\n");
         evaluarCuboArmado();
-        
     }
 }

@@ -52,10 +52,10 @@ public abstract class Pieza {
             case "B": orientB(false);break;
             case "CXi": orientCX(true);break;
             case "CX": orientCX(false);break;
-            case "CYi": orientCX(true);break;
-            case "CY": orientCX(false);break;
-            case "CZi": orientCX(true);break;
-            case "CZ": orientCX(false);break;
+            case "CYi": orientCY(true);break;
+            case "CY": orientCY(false);break;
+            case "CZi": orientCZ(true);break;
+            case "CZ": orientCZ(false);break;
         }
         setPos(newX, newY, newZ);
     }

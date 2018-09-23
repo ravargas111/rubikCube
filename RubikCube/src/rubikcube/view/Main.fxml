@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="691.0" prefWidth="1247.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rubikcube.controller.MainController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="691.0" prefWidth="1247.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rubikcube.controller.MainController">
    <children>
       <BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="691.0" prefWidth="1247.0" stylesheets="@Style.css">
          <center>
@@ -43,6 +43,11 @@
                            </graphic>
                         </JFXButton>
                         <JFXButton fx:id="bStop" onAction="#terminarJuego" prefHeight="25.0" prefWidth="140.0" text="Terminar">
+                           <graphic>
+                              <FontAwesomeIconView fill="#f5f5f5" glyphName="STOP" size="20" />
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="bStop1" onAction="#imprimirCubo" prefHeight="25.0" prefWidth="140.0" text="Imprimir">
                            <graphic>
                               <FontAwesomeIconView fill="#f5f5f5" glyphName="STOP" size="20" />
                            </graphic>
