@@ -19,7 +19,7 @@
    <children>
       <BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="691.0" prefWidth="1247.0" stylesheets="@Style.css">
          <center>
-            <VBox alignment="BOTTOM_CENTER" prefHeight="532.0" prefWidth="832.0" BorderPane.alignment="CENTER">
+            <VBox alignment="BOTTOM_CENTER" prefHeight="603.0" prefWidth="1103.0" BorderPane.alignment="CENTER">
                <children>
                   <Label />
                </children>
@@ -236,7 +236,7 @@
                <children>
                   <JFXTabPane prefHeight="603.0" prefWidth="96.0">
                      <tabs>
-                        <Tab text="Historial">
+                        <Tab text=" ">
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="120.0">
                                  <children>

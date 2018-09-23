@@ -32,6 +32,8 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -441,9 +443,10 @@ public class MainController extends Controller implements Initializable {
     
     public void accionesMovimiento(){
         if(this.empezado){
-                Label lbl = new Label(rubikG.getLastRotation().get());
+                String mov=rubikG.getLastRotation().get();
+                Label lbl = new Label(mov);
+                //lbl.setGraphic(new ImageView(new Image());
                 this.listaMov.getItems().add(lbl);
-                this.listaMov.setExpanded(true);
                 this.movesCount.set(movesCount.get()+1);
             }
     }
