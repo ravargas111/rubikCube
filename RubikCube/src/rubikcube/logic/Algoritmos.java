@@ -131,9 +131,14 @@ public class Algoritmos {
         }
         //System.out.println("\n--Algoritmo final acumulado--\n\t" + algoritmoFinal);
         //rubikLAuxiliar.imprimirCubo();
-        rubikLOriginal.imprimirSecuencia3D(this.listaMovGeneral.getMoves());
+        //rubikLOriginal.imprimirSecuencia3D(this.listaMovGeneral.getMoves());
     }
     
+    
+    public void autoarmadoG(){
+        autoArmado();
+        rubikLOriginal.imprimirSecuencia3D(this.listaMovGeneral.getMoves());
+    }
     private void orientarCubo(){
         ArrayList<String> list = new ArrayList<>();
         switch(((Centro) rubikLAuxiliar.encontrarPieza(11)).getPos()){
@@ -824,10 +829,24 @@ public class Algoritmos {
     
     public void asignarMovimientos(String mov,Integer etapa){
         //selecciona la etapa para separar por listas (pasos completados se asigna al checkear etapas)
-        this.listaMovEtapa=this.listasMovsEtapas.get(etapa);
+        seleccionaEtapa(etapa);
         //asigna a la lista por etapas y a la general
         this.listaMovEtapa.addMove(new Move(mov, LocalTime.now().minusNanos(time.toNanoOfDay()).toNanoOfDay()));
         this.listaMovGeneral.addMove(new Move(mov, LocalTime.now().minusNanos(time.toNanoOfDay()).toNanoOfDay()));
+    }
+    
+    public void seleccionaEtapa(Integer etapa){
+        this.listaMovEtapa=this.listasMovsEtapas.get(etapa);
+        switch(etapa){
+        case 0: this.listaMovEtapa.setPaso("Reacomodo");break;
+        case 1: this.listaMovEtapa.setPaso("Cruz");break;
+        case 2: this.listaMovEtapa.setPaso("Primer Nivel");break;
+        case 3: this.listaMovEtapa.setPaso("Segundo Nivel");break;
+        case 4: this.listaMovEtapa.setPaso("Tercer Nivel");break;
+        case 5: this.listaMovEtapa.setPaso("Tercer Nivel");break;
+        case 6: this.listaMovEtapa.setPaso("Tercer Nivel");break;
+        case 7: this.listaMovEtapa.setPaso("Tercer Nivel");break;
+        }
     }
     
 }

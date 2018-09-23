@@ -150,7 +150,7 @@
 }
 
 .jfx-combo-box:hover{
-    -fx-color: -fx-primary-color;
+    -fx-color: transparent;
 }
 
 .jfx-combo-box .list-cell 
@@ -185,4 +185,9 @@
 
 .anchor-pasos{
     -fx-background-color: transparent;
+}
+
+#card{
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-base-color-contraste;
 }

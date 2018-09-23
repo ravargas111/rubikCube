@@ -16,6 +16,7 @@ public class Moves {
     private final List<Move> moves=new ArrayList<>();
     private long timePlay;
     private final DateTimeFormatter fmt = DateTimeFormatter.ofPattern("HH:mm:ss").withZone(ZoneId.systemDefault());
+    private String paso;
     
     public Moves(){
         moves.clear();
@@ -53,4 +54,14 @@ public class Moves {
                            .append(LocalTime.ofNanoOfDay(m.getTimestamp()).format(fmt)).append("\n"));
         return sb.toString();
     }
+
+    public String getPaso() {
+        return paso;
+    }
+
+    public void setPaso(String paso) {
+        this.paso = paso;
+    }
+    
+    
 }

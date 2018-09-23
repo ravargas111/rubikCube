@@ -18,6 +18,8 @@ import java.util.function.Predicate;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
@@ -32,15 +34,16 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import rubikcube.logic.Algoritmos;
 import rubikcube.logic.MovBtn;
 import rubikcube.logic.RubikL;
+import rubikcube.logic.movCard;
 import rubikcube.model.RubikG;
 import rubikcube.moves.Move;
 import rubikcube.moves.Moves;
 import rubikcube.util.AppContext;
-import rubikcube.util.FlowController;
 
 /**
  * FXML Controller class
@@ -61,7 +64,7 @@ public class MainController extends Controller implements Initializable {
     private final DateTimeFormatter fmt = DateTimeFormatter.ofPattern("HH:mm:ss").withZone(ZoneId.systemDefault());
     private ChangeListener<Number> clockLis;
     private final StringProperty contMovs = new SimpleStringProperty();
-    
+    private String sigMov;
     private JFXButton btnHover;
     private Boolean empezado;
     private Moves moves=new Moves();
@@ -77,8 +80,8 @@ public class MainController extends Controller implements Initializable {
     private Label lMov;
     @FXML
     private Label lTime;
-
-    private Integer movesCount;
+    
+    private IntegerProperty movesCount;
     @FXML
     private ToolBar tbMov;
     @FXML
@@ -91,14 +94,19 @@ public class MainController extends Controller implements Initializable {
     private JFXButton bStop;
     @FXML
     private StackPane infoSP;
+    @FXML
+    private VBox vbHist;
+    @FXML
+    private VBox vbPasos;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //this.infoSP.setVisible(true);
+        sigMov="";
         empezado=false;
-        movesCount=0;
+        movesCount=new SimpleIntegerProperty();
         rubikG=new RubikG();
         rubikL=new RubikL(rubikG);
         rubikG.setRubikL(rubikL);//ambos quedan relacionados (rotación del gráfico llama rotación del lógico)
@@ -262,13 +270,19 @@ public class MainController extends Controller implements Initializable {
         rubikG.getCount().addListener((ov,v,v1)->{
             bReset.setDisable(moves.getNumMoves()==0);
             bReplay.setDisable(moves.getNumMoves()==0);
-            if(this.empezado)
-            lMov.setText(""+(v1.intValue()+1));
+            //aquí ejecuta movimintos
+            if(this.empezado){
+                this.movesCount.set(movesCount.get()+1);
+                movCard mc=new movCard(rubikG.getLastRotation().get());
+                mc.init();
+                this.vbHist.getChildren().add(mc); 
+            }
+            //lMov.setText(""+(v1.intValue()+1));
         });
         
         rubikG.getLastRotation().addListener((ov,v,v1)->{
             if(!rubikG.isOnReplaying().get() && !v1.isEmpty()){
-                moves.addMove(new Move(v1, LocalTime.now().minusNanos(time.toNanoOfDay()).toNanoOfDay()));
+                   moves.addMove(new Move(v1, LocalTime.now().minusNanos(time.toNanoOfDay()).toNanoOfDay()));
             }
         });
         
@@ -284,8 +298,7 @@ public class MainController extends Controller implements Initializable {
                 if(rubikG.getPreviewFace().get().isEmpty()){
                     btnHover=null;
                     if(AppContext.getInstance().getModoJuego().equals(3)){
-                      System.out.println("aquí hay que comparar");
-                      //set mov permitido (hacer en cubo gráfio)
+                      this.rubikG.setSigMov(sigMov);
                     }
                 } else {
                     // after rotation
@@ -311,9 +324,12 @@ public class MainController extends Controller implements Initializable {
     }
 
     private void binds(){
+        
         clockLis=(ov,l,l1)->clock.set(LocalTime.ofNanoOfDay(l1.longValue()).format(fmt));
         
         lSimulated.textProperty().bind(rubikG.getPreviewFace());
+        
+        lMov.textProperty().bind(movesCount.asString());
         
         lTime.textProperty().bind(clock);
         
@@ -336,10 +352,6 @@ public class MainController extends Controller implements Initializable {
                         b.hoverProperty().addListener((ov,b0,b1)->updateArrow(b.getText(),b1));
                     });
             });
-    }
-    
-    public void autoArmado(){
-        
     }
     
     public void autoArmar(){
@@ -369,7 +381,7 @@ public class MainController extends Controller implements Initializable {
         switch(modo){
             case 1: modoOrdenado();break;
             case 2: modoDesordenado();break;
-            case 3: break;
+            case 3: modoAsistido();break;
             case 4: break;
             default: break;
         }
@@ -398,7 +410,7 @@ public class MainController extends Controller implements Initializable {
     }
     
     public void modoAsistido(){
-        
+        this.rubikG.doScramble();
     }
     
     public void modoCargado(){
@@ -409,7 +421,23 @@ public class MainController extends Controller implements Initializable {
         empezado=false;
         //this.lMov.setText("0");
         //this.lTime.setText("00:00");
-        this.rubikG.getCount().set(-1);
+        //this.rubikG.getCount().set(-1);
+        this.movesCount.set(0);
+        this.vbHist.getChildren().clear();
+    }
+    
+    public void llenarAutoarmado(){
+        autoArmar();
+        AppContext.getInstance().getMoveLists().stream().forEach(ms->{
+            this.vbPasos.getChildren().add(new Label(ms.getPaso()));
+            //ArrayList<Move> list=new ArrayList<>();
+            //list.addAll();
+            ms.getMoves().stream().forEach(m->{
+                movCard card=new movCard(m.getFace());
+                card.init();
+                this.vbPasos.getChildren().add(card);
+            });
+        });
     }
     
     @FXML
@@ -427,8 +455,12 @@ public class MainController extends Controller implements Initializable {
 
     @FXML
     private void iniciarJuego(ActionEvent event) {
+        if(AppContext.getModoJuego().equals(3)){
+            llenarAutoarmado();
+        }
         if(moves.getNumMoves()>0){
             //timer.stop();
+            this.movesCount.set(0);
             moves=new Moves();
             time=LocalTime.now();
             timer.playFromStart();
