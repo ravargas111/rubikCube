@@ -6,11 +6,13 @@
 package rubikcube.controller;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import rubikcube.logic.Persistencia;
 import rubikcube.util.AppContext;
 import rubikcube.util.FlowController;
 
@@ -64,8 +66,17 @@ public class ModosJuegoController extends Controller implements Initializable {
 
     @FXML
     private void irCargado(MouseEvent event) {
-        AppContext.getInstance().setModoJuego(4);
-        FlowController.getInstance().goView("Main");
+        ArrayList<String> list;
+        if(Persistencia.existePartida()){
+            list = Persistencia.cargarPartida();
+            System.out.println("Lista de movimientos cargados:");
+            list.stream().forEach(str -> System.out.print("| " + str + " "));
+            System.out.println("\n");
+            AppContext.getInstance().setModoJuego(4);
+            FlowController.getInstance().goView("Main");
+        } else {
+            System.out.println("No existe ninguna partida guardada a nombre de: " + AppContext.getInstance().get("user"));
+        }
     }
     
 }

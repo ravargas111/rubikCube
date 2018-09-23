@@ -12,6 +12,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -38,6 +39,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import rubikcube.logic.Algoritmos;
 import rubikcube.logic.MovBtn;
+import rubikcube.logic.Persistencia;
 import rubikcube.logic.RubikL;
 import rubikcube.logic.movCard;
 import rubikcube.model.RubikG;
@@ -234,10 +236,6 @@ public class MainController extends Controller implements Initializable {
                 root.getChildren().stream().filter(withToolbars()).forEach(setDisable(false));
             }
         });
-    }
-    
-    public void cargarCubo(){
-        
     }
     
     private void initTimer(){
@@ -471,13 +469,17 @@ public class MainController extends Controller implements Initializable {
             empezado=true;
             //reiniciarInfo();
         }
-            
-        
     }
 
     @FXML
     public void guardarCubo(){
-        autoArmar();
+        ArrayList<String> lista = new ArrayList<>();
+        Collections.addAll(lista, "L", "R", "Li", "Ri", "L", "R", "Li", "Ri", "L", "R", "Li", "Ri", "L", "R", "Li", "Ri");
+        Persistencia.guardarPartida(lista);
+    }
+    
+    public void cargarCubo(){
+        
     }
 
     @FXML
