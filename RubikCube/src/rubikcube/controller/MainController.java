@@ -6,6 +6,7 @@
 package rubikcube.controller;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXListView;
 import java.net.URL;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -94,10 +95,12 @@ public class MainController extends Controller implements Initializable {
     private JFXButton bStop;
     @FXML
     private StackPane infoSP;
-    @FXML
     private VBox vbHist;
-    @FXML
     private VBox vbPasos;
+    @FXML
+    private JFXButton bStop1;
+    @FXML
+    private JFXListView<Label> listaMov;
     /**
      * Initializes the controller class.
      */
@@ -271,12 +274,7 @@ public class MainController extends Controller implements Initializable {
             bReset.setDisable(moves.getNumMoves()==0);
             bReplay.setDisable(moves.getNumMoves()==0);
             //aquí ejecuta movimintos
-            if(this.empezado){
-                this.movesCount.set(movesCount.get()+1);
-                movCard mc=new movCard(rubikG.getLastRotation().get());
-                mc.init();
-                this.vbHist.getChildren().add(mc); 
-            }
+            accionesMovimiento();
             //lMov.setText(""+(v1.intValue()+1));
         });
         
@@ -372,6 +370,7 @@ public class MainController extends Controller implements Initializable {
         
     }
     
+    @FXML
     public void imprimirCubo(){
         this.rubikL.imprimirCubo();
     }
@@ -438,6 +437,15 @@ public class MainController extends Controller implements Initializable {
                 this.vbPasos.getChildren().add(card);
             });
         });
+    }
+    
+    public void accionesMovimiento(){
+        if(this.empezado){
+                Label lbl = new Label(rubikG.getLastRotation().get());
+                this.listaMov.getItems().add(lbl);
+                this.listaMov.setExpanded(true);
+                this.movesCount.set(movesCount.get()+1);
+            }
     }
     
     @FXML
