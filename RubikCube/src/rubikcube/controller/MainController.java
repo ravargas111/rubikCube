@@ -40,6 +40,8 @@ import javafx.util.Duration;
 import rubikcube.logic.Algoritmos;
 import rubikcube.logic.MovBtn;
 import rubikcube.logic.Persistencia;
+import rubikcube.logic.RankingMovimientos;
+import rubikcube.logic.RankingTiempo;
 import rubikcube.logic.RubikL;
 import rubikcube.logic.movCard;
 import rubikcube.model.RubikG;
@@ -476,6 +478,43 @@ public class MainController extends Controller implements Initializable {
         ArrayList<String> lista = new ArrayList<>();
         Collections.addAll(lista, "L", "R", "Li", "Ri", "L", "R", "Li", "Ri", "L", "R", "Li", "Ri", "L", "R", "Li", "Ri");
         Persistencia.guardarPartida(lista);
+        
+        //Prueba guardado del ranking de movimientos
+        RankingMovimientos.getInstance().setEspacio("Cristhian", 140);
+        RankingMovimientos.getInstance().setEspacio("Cristhian", 150);
+        RankingMovimientos.getInstance().setEspacio("Cristhian", 145);
+        RankingMovimientos.getInstance().setEspacio("Cristhian", 138);
+        RankingMovimientos.getInstance().setEspacio("Cristhian", 120);
+        RankingMovimientos.getInstance().setEspacio("Cristhian", 175);
+        RankingMovimientos.getInstance().setEspacio("Cristhian", 170);
+        RankingMovimientos.getInstance().setEspacio("Cristhian", 162);
+        RankingMovimientos.getInstance().setEspacio("Cristhian", 135);
+        RankingMovimientos.getInstance().setEspacio("Cristhian", 157);
+        RankingMovimientos.getInstance().setEspacio("Cristhian", 144);
+        RankingMovimientos.getInstance().setEspacio("Cristhian", 188);
+        RankingMovimientos.getInstance().setEspacio("Cristhian", 200);
+        RankingMovimientos.getInstance().setEspacio("Cristhian", 120);
+        RankingMovimientos.getInstance().setEspacio("Cristhian", 159);
+        RankingMovimientos.getInstance().setEspacio("Cristhian", 165);
+        Persistencia.guardarRankingMovimientos(RankingMovimientos.getInstance());
+        
+        //Prueba guardado del ranking de tiempos
+        RankingTiempo.getInstance().setEspacio("Cristhian", 70);
+        RankingTiempo.getInstance().setEspacio("Cristhian", 72);
+        RankingTiempo.getInstance().setEspacio("Cristhian", 82);
+        RankingTiempo.getInstance().setEspacio("Cristhian", 74);
+        RankingTiempo.getInstance().setEspacio("Cristhian", 80);
+        RankingTiempo.getInstance().setEspacio("Cristhian", 76);
+        RankingTiempo.getInstance().setEspacio("Cristhian", 80);
+        RankingTiempo.getInstance().setEspacio("Cristhian", 78);
+        RankingTiempo.getInstance().setEspacio("Cristhian", 81);
+        RankingTiempo.getInstance().setEspacio("Cristhian", 71);
+        RankingTiempo.getInstance().setEspacio("Cristhian", 84);
+        RankingTiempo.getInstance().setEspacio("Cristhian", 76);
+        RankingTiempo.getInstance().setEspacio("Cristhian", 70);
+        RankingTiempo.getInstance().setEspacio("Cristhian", 73);
+        RankingTiempo.getInstance().setEspacio("Cristhian", 79);
+        Persistencia.guardarRankingTiempos(RankingTiempo.getInstance());
     }
     
     public void cargarCubo(){

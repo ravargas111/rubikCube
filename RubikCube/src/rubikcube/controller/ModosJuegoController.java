@@ -13,6 +13,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import rubikcube.logic.Persistencia;
+import rubikcube.logic.RankingMovimientos;
+import rubikcube.logic.RankingTiempo;
 import rubikcube.util.AppContext;
 import rubikcube.util.FlowController;
 
@@ -66,17 +68,30 @@ public class ModosJuegoController extends Controller implements Initializable {
 
     @FXML
     private void irCargado(MouseEvent event) {
-        ArrayList<String> list;
         if(Persistencia.existePartida()){
+            //Cardago de lista de movimientos de la partida guardada
+            ArrayList<String> list;
             list = Persistencia.cargarPartida();
-            System.out.println("Lista de movimientos cargados:");
+            System.out.println("\nLista de movimientos cargados:");
             list.stream().forEach(str -> System.out.print("| " + str + " "));
-            System.out.println("\n");
             AppContext.getInstance().setModoJuego(4);
             FlowController.getInstance().goView("Main");
         } else {
-            System.out.println("No existe ninguna partida guardada a nombre de: " + AppContext.getInstance().get("user"));
+            System.out.println("\nNo existe ninguna partida guardada a nombre de: " + AppContext.getInstance().get("user"));
         }
+        //Pruebas de carga
+        cargarDatosPersistidos();
+    }
+    
+    private void cargarDatosPersistidos(){
+        //Cargado de Ranking de movimientos
+        System.out.println("\nTop 10 mejores soluciones por movimientos: ");
+        RankingMovimientos.getInstance().getRanking().stream()
+                .forEachOrdered(esp -> System.out.println("| (" + esp.user + ") -> " + esp.mov));
+        //Cargado de Ranking de tiempos
+        System.out.println("\nTop 10 mejores soluciones por tiempo: ");
+        RankingTiempo.getInstance().getRanking().stream()
+                .forEachOrdered(esp -> System.out.println("| (" + esp.user + ") -> " + esp.tiempo + "s"));
     }
     
 }
