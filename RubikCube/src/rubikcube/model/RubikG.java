@@ -440,46 +440,6 @@ public class RubikG {
         doSequence(sb.toString().trim());
     }
     
-    /*public void doMoveList(List<Move> moves){
-        /*if(moves.isEmpty()){
-            return;
-        }
-        //content.resetCam();//last change
-        //restore scramble
-        if(mapTransformsScramble.size()>0){
-            //System.out.println("Restoring scramble");
-            mapMeshes.forEach((k,v)->v.getTransforms().setAll(mapTransformsScramble.get(k)));
-            order=orderScramble.stream().collect(Collectors.toList());
-            rot.setCube(order);
-            count.set(-1);
-        } else {
-            // restore original
-            //doReset();
-        }
-        onReplaying.set(true);
-        
-        IntegerProperty index=new SimpleIntegerProperty(1);
-        ChangeListener<Boolean> lis=(ov,v,v1)->{
-            if(!v1 && moves.size()>1){
-                if(index.get()<moves.size()){
-                    timestamp.set(moves.get(index.get()).getTimestamp());
-                    rotateFace(moves.get(index.get()).getFace());
-                }
-                index.set(index.get()+1);
-            }
-        };
-        index.addListener((ov,v,v1)->{
-            if(v1.intValue()==moves.size()+1){
-                onReplaying.set(false);
-                onRotation.removeListener(lis);
-            }
-        });
-        onRotation.addListener(lis);
-        timestamp.set(moves.get(0).getTimestamp());
-        rotateFace(moves.get(0).getFace());
-        StringBuilder sb=new StringBuilder();
-    }*/
-    
     public void doReplay(List<Move> moves){
         if(moves.isEmpty()){
             return;
