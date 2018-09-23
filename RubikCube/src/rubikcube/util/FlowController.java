@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -144,6 +145,15 @@ public class FlowController {
         stage.getScene().setRoot(loader.getRoot());
     }
 
+    public Controller goViewInNode(String viewName,Node node){
+        FXMLLoader loader = getLoader(viewName);
+        Controller controller = loader.getController();
+        controller.initialize();
+        Stage stage = controller.getStage();
+        ((AnchorPane)node).getChildren().add(loader.getRoot());
+        return controller;
+    }
+    
     public void goViewInWindow(String viewName) {
         FXMLLoader loader = getLoader(viewName);
         Controller controller = loader.getController();

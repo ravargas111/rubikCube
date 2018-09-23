@@ -23,6 +23,7 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -31,6 +32,7 @@ import javafx.scene.control.ToolBar;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.controlsfx.control.action.Action;
 import org.controlsfx.dialog.Dialog;
@@ -387,8 +389,6 @@ public class MainController extends Controller implements Initializable {
         });
     }
 
-    
-    
     public void modoOrdenado(){
         
         //this.initTimer();
@@ -404,7 +404,7 @@ public class MainController extends Controller implements Initializable {
     
     public void modoCargado(){
         
-    }
+    } 
     
     @FXML
     private void replayCube(ActionEvent event) {
