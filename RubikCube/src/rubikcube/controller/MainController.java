@@ -44,7 +44,6 @@ import rubikcube.logic.Persistencia;
 import rubikcube.logic.RankingMovimientos;
 import rubikcube.logic.RankingTiempo;
 import rubikcube.logic.RubikL;
-import rubikcube.logic.movCard;
 import rubikcube.model.RubikG;
 import rubikcube.moves.Move;
 import rubikcube.moves.Moves;
@@ -62,7 +61,7 @@ public class MainController extends Controller implements Initializable {
     private RubikG rubikG;
     private RubikL rubikL;
     private Algoritmos algoritmos;
-    
+    private Boolean asistido;
     private LocalTime time=LocalTime.now();
     private Timeline timer;
     private final StringProperty clock = new SimpleStringProperty("00:00");
@@ -74,6 +73,7 @@ public class MainController extends Controller implements Initializable {
     private Boolean empezado;
     private Moves moves=new Moves();
     private ArrayList<String> hist;
+    private ArrayList<String> pasosSiguientes;
     @FXML
     private Label lSolved;
     @FXML
@@ -114,7 +114,9 @@ public class MainController extends Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //this.infoSP.setVisible(true);
-        hist=new ArrayList<String>();
+        this.asistido=false;
+        this.pasosSiguientes=new ArrayList<String>();
+        this.hist=new ArrayList<String>();
         sigMov="";
         empezado=false;
         movesCount=new SimpleIntegerProperty();
@@ -185,7 +187,11 @@ public class MainController extends Controller implements Initializable {
                     .filter(withMoveButtons().and(withButtonTextName(btRot)))
                     .findFirst().ifPresent(n->rubikG.isHoveredOnClick().set(((JFXButton)n).isHover()));
             });
+        if(rubikG.siguientePermitido(btRot)){
         rubikG.rotateFace(btRot);
+        }
+        //else
+            //caso NO PERMITIDO!
     }
     
     // called on button hover
@@ -299,9 +305,7 @@ public class MainController extends Controller implements Initializable {
             } else {
                 if(rubikG.getPreviewFace().get().isEmpty()){
                     btnHover=null;
-                    if(AppContext.getInstance().getModoJuego().equals(3)){
-                      this.rubikG.setSigMov(sigMov);
-                    }
+                    //preview aquí
                 } else {
                     // after rotation
                     if(btnHover!=null && !btnHover.isHover()){
@@ -414,6 +418,7 @@ public class MainController extends Controller implements Initializable {
     
     public void modoAsistido(){
         this.rubikG.doScramble();
+        this.asistido=true;
     }
     
     public void modoCargado(){
@@ -437,8 +442,12 @@ public class MainController extends Controller implements Initializable {
             //list.addAll();
             ms.getMoves().stream().forEach(m->{
                 this.listaPasosSig.getItems().add(new Label(m.getFace()));
+                //if(!" ".equals(m.getFace()))
+                this.pasosSiguientes.add(m.getFace());
             });
         });
+        this.rubikG.setSigMov(this.pasosSiguientes.get(0));
+        System.out.print("primer movimiento"+sigMov);
     }
     
     public void accionesMovimiento(){
@@ -450,6 +459,12 @@ public class MainController extends Controller implements Initializable {
                 //lbl.setGraphic(iv);
                 this.listaMov.getItems().add(lbl);
                 this.movesCount.set(movesCount.get()+1);
+                if(this.asistido){
+                    this.pasosSiguientes.remove(0);
+                    if(this.pasosSiguientes.size()>0){
+                    this.rubikG.setSigMov(this.pasosSiguientes.get(0));
+                    }
+                }
             }
     }
     

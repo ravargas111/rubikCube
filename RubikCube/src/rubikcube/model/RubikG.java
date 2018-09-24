@@ -117,7 +117,7 @@ public class RubikG {
         
         
         this.movPermitido=true;
-        this.sigMov="Ri";//to do
+        this.sigMov=" ";//to do
         Model3D model=new Model3D();
         model.importObj();
         mapMeshes=model.getMapMeshes();
@@ -356,8 +356,8 @@ public class RubikG {
                 } else if (stopEvents && event.getEventType() == MouseEvent.MOUSE_RELEASED) {
                     mouse.set(MOUSE_RELEASED);
                     if(!onRotation.get() && !myFace.isEmpty() && !myFaceOld.isEmpty()){
-                        siguientePermitido(myFace);//comparando
-                        if(Utils.radClick<radius&&movPermitido){ //ver si sirve
+                        //comparando
+                        if(Utils.radClick<radius&&siguientePermitido(myFace)){ //ver si sirve
                             // if hand is moved far away full rotation
                             rotateFace(myFace);
                         } else { 
@@ -521,17 +521,23 @@ public class RubikG {
     }
 
     public void setSigMov(String sigMov) {
+        System.out.println("Cambio");
         this.sigMov = sigMov;
     }
     
-    public void siguientePermitido(String face){
+    public Boolean siguientePermitido(String face){
         if(this.asistido){
             this.movPermitido=false;
             if(this.sigMov.equals(face))
-                this.movPermitido=true;
-            //System.out.println("Comparando: "+this.sigMov+"con "+face+" --- "+this.movPermitido);
+                return true;
+            else{
+            System.out.println("Comparando: "+this.sigMov+"con "+face+" --- "+this.movPermitido);
+            return false;
+            }
         }
- 
+        else{
+            return true;
+        }
     }
     
     public void resetCam(){
