@@ -14,6 +14,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import rubikcube.moves.Move;
+import rubikcube.moves.Moves;
 import rubikcube.util.AppContext;
 
 /**
@@ -65,6 +66,34 @@ public class Persistencia {
         return resultado;
     }
     
+    public static boolean guardarPartidaM(ArrayList<Move> list){
+        boolean resultado = false;
+        ObjectOutputStream oos = null;
+        try{
+            verificarDirectorio();
+            File file = new File(pathPartidasGuardadas + AppContext.getInstance().get("user"));
+            oos = new ObjectOutputStream(new FileOutputStream(file));
+            oos.writeObject(list);
+            resultado = true;
+            System.out.println("Partida guardada exitosamente");
+        }catch(FileNotFoundException ex){
+            resultado = false;
+            System.out.println("Ha ocurrido un error generando la partida, intentalo mas tarde\nError: " + ex);
+        }catch(IOException ex){
+            resultado = false;
+            System.out.println("Ha ocurrido un error generando la partida, intentalo mas tarde\nError: " + ex);
+        } finally {
+            if(oos != null){
+                try {
+                    oos.close();
+                } catch(IOException ex){
+
+                }
+            }
+        }
+        return resultado;
+    }
+    
     public static ArrayList<String> cargarPartida(){
         ArrayList<String> list = null;
         if(existePartida()){
@@ -87,6 +116,29 @@ public class Persistencia {
         }
         return list;
     }
+            
+    public static Moves cargarPartidaM(){
+        Moves list = null;
+        if(existePartida()){
+            ObjectInputStream ois = null;
+            try{
+                File file = new File(pathPartidasGuardadas + AppContext.getInstance().get("user"));
+                ois = new ObjectInputStream(new FileInputStream(file));
+                list = (Moves) ois.readObject();
+            } catch (ClassCastException | IOException | ClassNotFoundException ex) {
+                System.out.println("Ha ocurrido un error cargando la partida\nError: " + ex);
+            } finally {
+                if(ois != null){
+                    try {
+                        ois.close();
+                    } catch(IOException ex){
+
+                    }
+                }
+            }
+        }
+        return list;
+    }        
     
     public static boolean guardarRankingMovimientos(RankingMovimientos ranking){
         boolean resultado = false;

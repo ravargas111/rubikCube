@@ -71,6 +71,7 @@ public class MainController extends Controller implements Initializable {
     private Boolean empezado;
     private Moves moves=new Moves();
     private ArrayList<String> hist;
+    private Moves historialMovimientos;
     private ArrayList<String> pasosSiguientes;
     private BooleanProperty empezadoP;
     @FXML
@@ -115,6 +116,7 @@ public class MainController extends Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //this.infoSP.setVisible(true);
+        this.historialMovimientos=new Moves();
         this.empezadoP=new SimpleBooleanProperty(false);
         this.asistido=false;
         this.pasosSiguientes=new ArrayList<String>();
@@ -401,7 +403,7 @@ public class MainController extends Controller implements Initializable {
             case 1: modoOrdenado();break;
             case 2: modoDesordenado();break;
             case 3: modoAsistido();break;
-            case 4: break;
+            case 4: modoCargado();break;
             default: break;
         }
     }
@@ -469,10 +471,12 @@ public class MainController extends Controller implements Initializable {
     public void accionesMovimiento(){
         if(this.empezado){
                 //maneja historial
-                String mov=rubikG.getLastRotation().get();
-                this.hist.add(mov);
-                mov+=" "+this.lTime.getText();
-                Label lbl = new Label(mov);
+                String movStr=rubikG.getLastRotation().get();
+                //Move movimiento = new Move(movStr,this.lTime.getText());
+                //this.historialMovimientos.addMove(movimiento);
+                this.hist.add(movStr);
+                //movStr+=" "+movimiento.getTiempoMov();//agrega tiempo
+                Label lbl = new Label(movStr);
                 this.listaMov.getItems().add(lbl);
                 this.movesCount.set(movesCount.get()+1);
                 
@@ -534,10 +538,11 @@ public class MainController extends Controller implements Initializable {
     @FXML
     public void guardarCubo(){
         ArrayList<String> lista = new ArrayList<>();
-        //Collections.addAll(lista, "L", "R", "Li", "Ri", "L", "R", "Li", "Ri", "L", "R", "Li", "Ri", "L", "R", "Li", "Ri");
         lista.addAll(this.hist);
         Persistencia.guardarPartida(lista);
-        
+        //ArrayList<Move> listaM = new ArrayList<>();
+        //listaM.addAll(this.historialMovimientos.getMoves());
+        //Persistencia.guardarPartidaM(listaM);
         /*
         //Prueba guardado del ranking de movimientos
         RankingMovimientos.getInstance().setEspacio("Cristhian", 140);
@@ -578,13 +583,11 @@ public class MainController extends Controller implements Initializable {
     }
     
     public void cargarCubo(){
-        ArrayList<String> cargada=Persistencia.cargarPartida();
-        ArrayList<Move> moveList=new ArrayList<>();
-        cargada.stream().forEach(s->{
-            moveList.add(new Move(s,LocalTime.now().minusNanos(time.toNanoOfDay()).toNanoOfDay()));
-        });
         this.empezado=true;
-        this.rubikG.doMoveList(moveList);
+        StringBuilder sb=(StringBuilder) AppContext.getInstance().get("cargada");
+        this.rubikG.doSequence(sb.toString().trim());
+        //Moves moves=Persistencia.cargarPartidaM();
+        //this.rubikG.doMoveList(moves.getMoves());
         //reiniciarCubo();
     }
 

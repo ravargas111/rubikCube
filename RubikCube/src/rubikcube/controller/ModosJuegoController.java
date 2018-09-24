@@ -5,7 +5,9 @@
  */
 package rubikcube.controller;
 
+import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.time;
 import java.net.URL;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -15,6 +17,7 @@ import javafx.scene.layout.StackPane;
 import rubikcube.logic.Persistencia;
 import rubikcube.logic.RankingMovimientos;
 import rubikcube.logic.RankingTiempo;
+import rubikcube.moves.Move;
 import rubikcube.util.AppContext;
 import rubikcube.util.FlowController;
 
@@ -64,9 +67,11 @@ public class ModosJuegoController extends Controller implements Initializable {
             //Cardago de lista de movimientos de la partida guardada
             ArrayList<String> list;
             list = Persistencia.cargarPartida();
-            System.out.println("\nLista de movimientos cargados:");
-            list.stream().forEach(str -> System.out.print("| " + str + " "));
-            AppContext.getInstance().setModoJuego(4);
+            StringBuilder sb=new StringBuilder();
+            //System.out.println("\nLista de movimientos cargados:");
+            list.stream().forEach(str -> {sb.append(str).append(" ");});
+            AppContext.setModoJuego(4);
+            AppContext.getInstance().set("cargada", sb);
             FlowController.getInstance().goView("Main");
         } else {
             System.out.println("\nNo existe ninguna partida guardada a nombre de: " + AppContext.getInstance().get("user"));
@@ -77,11 +82,11 @@ public class ModosJuegoController extends Controller implements Initializable {
     
     private void cargarDatosPersistidos(){
         //Cargado de Ranking de movimientos
-        System.out.println("\nTop 10 mejores soluciones por movimientos: ");
+        //System.out.println("\nTop 10 mejores soluciones por movimientos: ");
         RankingMovimientos.getInstance().getRanking().stream()
                 .forEachOrdered(esp -> System.out.println("| (" + esp.user + ") -> " + esp.mov));
         //Cargado de Ranking de tiempos
-        System.out.println("\nTop 10 mejores soluciones por tiempo: ");
+        //System.out.println("\nTop 10 mejores soluciones por tiempo: ");
         RankingTiempo.getInstance().getRanking().stream()
                 .forEachOrdered(esp -> System.out.println("| (" + esp.user + ") -> " + esp.tiempo + "s"));
     }
