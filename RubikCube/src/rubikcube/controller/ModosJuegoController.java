@@ -27,14 +27,6 @@ public class ModosJuegoController extends Controller implements Initializable {
 
     @FXML
     private StackPane root;
-    @FXML
-    private StackPane spM1;
-    @FXML
-    private StackPane spM2;
-    @FXML
-    private StackPane spM3;
-    @FXML
-    private StackPane spM4;
 
     /**
      * Initializes the controller class.

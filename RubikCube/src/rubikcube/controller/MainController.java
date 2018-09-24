@@ -32,8 +32,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -67,14 +65,15 @@ public class MainController extends Controller implements Initializable {
     
     private LocalTime time=LocalTime.now();
     private Timeline timer;
-    private final StringProperty clock = new SimpleStringProperty("00:00:00");
-    private final DateTimeFormatter fmt = DateTimeFormatter.ofPattern("HH:mm:ss").withZone(ZoneId.systemDefault());
+    private final StringProperty clock = new SimpleStringProperty("00:00");
+    private final DateTimeFormatter fmt = DateTimeFormatter.ofPattern("mm:ss").withZone(ZoneId.systemDefault());
     private ChangeListener<Number> clockLis;
     private final StringProperty contMovs = new SimpleStringProperty();
     private String sigMov;
     private JFXButton btnHover;
     private Boolean empezado;
     private Moves moves=new Moves();
+    private ArrayList<String> hist;
     @FXML
     private Label lSolved;
     @FXML
@@ -107,12 +106,15 @@ public class MainController extends Controller implements Initializable {
     private JFXButton bStop1;
     @FXML
     private JFXListView<Label> listaMov;
+    @FXML
+    private JFXListView<Label> listaPasosSig;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //this.infoSP.setVisible(true);
+        hist=new ArrayList<String>();
         sigMov="";
         empezado=false;
         movesCount=new SimpleIntegerProperty();
@@ -424,19 +426,17 @@ public class MainController extends Controller implements Initializable {
         //this.lTime.setText("00:00");
         //this.rubikG.getCount().set(-1);
         this.movesCount.set(0);
-        this.vbHist.getChildren().clear();
+        this.listaMov.getItems().clear();
     }
     
     public void llenarAutoarmado(){
         autoArmar();
         AppContext.getInstance().getMoveLists().stream().forEach(ms->{
-            this.vbPasos.getChildren().add(new Label(ms.getPaso()));
+            this.listaPasosSig.getItems().add(new Label(ms.getPaso()));
             //ArrayList<Move> list=new ArrayList<>();
             //list.addAll();
             ms.getMoves().stream().forEach(m->{
-                movCard card=new movCard(m.getFace());
-                card.init();
-                this.vbPasos.getChildren().add(card);
+                this.listaPasosSig.getItems().add(new Label(m.getFace()));
             });
         });
     }
@@ -444,8 +444,10 @@ public class MainController extends Controller implements Initializable {
     public void accionesMovimiento(){
         if(this.empezado){
                 String mov=rubikG.getLastRotation().get();
+                this.hist.add(mov);
+                mov+=" "+this.lTime.getText();
                 Label lbl = new Label(mov);
-                //lbl.setGraphic(new ImageView(new Image());
+                //lbl.setGraphic(iv);
                 this.listaMov.getItems().add(lbl);
                 this.movesCount.set(movesCount.get()+1);
             }

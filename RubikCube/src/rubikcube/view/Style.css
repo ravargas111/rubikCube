@@ -196,6 +196,8 @@
 
 .list-cell { /* <=== changed to even */
     -fx-background-color: -fx-base-color-secundario;
+    -fx-cell-size: 30;
+    
 }
 
 .list-cell:filled:selected:focused, .list-cell:filled:selected {
