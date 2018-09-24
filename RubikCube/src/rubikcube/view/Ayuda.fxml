@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXDialogLayout?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<JFXDialogLayout fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="561.0" prefWidth="680.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rubikcube.controller.AyudaController">
+   <children>
+      <JFXTabPane>
+         <tabs>
+            <Tab text="Movimientos">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="632.0">
+                     <children>
+                        <VBox prefHeight="499.0" prefWidth="632.0">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" prefHeight="91.0" prefWidth="632.0">
+                                 <children>
+                                    <ImageView fitHeight="54.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../resources/icons/lados/Back.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label prefHeight="55.0" prefWidth="51.0" text="B" />
+                                    <JFXTextArea prefHeight="86.0" prefWidth="527.0" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefHeight="91.0" prefWidth="632.0">
+                                 <children>
+                                    <ImageView fitHeight="54.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../resources/icons/lados/Front.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label prefHeight="55.0" prefWidth="51.0" text="B" />
+                                    <JFXTextArea prefHeight="86.0" prefWidth="527.0" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefHeight="91.0" prefWidth="632.0">
+                                 <children>
+                                    <ImageView fitHeight="54.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../resources/icons/lados/Left.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label prefHeight="55.0" prefWidth="51.0" text="B" />
+                                    <JFXTextArea prefHeight="86.0" prefWidth="527.0" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefHeight="91.0" prefWidth="632.0">
+                                 <children>
+                                    <ImageView fitHeight="54.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../resources/icons/lados/Right.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label prefHeight="55.0" prefWidth="51.0" text="B" />
+                                    <JFXTextArea prefHeight="86.0" prefWidth="527.0" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefHeight="91.0" prefWidth="632.0">
+                                 <children>
+                                    <ImageView fitHeight="54.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../resources/icons/lados/Up.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label prefHeight="55.0" prefWidth="51.0" text="B" />
+                                    <JFXTextArea prefHeight="86.0" prefWidth="527.0" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefHeight="91.0" prefWidth="632.0">
+                                 <children>
+                                    <ImageView fitHeight="54.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../resources/icons/lados/Down.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label prefHeight="55.0" prefWidth="51.0" text="B" />
+                                    <JFXTextArea prefHeight="86.0" prefWidth="527.0" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Etapas">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="435.0" prefWidth="632.0">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <ImageView fitHeight="61.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../resources/icons/niveles/Nivel%201.png" />
+                                       </image>
+                                    </ImageView>
+                                    <JFXTextArea prefHeight="103.0" prefWidth="506.0" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <ImageView fitHeight="61.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../resources/icons/niveles/Nivel%202.png" />
+                                       </image>
+                                    </ImageView>
+                                    <JFXTextArea prefHeight="103.0" prefWidth="506.0" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <ImageView fitHeight="61.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../resources/icons/niveles/Nivel%203.png" />
+                                       </image>
+                                    </ImageView>
+                                    <JFXTextArea prefHeight="103.0" prefWidth="506.0" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <ImageView fitHeight="61.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../resources/icons/niveles/Nivel%204.png" />
+                                       </image>
+                                    </ImageView>
+                                    <JFXTextArea prefHeight="103.0" prefWidth="506.0" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <ImageView fitHeight="61.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../resources/icons/niveles/Nivel%205.png" />
+                                       </image>
+                                    </ImageView>
+                                    <JFXTextArea prefHeight="103.0" prefWidth="506.0" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Etapas 2">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="435.0" prefWidth="632.0">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <ImageView fitHeight="61.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../resources/icons/niveles/Nivel%206.png" />
+                                       </image>
+                                    </ImageView>
+                                    <JFXTextArea prefHeight="103.0" prefWidth="506.0" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <ImageView fitHeight="61.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../resources/icons/niveles/Nivel%207.png" />
+                                       </image>
+                                    </ImageView>
+                                    <JFXTextArea prefHeight="103.0" prefWidth="506.0" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+         </tabs>
+      </JFXTabPane>
+   </children>
+</JFXDialogLayout>

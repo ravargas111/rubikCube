@@ -41,11 +41,14 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import rubikcube.logic.Algoritmos;
 import rubikcube.logic.Persistencia;
+import rubikcube.logic.RankingMovimientos;
+import rubikcube.logic.RankingTiempo;
 import rubikcube.logic.RubikL;
 import rubikcube.model.RubikG;
 import rubikcube.moves.Move;
 import rubikcube.moves.Moves;
 import rubikcube.util.AppContext;
+import rubikcube.util.FlowController;
 
 /**
  * FXML Controller class
@@ -407,19 +410,6 @@ public class MainController extends Controller implements Initializable {
             default: break;
         }
     }
-    
-    public void llenarBotones(){
-        
-        //String nomBotones[]={"L","Li","R","Ri","U","Ui","D","Di"};
-        ArrayList<String> nombres=new ArrayList<>();
-        nombres.addAll(Arrays.asList("L","Li","R","Ri","U","Ui","D","Di","Y","Yi","X","Xi"));
-        nombres.stream().forEach(e->{
-            //JFXButton btn=new JFXButton();
-            // btn=new MovBtn(e);
-            //btn.setText(e);
-            //this.tbMov.getItems().add(btn);
-        });
-    }
 
     public void modoOrdenado(){
         //FlowController.getInstance().goViewOnDialog("ListaMovimientos", (StackPane)root.getLeft());
@@ -540,49 +530,18 @@ public class MainController extends Controller implements Initializable {
         ArrayList<String> lista = new ArrayList<>();
         lista.addAll(this.hist);
         Persistencia.guardarPartida(lista);
+        RankingMovimientos.getInstance().setEspacio((String) AppContext.getInstance().get("user"), Integer.valueOf(this.lMov.getText()));
+        Persistencia.guardarRankingMovimientos(RankingMovimientos.getInstance());
+        RankingTiempo.getInstance().setEspacio((String) AppContext.getInstance().get("user"), 40);
+        Persistencia.guardarRankingTiempos(RankingTiempo.getInstance());
         //ArrayList<Move> listaM = new ArrayList<>();
         //listaM.addAll(this.historialMovimientos.getMoves());
         //Persistencia.guardarPartidaM(listaM);
-        /*
-        //Prueba guardado del ranking de movimientos
-        RankingMovimientos.getInstance().setEspacio("Cristhian", 140);
-        RankingMovimientos.getInstance().setEspacio("Cristhian", 150);
-        RankingMovimientos.getInstance().setEspacio("Cristhian", 145);
-        RankingMovimientos.getInstance().setEspacio("Cristhian", 138);
-        RankingMovimientos.getInstance().setEspacio("Cristhian", 120);
-        RankingMovimientos.getInstance().setEspacio("Cristhian", 175);
-        RankingMovimientos.getInstance().setEspacio("Cristhian", 170);
-        RankingMovimientos.getInstance().setEspacio("Cristhian", 162);
-        RankingMovimientos.getInstance().setEspacio("Cristhian", 135);
-        RankingMovimientos.getInstance().setEspacio("Cristhian", 157);
-        RankingMovimientos.getInstance().setEspacio("Cristhian", 144);
-        RankingMovimientos.getInstance().setEspacio("Cristhian", 188);
-        RankingMovimientos.getInstance().setEspacio("Cristhian", 200);
-        RankingMovimientos.getInstance().setEspacio("Cristhian", 120);
-        RankingMovimientos.getInstance().setEspacio("Cristhian", 159);
-        RankingMovimientos.getInstance().setEspacio("Cristhian", 165);
-        Persistencia.guardarRankingMovimientos(RankingMovimientos.getInstance());
-        
-        //Prueba guardado del ranking de tiempos
-        RankingTiempo.getInstance().setEspacio("Cristhian", 70);
-        RankingTiempo.getInstance().setEspacio("Cristhian", 72);
-        RankingTiempo.getInstance().setEspacio("Cristhian", 82);
-        RankingTiempo.getInstance().setEspacio("Cristhian", 74);
-        RankingTiempo.getInstance().setEspacio("Cristhian", 80);
-        RankingTiempo.getInstance().setEspacio("Cristhian", 76);
-        RankingTiempo.getInstance().setEspacio("Cristhian", 80);
-        RankingTiempo.getInstance().setEspacio("Cristhian", 78);
-        RankingTiempo.getInstance().setEspacio("Cristhian", 81);
-        RankingTiempo.getInstance().setEspacio("Cristhian", 71);
-        RankingTiempo.getInstance().setEspacio("Cristhian", 84);
-        RankingTiempo.getInstance().setEspacio("Cristhian", 76);
-        RankingTiempo.getInstance().setEspacio("Cristhian", 70);
-        RankingTiempo.getInstance().setEspacio("Cristhian", 73);
-        RankingTiempo.getInstance().setEspacio("Cristhian", 79);
-        Persistencia.guardarRankingTiempos(RankingTiempo.getInstance());*/
     }
     
     public void cargarCubo(){
+        if(this.empezado)
+            reiniciarCubo();
         this.empezado=true;
         StringBuilder sb=(StringBuilder) AppContext.getInstance().get("cargada");
         this.rubikG.doSequence(sb.toString().trim());
@@ -593,7 +552,14 @@ public class MainController extends Controller implements Initializable {
 
     @FXML
     private void terminarJuego(ActionEvent event) {
-        autoArmar();
+        //autoArmar();
+        FlowController.getInstance().goView("Inicio");
+    }
+
+    @FXML
+    private void verAyuda(MouseEvent event) {
+        FlowController.getInstance().goViewOnDialog("Ayuda", infoSP);
+        this.infoSP.setVisible(true);
     }
     
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXDialogLayout?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.layout.VBox?>
+
+
+<JFXDialogLayout fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="561.0" prefWidth="600.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rubikcube.controller.RankingController">
+   <children>
+      <VBox prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <Label prefHeight="45.0" prefWidth="552.0" text="Mejores Resultados" />
+            <JFXTreeTableView fx:id="tabla" prefHeight="475.0" prefWidth="552.0">
+               <columns>
+                  <TreeTableColumn fx:id="colNombre" minWidth="15.0" prefWidth="250.0" text="Nombre" />
+                  <TreeTableColumn fx:id="colMov" prefWidth="100.0" text="Movimientos" />
+                  <TreeTableColumn fx:id="colTiempo" prefWidth="200.0" text="Tiempo" />
+               </columns>
+            </JFXTreeTableView>
+         </children>
+      </VBox>
+   </children>
+</JFXDialogLayout>
