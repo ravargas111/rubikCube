@@ -287,13 +287,14 @@ public class MainController extends Controller implements Initializable {
             bReset.setDisable(moves.getNumMoves()==0);
             bReplay.setDisable(moves.getNumMoves()==0);
             //aquí ejecuta movimintos
-            accionesMovimiento();
+            //accionesMovimiento();
             //lMov.setText(""+(v1.intValue()+1));
         });
         
         rubikG.getLastRotation().addListener((ov,v,v1)->{
             if(!rubikG.isOnReplaying().get() && !v1.isEmpty()){
                    moves.addMove(new Move(v1, LocalTime.now().minusNanos(time.toNanoOfDay()).toNanoOfDay()));
+                   accionesMovimiento();
             }
         });
         
@@ -435,6 +436,10 @@ public class MainController extends Controller implements Initializable {
         //this.rubikG.getCount().set(-1);
         this.movesCount.set(0);
         this.listaMov.getItems().clear();
+        this.listaPasosSig.getItems().clear();
+        this.pasosSiguientes.clear();
+        if(asistido)
+            this.rubikG.doScramble();
     }
     
     public void llenarAutoarmado(){
@@ -454,6 +459,7 @@ public class MainController extends Controller implements Initializable {
     
     public void accionesMovimiento(){
         if(this.empezado){
+                System.out.println("Acciones");
                 //maneja historial
                 String mov=rubikG.getLastRotation().get();
                 this.hist.add(mov);
@@ -468,7 +474,7 @@ public class MainController extends Controller implements Initializable {
                     if(this.pasosSiguientes.size()>0){
                     this.rubikG.setSigMov(this.pasosSiguientes.get(0));
                     refrescarListaPasos(0);//busca a partir del primero
-                    //this.listaPasosSig.getItems().remove(0);
+                    System.out.println("sig -> "+rubikG.getSigMov());
                     }
                 }
             }
