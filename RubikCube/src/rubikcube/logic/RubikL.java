@@ -730,7 +730,7 @@ public class RubikL {
                 }
             }
         }
-        System.out.println(estado? "Cubo Armado! c:":"Cubo Desarmado! :c");
+        //System.out.println(estado? "Cubo Armado! c:":"Cubo Desarmado! :c");
         list.stream().forEach(str -> movimientoBasico(str));
         return estado;
     }
