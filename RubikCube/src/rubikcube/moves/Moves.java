@@ -19,6 +19,7 @@ public class Moves {
     private String paso;
     
     public Moves(){
+        this.paso=" ";
         moves.clear();
     }
     

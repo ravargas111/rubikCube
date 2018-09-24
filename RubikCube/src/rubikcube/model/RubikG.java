@@ -113,8 +113,6 @@ public class RubikG {
         }else{
             this.asistido=false;
         }
-        System.out.print("Asistido: "+this.asistido);
-        
         
         this.movPermitido=true;
         this.sigMov=" ";//to do
@@ -530,14 +528,9 @@ public class RubikG {
             this.movPermitido=false;
             if(this.sigMov.equals(face))
                 return true;
-            else{
-            System.out.println("Comparando: "+this.sigMov+"con "+face+" --- "+this.movPermitido);
-            return false;
-            }
+            else return false;
         }
-        else{
-            return true;
-        }
+        else return true;
     }
     
     public void resetCam(){

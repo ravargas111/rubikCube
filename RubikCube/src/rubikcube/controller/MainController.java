@@ -178,6 +178,10 @@ public class MainController extends Controller implements Initializable {
         return n -> n.setDisable(disable);
     }
     
+    private static Predicate<Label> coincideTexto(String face){
+        return n -> n.getText().equals(face);
+    }
+    
     // called on button click
     private void rotateFace(final String btRot){
         root.getChildren().stream()
@@ -187,9 +191,8 @@ public class MainController extends Controller implements Initializable {
                     .filter(withMoveButtons().and(withButtonTextName(btRot)))
                     .findFirst().ifPresent(n->rubikG.isHoveredOnClick().set(((JFXButton)n).isHover()));
             });
-        if(rubikG.siguientePermitido(btRot)){
+        if(rubikG.siguientePermitido(btRot))
         rubikG.rotateFace(btRot);
-        }
         //else
             //caso NO PERMITIDO!
     }
@@ -437,9 +440,9 @@ public class MainController extends Controller implements Initializable {
     public void llenarAutoarmado(){
         autoArmar();
         AppContext.getInstance().getMoveLists().stream().forEach(ms->{
+            if(!" ".equals(ms.getPaso())){
             this.listaPasosSig.getItems().add(new Label(ms.getPaso()));
-            //ArrayList<Move> list=new ArrayList<>();
-            //list.addAll();
+            }
             ms.getMoves().stream().forEach(m->{
                 this.listaPasosSig.getItems().add(new Label(m.getFace()));
                 //if(!" ".equals(m.getFace()))
@@ -447,7 +450,6 @@ public class MainController extends Controller implements Initializable {
             });
         });
         this.rubikG.setSigMov(this.pasosSiguientes.get(0));
-        System.out.print("primer movimiento"+sigMov);
     }
     
     public void accionesMovimiento(){
@@ -463,6 +465,8 @@ public class MainController extends Controller implements Initializable {
                     this.pasosSiguientes.remove(0);
                     if(this.pasosSiguientes.size()>0){
                     this.rubikG.setSigMov(this.pasosSiguientes.get(0));
+                        Label get = this.listaPasosSig.getItems().stream().filter(coincideTexto(mov)).findFirst().get();
+                        this.listaPasosSig.getItems().remove(get);
                     }
                 }
             }
@@ -487,7 +491,6 @@ public class MainController extends Controller implements Initializable {
             llenarAutoarmado();
         }
         if(moves.getNumMoves()>0){
-            //timer.stop();
             this.movesCount.set(0);
             moves=new Moves();
             time=LocalTime.now();
@@ -497,7 +500,6 @@ public class MainController extends Controller implements Initializable {
             this.bReplay.setDisable(false);
             this.bGuardar.setDisable(false);
             empezado=true;
-            //reiniciarInfo();
         }
     }
 
