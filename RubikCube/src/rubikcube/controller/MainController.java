@@ -454,22 +454,33 @@ public class MainController extends Controller implements Initializable {
     
     public void accionesMovimiento(){
         if(this.empezado){
+                //maneja historial
                 String mov=rubikG.getLastRotation().get();
                 this.hist.add(mov);
                 mov+=" "+this.lTime.getText();
                 Label lbl = new Label(mov);
-                //lbl.setGraphic(iv);
                 this.listaMov.getItems().add(lbl);
                 this.movesCount.set(movesCount.get()+1);
+                
+                //maneja lista de pasos a seguir
                 if(this.asistido){
                     this.pasosSiguientes.remove(0);
                     if(this.pasosSiguientes.size()>0){
                     this.rubikG.setSigMov(this.pasosSiguientes.get(0));
-                        Label get = this.listaPasosSig.getItems().stream().filter(coincideTexto(mov)).findFirst().get();
-                        this.listaPasosSig.getItems().remove(get);
+                    refrescarListaPasos(0);//busca a partir del primero
+                    //this.listaPasosSig.getItems().remove(0);
                     }
                 }
             }
+    }
+    
+    public void refrescarListaPasos(Integer i){
+        Integer j=this.listaPasosSig.getItems().get(i).getText().length();
+        if(j<=2){
+           this.listaPasosSig.getItems().remove(i);
+        }
+        else 
+           this.listaPasosSig.getItems().remove(1); 
     }
     
     @FXML
