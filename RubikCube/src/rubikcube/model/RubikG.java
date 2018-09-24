@@ -519,7 +519,6 @@ public class RubikG {
     }
 
     public void setSigMov(String sigMov) {
-        System.out.println("Cambio");
         this.sigMov = sigMov;
     }
     

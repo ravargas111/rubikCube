@@ -65,7 +65,7 @@
                   <HBox fx:id="hbInfo" alignment="CENTER" prefHeight="35.0" prefWidth="660.0" spacing="10.0">
                      <children>
                         <FontAwesomeIconView fill="WHITE" glyphName="QUESTION" size="25" />
-                        <Label prefHeight="30.0" prefWidth="154.0" text="Etapa" />
+                        <Label fx:id="lblEtapa" prefHeight="30.0" prefWidth="154.0" text=" " />
                         <Label fx:id="lSolved" alignment="CENTER" prefHeight="7.0" prefWidth="14.0" text=" " />
                         <Label fx:id="lMov" prefHeight="30.0" prefWidth="104.0" text="0" />
                         <FontAwesomeIconView fill="#f5efef" size="20" />

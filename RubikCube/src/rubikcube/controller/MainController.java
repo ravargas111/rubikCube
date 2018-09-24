@@ -13,14 +13,15 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -39,10 +40,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import rubikcube.logic.Algoritmos;
-import rubikcube.logic.MovBtn;
 import rubikcube.logic.Persistencia;
-import rubikcube.logic.RankingMovimientos;
-import rubikcube.logic.RankingTiempo;
 import rubikcube.logic.RubikL;
 import rubikcube.model.RubikG;
 import rubikcube.moves.Move;
@@ -74,6 +72,7 @@ public class MainController extends Controller implements Initializable {
     private Moves moves=new Moves();
     private ArrayList<String> hist;
     private ArrayList<String> pasosSiguientes;
+    private BooleanProperty empezadoP;
     @FXML
     private Label lSolved;
     @FXML
@@ -108,12 +107,15 @@ public class MainController extends Controller implements Initializable {
     private JFXListView<Label> listaMov;
     @FXML
     private JFXListView<Label> listaPasosSig;
+    @FXML
+    private Label lblEtapa;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //this.infoSP.setVisible(true);
+        this.empezadoP=new SimpleBooleanProperty(false);
         this.asistido=false;
         this.pasosSiguientes=new ArrayList<String>();
         this.hist=new ArrayList<String>();
@@ -203,10 +205,15 @@ public class MainController extends Controller implements Initializable {
     }
     
     public void reiniciarCubo(){
+        Integer modo=AppContext.getModoJuego();
         if(moves.getNumMoves()>0){
             timer.stop();
             moves.getMoves().clear();
             rubikG.doReset();
+            if(modo.equals(2)||modo.equals(3))
+                mezclarCubo();
+            else
+                cargarCubo();
         }
     }
 
@@ -331,6 +338,7 @@ public class MainController extends Controller implements Initializable {
                         });
                 });
         });
+        
     }
 
     private void binds(){
@@ -405,9 +413,9 @@ public class MainController extends Controller implements Initializable {
         nombres.addAll(Arrays.asList("L","Li","R","Ri","U","Ui","D","Di","Y","Yi","X","Xi"));
         nombres.stream().forEach(e->{
             //JFXButton btn=new JFXButton();
-            MovBtn btn=new MovBtn(e);
+            // btn=new MovBtn(e);
             //btn.setText(e);
-            this.tbMov.getItems().add(btn);
+            //this.tbMov.getItems().add(btn);
         });
     }
 
@@ -427,6 +435,7 @@ public class MainController extends Controller implements Initializable {
     
     public void modoCargado(){
        // root.getC
+       cargarCubo();
     } 
     
     public void reiniciarInfo(){
@@ -459,7 +468,6 @@ public class MainController extends Controller implements Initializable {
     
     public void accionesMovimiento(){
         if(this.empezado){
-                System.out.println("Acciones");
                 //maneja historial
                 String mov=rubikG.getLastRotation().get();
                 this.hist.add(mov);
@@ -473,20 +481,23 @@ public class MainController extends Controller implements Initializable {
                     this.pasosSiguientes.remove(0);
                     if(this.pasosSiguientes.size()>0){
                     this.rubikG.setSigMov(this.pasosSiguientes.get(0));
-                    refrescarListaPasos(0);//busca a partir del primero
-                    System.out.println("sig -> "+rubikG.getSigMov());
+                    //refrescarListaPasos(0);//busca a partir del primero
+                    //System.out.println("sig -> "+rubikG.getSigMov());
+                    refrescarListaPasos(1);
                     }
                 }
             }
     }
     
     public void refrescarListaPasos(Integer i){
-        Integer j=this.listaPasosSig.getItems().get(i).getText().length();
-        if(j<=2){
-           this.listaPasosSig.getItems().remove(i);
-        }
-        else 
-           this.listaPasosSig.getItems().remove(1); 
+        Integer tamSig=this.listaPasosSig.getItems().get(i+1).getText().length();
+        this.listaPasosSig.getItems().remove(1);
+        if(tamSig>2)
+           this.listaPasosSig.getItems().remove(0);
+        this.lblEtapa.setText(this.listaPasosSig.getItems().get(0).getText());
+        //}
+        //else 
+           //this.listaPasosSig.getItems().remove(i+1); 
     }
     
     @FXML
@@ -523,9 +534,11 @@ public class MainController extends Controller implements Initializable {
     @FXML
     public void guardarCubo(){
         ArrayList<String> lista = new ArrayList<>();
-        Collections.addAll(lista, "L", "R", "Li", "Ri", "L", "R", "Li", "Ri", "L", "R", "Li", "Ri", "L", "R", "Li", "Ri");
+        //Collections.addAll(lista, "L", "R", "Li", "Ri", "L", "R", "Li", "Ri", "L", "R", "Li", "Ri", "L", "R", "Li", "Ri");
+        lista.addAll(this.hist);
         Persistencia.guardarPartida(lista);
         
+        /*
         //Prueba guardado del ranking de movimientos
         RankingMovimientos.getInstance().setEspacio("Cristhian", 140);
         RankingMovimientos.getInstance().setEspacio("Cristhian", 150);
@@ -561,11 +574,18 @@ public class MainController extends Controller implements Initializable {
         RankingTiempo.getInstance().setEspacio("Cristhian", 70);
         RankingTiempo.getInstance().setEspacio("Cristhian", 73);
         RankingTiempo.getInstance().setEspacio("Cristhian", 79);
-        Persistencia.guardarRankingTiempos(RankingTiempo.getInstance());
+        Persistencia.guardarRankingTiempos(RankingTiempo.getInstance());*/
     }
     
     public void cargarCubo(){
-        
+        ArrayList<String> cargada=Persistencia.cargarPartida();
+        ArrayList<Move> moveList=new ArrayList<>();
+        cargada.stream().forEach(s->{
+            moveList.add(new Move(s,LocalTime.now().minusNanos(time.toNanoOfDay()).toNanoOfDay()));
+        });
+        this.empezado=true;
+        this.rubikG.doMoveList(moveList);
+        //reiniciarCubo();
     }
 
     @FXML
