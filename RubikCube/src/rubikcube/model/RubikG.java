@@ -388,8 +388,9 @@ public class RubikG {
             }
             sb.append(get).append(" ");
         });
-
-        doSequence(sb.toString().trim());
+        String listaPasosScramble=sb.toString().trim();
+        doSequence(listaPasosScramble);
+        AppContext.getInstance().set("scramble", listaPasosScramble);
     }
     
     public void doSequence(String list){

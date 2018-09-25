@@ -269,7 +269,7 @@ public class Utils {
             } else { //-Y
                 face=reverseRotation(faces[1]);
             }
-            System.out.println("face: "+face);
+
         } else if(!face.isEmpty() && radius<radMinimum){ // reset previous face
             face="";
         }

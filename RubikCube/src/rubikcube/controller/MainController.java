@@ -185,8 +185,9 @@ public class MainController extends Controller implements Initializable {
                     .findFirst().ifPresent(n->rubikG.isHoveredOnClick().set(((JFXButton)n).isHover()));
             });
         //movimiento permitido
-        if(rubikG.siguientePermitido(btRot))
+        if(rubikG.siguientePermitido(btRot)){
         rubikG.rotateFace(btRot);
+        }
         //else
             //caso NO PERMITIDO!
     }
@@ -229,15 +230,15 @@ public class MainController extends Controller implements Initializable {
     private void doScramble(){
         root.getChildren().stream().filter(withToolbars()).forEach(setDisable(true));
         rubikG.doScramble();
+        accionesScramble();
         rubikG.isOnScrambling().addListener((ov,v,v1)->{
             if(v && !v1){
                 root.getChildren().stream().filter(withToolbars()).forEach(setDisable(false));
-                accionesScramble();
+                 //accionesScramble();
                 moves=new Moves();
                 time=LocalTime.now();
                 timer.playFromStart();
             }
-            
         });
     }
     
@@ -287,9 +288,6 @@ public class MainController extends Controller implements Initializable {
         rubikG.getCount().addListener((ov,v,v1)->{
             bReset.setDisable(moves.getNumMoves()==0);
             bReplay.setDisable(moves.getNumMoves()==0);
-            //aquí ejecuta movimintos
-            //accionesMovimiento();
-            //lMov.setText(""+(v1.intValue()+1));
         });
         
         rubikG.getLastRotation().addListener((ov,v,v1)->{
@@ -407,7 +405,7 @@ public class MainController extends Controller implements Initializable {
     
     public void modoDesordenado(){
         this.partidaActual=new Partida(ModoJuego.DESORDENADO,this.hist);
-        this.rubikG.doScramble();
+        doScramble();
     }
     
     public void modoAsistido(){
@@ -418,6 +416,7 @@ public class MainController extends Controller implements Initializable {
     
     public void modoCargado(){
        // root.getC
+       this.rubikG.doSequence(this.partidaActual.getListaMovsScramble());
        this.partidaActual=new Partida(ModoJuego.CARGADO,this.hist);
        cargarCubo();
     } 
@@ -452,6 +451,7 @@ public class MainController extends Controller implements Initializable {
     
     public void accionesMovimiento(){
         if(this.empezado){
+            System.out.println("asdas");
                 //maneja historial
                 String movStr=rubikG.getLastRotation().get();
                 //Move movimiento = new Move(movStr,this.lTime.getText());
@@ -462,13 +462,11 @@ public class MainController extends Controller implements Initializable {
                 this.listaMov.getItems().add(lbl);
                 this.movesCount.set(movesCount.get()+1);
                 
-                //maneja lista de pasos a seguir
+                //maneja lista de pasos a seguir en caso asistido
                 if(this.asistido){
                     this.pasosSiguientes.remove(0);
                     if(this.pasosSiguientes.size()>0){
                     this.rubikG.setSigMov(this.pasosSiguientes.get(0));
-                    //refrescarListaPasos(0);//busca a partir del primero
-                    //System.out.println("sig -> "+rubikG.getSigMov());
                     refrescarListaPasos(1);
                     }
                 }
@@ -476,8 +474,9 @@ public class MainController extends Controller implements Initializable {
     }
     
     public void accionesScramble(){
-        this.histScramble="";
-        this.histScramble=moves.getSequence();//después de scramble
+        //this.histScramble="";
+        this.partidaActual.setListaMovsScramble((String) AppContext.getInstance().get("scramble"));
+        //System.out.println("Scramble pasos:\n"+this.histScramble);
     }
     
     public void refrescarListaPasos(Integer i){
