@@ -213,32 +213,34 @@ public class MainController extends Controller implements Initializable {
             
             switch(this.modoJuego){
                 case 1:
-                    this.rubikG.doReset();
+                    rubikG.doReset();
                     break;
                 case 2:
-                    mezclarCubo();
+                    this.rubikG.doReset();
+                    this.rubikG.doSequence((String)AppContext.getInstance().get("scramble"));
                     break;
                 case 3:
+                    this.rubikG.doReset();
+                    this.rubikG.doSequence((String)AppContext.getInstance().get("scramble"));
+                    
                     break;
                 case 4:
+                    this.rubikG.doReset();
                     cargarCubo();
                     break;
             }                
+        }
+        else{
+            Mensaje msj = new Mensaje();
+            msj.show(Alert.AlertType.INFORMATION, "No se puede reiniciar", "necesario realizar movimientos");
         }
     }
 
     public void mezclarCubo(){
         if(moves.getNumMoves()>0){
-               /* Action response = Dialogs.create()
-                .owner(getStage())
-                .title("Warning Dialog")
-                .masthead("Scramble Cube")
-                .message( "You will lose all your previous movements. Do you want to continue?")
-                .showConfirm();
-                if(response==Dialog.Actions.YES){*/
-                    rubikG.doReset();
-                    doScramble();
-                //}
+                rubikG.doReset();
+                doScramble();
+                this.partidaActual.setListaMovsScramble((String) AppContext.getInstance().get("scramble"));
             } else {
                 doScramble();
             }
@@ -451,7 +453,7 @@ public class MainController extends Controller implements Initializable {
     
     public void modoCargado(){
        // root.getC
-       this.rubikG.doSequence(this.partidaActual.getListaMovsScramble());
+       //this.rubikG.doSequence(this.partidaActual.getListaMovsScramble());
        this.partidaActual=new Partida(ModoJuego.CARGADO,this.hist);
        cargarCubo();
     } 
@@ -615,12 +617,14 @@ public class MainController extends Controller implements Initializable {
     }
     
     public void cargarCubo(){
-        Partida p = (Partida) AppContext.getInstance().get("cargada");
-        if(this.empezado)
-            reiniciarCubo();
-        this.empezado=true;
+        //Partida p = (Partida) AppContext.getInstance().get("cargada");
+        this.rubikG.doSequence(this.partidaActual.getListaMovsScramble());
+        this.rubikG.doSequence(this.partidaActual.getMovimientos());
+        //if(this.empezado)
+           // reiniciarCubo();
+        //this.empezado=true;
         //StringBuilder sb=(StringBuilder) AppContext.getInstance().get("cargada");
-        this.rubikG.doSequence(p.getMovimientos());
+        
 
     }
 

@@ -129,5 +129,9 @@ public class AppContext {
     public static void setMoveListGen(Moves moveListGen) {
         AppContext.moveListGen = moveListGen;
     }
+
+    public String set(String scramble) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

@@ -47,8 +47,9 @@ public class Partida implements Serializable{
         this.listaMovsScramble = listaMovsScramble;
     }
     
-    public void guardarPartida(){
+    public void guardarPartida(){    
         Persistencia.guardarPartida(this);
+            
     }
     
     public String getMovimientos(){
