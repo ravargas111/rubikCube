@@ -234,7 +234,6 @@ public class MainController extends Controller implements Initializable {
         rubikG.isOnScrambling().addListener((ov,v,v1)->{
             if(v && !v1){
                 root.getChildren().stream().filter(withToolbars()).forEach(setDisable(false));
-                 //accionesScramble();
                 moves=new Moves();
                 time=LocalTime.now();
                 timer.playFromStart();
@@ -331,6 +330,16 @@ public class MainController extends Controller implements Initializable {
                 });
         });
         
+        this.empezadoP.addListener((b0,b1,b2)->{
+            //si el estado cambia a empezado
+            if(b2){
+                //System.out.println("empezado");
+            }
+            //si el estado cambia a terminado
+            if(b1){
+                //System.out.println("terminado");
+            }
+        });
     }
 
     private void binds(){
@@ -399,8 +408,6 @@ public class MainController extends Controller implements Initializable {
 
     public void modoOrdenado(){
         this.partidaActual=new Partida(ModoJuego.ORDENADO,this.hist);
-        //FlowController.getInstance().goViewOnDialog("ListaMovimientos", (StackPane)root.getLeft());
-        //this.initTimer();
     }
     
     public void modoDesordenado(){
@@ -451,7 +458,6 @@ public class MainController extends Controller implements Initializable {
     
     public void accionesMovimiento(){
         if(this.empezado){
-            System.out.println("asdas");
                 //maneja historial
                 String movStr=rubikG.getLastRotation().get();
                 //Move movimiento = new Move(movStr,this.lTime.getText());
@@ -474,9 +480,11 @@ public class MainController extends Controller implements Initializable {
     }
     
     public void accionesScramble(){
-        //this.histScramble="";
         this.partidaActual.setListaMovsScramble((String) AppContext.getInstance().get("scramble"));
-        //System.out.println("Scramble pasos:\n"+this.histScramble);
+        //this.empezado=true;
+        this.empezadoP.set(true);
+        this.empezadoP.set(false);
+        
     }
     
     public void refrescarListaPasos(Integer i){
