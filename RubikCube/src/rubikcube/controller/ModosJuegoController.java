@@ -5,19 +5,16 @@
  */
 package rubikcube.controller;
 
-import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.time;
 import java.net.URL;
-import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import rubikcube.logic.Partida;
 import rubikcube.logic.Persistencia;
 import rubikcube.logic.RankingMovimientos;
 import rubikcube.logic.RankingTiempo;
-import rubikcube.moves.Move;
 import rubikcube.util.AppContext;
 import rubikcube.util.FlowController;
 
@@ -65,19 +62,16 @@ public class ModosJuegoController extends Controller implements Initializable {
     private void irCargado(MouseEvent event) {
         if(Persistencia.existePartida()){
             //Cardago de lista de movimientos de la partida guardada
-            ArrayList<String> list;
-            list = Persistencia.cargarPartida();
-            StringBuilder sb=new StringBuilder();
-            //System.out.println("\nLista de movimientos cargados:");
-            list.stream().forEach(str -> {sb.append(str).append(" ");});
+            Partida p;
+            p = Persistencia.cargarPartida();
             AppContext.setModoJuego(4);
-            AppContext.getInstance().set("cargada", sb);
+            AppContext.getInstance().set("cargada", p);
             FlowController.getInstance().goView("Main");
         } else {
             System.out.println("\nNo existe ninguna partida guardada a nombre de: " + AppContext.getInstance().get("user"));
         }
         //Pruebas de carga
-        cargarDatosPersistidos();
+        //cargarDatosPersistidos();
     }
     
     private void cargarDatosPersistidos(){

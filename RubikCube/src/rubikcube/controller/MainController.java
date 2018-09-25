@@ -40,6 +40,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import rubikcube.logic.Algoritmos;
+import rubikcube.logic.Partida;
+import rubikcube.logic.Partida.ModoJuego;
 import rubikcube.logic.Persistencia;
 import rubikcube.logic.RankingMovimientos;
 import rubikcube.logic.RankingTiempo;
@@ -74,9 +76,11 @@ public class MainController extends Controller implements Initializable {
     private Boolean empezado;
     private Moves moves=new Moves();
     private ArrayList<String> hist;
+    private String histScramble;
     private Moves historialMovimientos;
     private ArrayList<String> pasosSiguientes;
     private BooleanProperty empezadoP;
+    private Partida partidaActual;
     @FXML
     private Label lSolved;
     @FXML
@@ -119,11 +123,13 @@ public class MainController extends Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //this.infoSP.setVisible(true);
+        //this.partidaActual=new Partida();
         this.historialMovimientos=new Moves();
         this.empezadoP=new SimpleBooleanProperty(false);
         this.asistido=false;
-        this.pasosSiguientes=new ArrayList<String>();
-        this.hist=new ArrayList<String>();
+        this.pasosSiguientes=new ArrayList<>();
+        this.histScramble=new String();
+        this.hist=new ArrayList<>();
         sigMov="";
         empezado=false;
         movesCount=new SimpleIntegerProperty();
@@ -144,28 +150,8 @@ public class MainController extends Controller implements Initializable {
     public void secuenciaCuboBtn(){
         String response;
             if(moves.getNumMoves()>0){
-                /*response = Dialogs.create()
-                .owner(getStage())
-                .title("Warning Dialog")
-                .masthead("Loading a Sequence").lightweight()
-                .message("Add a valid sequence of movements:\n(previous movements will be discarded)")
-                .showTextInput(moves.getSequence());*/
-                
                 rubikG.doReset();
-                //rubik.doSequence(response.trim());
-            } /*else {
-                response = Dialogs.create()
-                .owner(getStage())
-                .title("Information Dialog")
-                .masthead("Loading a Sequence").lightweight()
-                .message( "Add a valid sequence of movements")
-                .showTextInput();
-            }
-            //System.out.println("r: "+response);
-            if(response!=null && !response.isEmpty()){
-                rubik.doReset();
-                rubik.doSequence(response.trim());
-            }*/
+            } 
     }
     
     // some predicates for readability
@@ -198,6 +184,7 @@ public class MainController extends Controller implements Initializable {
                     .filter(withMoveButtons().and(withButtonTextName(btRot)))
                     .findFirst().ifPresent(n->rubikG.isHoveredOnClick().set(((JFXButton)n).isHover()));
             });
+        //movimiento permitido
         if(rubikG.siguientePermitido(btRot))
         rubikG.rotateFace(btRot);
         //else
@@ -245,10 +232,12 @@ public class MainController extends Controller implements Initializable {
         rubikG.isOnScrambling().addListener((ov,v,v1)->{
             if(v && !v1){
                 root.getChildren().stream().filter(withToolbars()).forEach(setDisable(false));
+                accionesScramble();
                 moves=new Moves();
                 time=LocalTime.now();
                 timer.playFromStart();
             }
+            
         });
     }
     
@@ -382,7 +371,6 @@ public class MainController extends Controller implements Initializable {
         this.algoritmos.autoArmado();
     }
     
-    //Metodos para pruebas logicas
     public void checkSolved(){
         
     }
@@ -412,21 +400,25 @@ public class MainController extends Controller implements Initializable {
     }
 
     public void modoOrdenado(){
+        this.partidaActual=new Partida(ModoJuego.ORDENADO,this.hist);
         //FlowController.getInstance().goViewOnDialog("ListaMovimientos", (StackPane)root.getLeft());
         //this.initTimer();
     }
     
     public void modoDesordenado(){
+        this.partidaActual=new Partida(ModoJuego.DESORDENADO,this.hist);
         this.rubikG.doScramble();
     }
     
     public void modoAsistido(){
+        this.partidaActual=new Partida(ModoJuego.ASISTIDO,this.hist);
         this.rubikG.doScramble();
         this.asistido=true;
     }
     
     public void modoCargado(){
        // root.getC
+       this.partidaActual=new Partida(ModoJuego.CARGADO,this.hist);
        cargarCubo();
     } 
     
@@ -483,6 +475,11 @@ public class MainController extends Controller implements Initializable {
             }
     }
     
+    public void accionesScramble(){
+        this.histScramble="";
+        this.histScramble=moves.getSequence();//después de scramble
+    }
+    
     public void refrescarListaPasos(Integer i){
         Integer tamSig=this.listaPasosSig.getItems().get(i+1).getText().length();
         this.listaPasosSig.getItems().remove(1);
@@ -527,9 +524,12 @@ public class MainController extends Controller implements Initializable {
 
     @FXML
     public void guardarCubo(){
-        ArrayList<String> lista = new ArrayList<>();
-        lista.addAll(this.hist);
-        Persistencia.guardarPartida(lista);
+        //Partida p= new Partida(this.hist, Integer.valueOf(this.lMov.getText()));
+        this.partidaActual.guardarPartida();
+        
+        //ArrayList<String> lista = new ArrayList<>();
+        //lista.addAll(this.hist);
+        //Persistencia.guardarPartida(this.hist);
         RankingMovimientos.getInstance().setEspacio((String) AppContext.getInstance().get("user"), Integer.valueOf(this.lMov.getText()));
         Persistencia.guardarRankingMovimientos(RankingMovimientos.getInstance());
         RankingTiempo.getInstance().setEspacio((String) AppContext.getInstance().get("user"), 40);
@@ -540,14 +540,13 @@ public class MainController extends Controller implements Initializable {
     }
     
     public void cargarCubo(){
+        Partida p = (Partida) AppContext.getInstance().get("cargada");
         if(this.empezado)
             reiniciarCubo();
         this.empezado=true;
-        StringBuilder sb=(StringBuilder) AppContext.getInstance().get("cargada");
-        this.rubikG.doSequence(sb.toString().trim());
-        //Moves moves=Persistencia.cargarPartidaM();
-        //this.rubikG.doMoveList(moves.getMoves());
-        //reiniciarCubo();
+        //StringBuilder sb=(StringBuilder) AppContext.getInstance().get("cargada");
+        this.rubikG.doSequence(p.getMovimientos());
+
     }
 
     @FXML

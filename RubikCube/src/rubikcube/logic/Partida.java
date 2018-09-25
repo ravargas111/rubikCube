@@ -5,47 +5,62 @@
  */
 package rubikcube.logic;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
 /**
  *
  * @author robri
  */
-public class Partida {
-    private Integer puntos;
-    private Double tiempo;
-    private Integer movimientos;
+public class Partida implements Serializable{
+    public static enum ModoJuego {ORDENADO,DESORDENADO,ASISTIDO,CARGADO};
+    private Integer cantMovs;
+    private ArrayList<String> listaMovs;
+    private String listaMovsScramble;
 
-    public Partida(Integer puntos, Double tiempo, Integer movimientos) {
-        this.puntos = puntos;
-        this.tiempo = tiempo;
-        this.movimientos = movimientos;
+    public Partida(ModoJuego modo,ArrayList<String> listaMovs) {
+        this.listaMovs = listaMovs;
+        this.cantMovs = this.listaMovs.size();
     }
 
-    public Partida() {
+    public Integer getCantMovs() {
+        return cantMovs;
     }
 
-    public Integer getPuntos() {
-        return puntos;
+    public void setCantMovs(Integer cantMovs) {
+        this.cantMovs = cantMovs;
     }
 
-    public void setPuntos(Integer puntos) {
-        this.puntos = puntos;
+    public ArrayList<String> getListaMovs() {
+        return listaMovs;
     }
 
-    public Double getTiempo() {
-        return tiempo;
+    public void setListaMovs(ArrayList<String> listaMovs) {
+        this.listaMovs = listaMovs;
     }
 
-    public void setTiempo(Double tiempo) {
-        this.tiempo = tiempo;
+    public String getListaMovsScramble() {
+        return listaMovsScramble;
     }
 
-    public Integer getMovimientos() {
-        return movimientos;
-    }
-
-    public void setMovimientos(Integer movimientos) {
-        this.movimientos = movimientos;
+    public void setListaMovsScramble(String listaMovsScramble) {
+        this.listaMovsScramble = listaMovsScramble;
     }
     
+    public void guardarPartida(){
+        Persistencia.guardarPartida(this);
+    }
+    
+    public String getMovimientos(){
+        StringBuilder sb=new StringBuilder();
+        this.listaMovs.stream().forEach(str -> {sb.append(str).append(" ");});
+        return sb.toString().trim();
+    }
+    
+    /*public String getMovimientosScramble(){
+        StringBuilder sb=new StringBuilder();
+        this.listaMovsScramble.stream().forEach(str -> {sb.append(str).append(" ");});
+        return sb.toString().trim();
+    }*/
     
 }

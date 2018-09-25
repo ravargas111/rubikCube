@@ -38,14 +38,14 @@ public class Persistencia {
         return file.exists();
     }
     
-    public static boolean guardarPartida(ArrayList<String> list){
+    public static boolean guardarPartida(Partida p){
         boolean resultado = false;
         ObjectOutputStream oos = null;
         try{
             verificarDirectorio();
             File file = new File(pathPartidasGuardadas + AppContext.getInstance().get("user"));
             oos = new ObjectOutputStream(new FileOutputStream(file));
-            oos.writeObject(list);
+            oos.writeObject(p);
             resultado = true;
             System.out.println("Partida guardada exitosamente");
         }catch(FileNotFoundException ex){
@@ -94,14 +94,14 @@ public class Persistencia {
         return resultado;
     }
     
-    public static ArrayList<String> cargarPartida(){
-        ArrayList<String> list = null;
+    public static Partida cargarPartida(){
+        Partida p = null;
         if(existePartida()){
             ObjectInputStream ois = null;
             try{
                 File file = new File(pathPartidasGuardadas + AppContext.getInstance().get("user"));
                 ois = new ObjectInputStream(new FileInputStream(file));
-                list = (ArrayList<String>) ois.readObject();
+                p = (Partida) ois.readObject();
             } catch (ClassCastException | IOException | ClassNotFoundException ex) {
                 System.out.println("Ha ocurrido un error cargando la partida\nError: " + ex);
             } finally {
@@ -114,7 +114,7 @@ public class Persistencia {
                 }
             }
         }
-        return list;
+        return p;
     }
             
     public static Moves cargarPartidaM(){
