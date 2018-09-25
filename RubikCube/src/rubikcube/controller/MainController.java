@@ -12,7 +12,6 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -31,7 +30,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -51,6 +52,7 @@ import rubikcube.moves.Move;
 import rubikcube.moves.Moves;
 import rubikcube.util.AppContext;
 import rubikcube.util.FlowController;
+import rubikcube.util.Mensaje;
 
 /**
  * FXML Controller class
@@ -81,6 +83,7 @@ public class MainController extends Controller implements Initializable {
     private ArrayList<String> pasosSiguientes;
     private BooleanProperty empezadoP;
     private Partida partidaActual;
+    private Integer modoJuego;
     @FXML
     private Label lSolved;
     @FXML
@@ -117,6 +120,8 @@ public class MainController extends Controller implements Initializable {
     private JFXListView<Label> listaPasosSig;
     @FXML
     private Label lblEtapa;
+    @FXML
+    private Tab tabPasos;
     /**
      * Initializes the controller class.
      */
@@ -124,6 +129,7 @@ public class MainController extends Controller implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         //this.infoSP.setVisible(true);
         //this.partidaActual=new Partida();
+        this.modoJuego=AppContext.getModoJuego();
         this.historialMovimientos=new Moves();
         this.empezadoP=new SimpleBooleanProperty(false);
         this.asistido=false;
@@ -144,6 +150,7 @@ public class MainController extends Controller implements Initializable {
 
     @Override
     public void initialize() {
+        //this.empezadoP.setValue(true);
          seleccionarModo();
     }
   
@@ -203,10 +210,20 @@ public class MainController extends Controller implements Initializable {
             timer.stop();
             moves.getMoves().clear();
             rubikG.doReset();
-            if(modo.equals(2)||modo.equals(3))
-                mezclarCubo();
-            else
-                cargarCubo();
+            
+            switch(this.modoJuego){
+                case 1:
+                    this.rubikG.doReset();
+                    break;
+                case 2:
+                    mezclarCubo();
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    cargarCubo();
+                    break;
+            }                
         }
     }
 
@@ -236,7 +253,7 @@ public class MainController extends Controller implements Initializable {
                 root.getChildren().stream().filter(withToolbars()).forEach(setDisable(false));
                 moves=new Moves();
                 time=LocalTime.now();
-                timer.playFromStart();
+                //timer.playFromStart();
             }
         });
     }
@@ -334,10 +351,18 @@ public class MainController extends Controller implements Initializable {
             //si el estado cambia a empezado
             if(b2){
                 //System.out.println("empezado");
+                this.bStart.setDisable(true);
+                this.bReplay.setDisable(false);
+                this.bReset.setDisable(false);
+                this.bStart.setDisable(false);
+                this.bStop.setDisable(false);
+                this.bGuardar.setDisable(false);
+                this.bStop1.setDisable(false);
             }
             //si el estado cambia a terminado
             if(b1){
                 //System.out.println("terminado");
+                desactivaBotones();
             }
         });
     }
@@ -396,6 +421,8 @@ public class MainController extends Controller implements Initializable {
     }
     
     public void seleccionarModo(){
+        //this.bStart.setDisable(false);
+        desactivaBotones();
         Integer modo=AppContext.getModoJuego();
         switch(modo){
             case 1: modoOrdenado();break;
@@ -416,6 +443,7 @@ public class MainController extends Controller implements Initializable {
     }
     
     public void modoAsistido(){
+        this.tabPasos.setDisable(false);
         this.partidaActual=new Partida(ModoJuego.ASISTIDO,this.hist);
         this.rubikG.doScramble();
         this.asistido=true;
@@ -430,14 +458,11 @@ public class MainController extends Controller implements Initializable {
     
     public void reiniciarInfo(){
         empezado=false;
-        //this.lMov.setText("0");
-        //this.lTime.setText("00:00");
-        //this.rubikG.getCount().set(-1);
         this.movesCount.set(0);
         this.listaMov.getItems().clear();
         this.listaPasosSig.getItems().clear();
         this.pasosSiguientes.clear();
-        if(asistido)
+        if(asistido)//todo
             this.rubikG.doScramble();
     }
     
@@ -480,10 +505,9 @@ public class MainController extends Controller implements Initializable {
     }
     
     public void accionesScramble(){
-        this.partidaActual.setListaMovsScramble((String) AppContext.getInstance().get("scramble"));
-        //this.empezado=true;
-        this.empezadoP.set(true);
         this.empezadoP.set(false);
+        this.partidaActual.setListaMovsScramble((String) AppContext.getInstance().get("scramble")); 
+        this.empezadoP.set(true);
         
     }
     
@@ -498,6 +522,15 @@ public class MainController extends Controller implements Initializable {
            //this.listaPasosSig.getItems().remove(i+1); 
     }
     
+    public void desactivaBotones(){
+        this.bStart.setDisable(false);
+        this.bReplay.setDisable(true);
+        this.bReset.setDisable(true);
+        this.bStop.setDisable(true);
+        this.bGuardar.setDisable(true);
+        this.bStop1.setDisable(true);
+    }
+    
     @FXML
     private void replayCube(ActionEvent event) {
         doReplay();
@@ -508,27 +541,62 @@ public class MainController extends Controller implements Initializable {
         reiniciarCubo();
         this.bStart.setDisable(false);
         this.bGuardar.setDisable(true);
+        this.empezadoP.setValue(false);
         reiniciarInfo();
     }
 
     @FXML
     private void iniciarJuego(ActionEvent event) {
-        if(AppContext.getModoJuego().equals(3)){
-            llenarAutoarmado();
+        switch(this.modoJuego){
+            case 1:
+                btnIniciaOrdenado();
+                break;
+            case 2:
+                btnIniciaDesordenado();
+                break;
+            case 3:
+                btnIniciaAsistido();
+                break;
+            case 4:
+                btnIniciaCargado();
+                break;
         }
-        if(moves.getNumMoves()>0){
-            this.movesCount.set(0);
-            moves=new Moves();
-            time=LocalTime.now();
-            timer.playFromStart();
-            this.bStart.setDisable(true);
-            this.bReset.setDisable(false);
-            this.bReplay.setDisable(false);
-            this.bGuardar.setDisable(false);
-            empezado=true;
+
+        
+        
+    }
+    
+    public void btnIniciaOrdenado(){
+        if(moves.getNumMoves()>0)
+        btnInicia();
+        else{
+            Mensaje msj=new Mensaje();
+            msj.show(Alert.AlertType.INFORMATION, "Movimientos requeridos", "Desarme el cubo"); 
         }
     }
+    
+    public void btnIniciaDesordenado(){
+        btnInicia();
+    }
+    
+    public void btnIniciaAsistido(){
+        llenarAutoarmado();
+        btnInicia();
+    }
+    
+    public void btnIniciaCargado(){
+        btnInicia();
+    }
 
+    public void btnInicia(){
+        this.movesCount.set(0);
+        moves=new Moves();
+        time=LocalTime.now();
+        timer.playFromStart();
+        this.empezadoP.setValue(true);
+        empezado=true;
+    }
+    
     @FXML
     public void guardarCubo(){
         //Partida p= new Partida(this.hist, Integer.valueOf(this.lMov.getText()));

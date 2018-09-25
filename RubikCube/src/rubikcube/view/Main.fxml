@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.ToolBar?>
@@ -50,12 +51,12 @@
                               <FontAwesomeIconView fill="#f5f5f5" glyphName="REFRESH" size="20" />
                            </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="bReplay" disable="true" onAction="#replayCube" prefHeight="25.0" prefWidth="110.0" text="Repetir">
+                        <JFXButton fx:id="bReplay" onAction="#replayCube" prefHeight="25.0" prefWidth="110.0" text="Repetir">
                            <graphic>
                               <FontAwesomeIconView fill="#f5f2f2" glyphName="BACKWARD" size="20" />
                            </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="bGuardar" disable="true" onAction="#guardarCubo" prefHeight="25.0" prefWidth="110.0" text="Guardar">
+                        <JFXButton fx:id="bGuardar" onAction="#guardarCubo" prefHeight="25.0" prefWidth="110.0" text="Guardar">
                            <graphic>
                               <FontAwesomeIconView fill="#f5f2f2" glyphName="SAVE" size="20" />
                            </graphic>
@@ -69,7 +70,10 @@
                         <Label fx:id="lSolved" alignment="CENTER" prefHeight="7.0" prefWidth="14.0" text=" " />
                         <Label fx:id="lMov" prefHeight="30.0" prefWidth="104.0" text="0" />
                         <FontAwesomeIconView fill="#f5efef" size="20" />
-                        <Label fx:id="lTime" alignment="CENTER" prefHeight="30.0" prefWidth="94.0" text="00:00:00" />
+                        <Label fx:id="lTime" alignment="CENTER" prefHeight="30.0" prefWidth="94.0" text="00:00:00">
+                           <HBox.margin>
+                              <Insets right="30.0" />
+                           </HBox.margin></Label>
                      </children>
                   </HBox>
                </children>
@@ -246,7 +250,7 @@
                               <FontAwesomeIconView fill="#f5f0f0" glyphName="HISTORY" size="15" translateX="10.0" wrappingWidth="32.85714054107666" />
                            </graphic>
                         </Tab>
-                        <Tab text=" ">
+                        <Tab fx:id="tabPasos" disable="true" text=" ">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="460.0" prefWidth="106.0">
                                  <children>
