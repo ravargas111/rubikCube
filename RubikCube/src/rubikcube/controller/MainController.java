@@ -151,6 +151,7 @@ public class MainController extends Controller implements Initializable {
     @Override
     public void initialize() {
         //this.empezadoP.setValue(true);
+        this.partidaActual=(Partida) AppContext.getInstance().get("cargada");
          seleccionarModo();
     }
   
@@ -454,7 +455,7 @@ public class MainController extends Controller implements Initializable {
     public void modoCargado(){
        // root.getC
        //this.rubikG.doSequence(this.partidaActual.getListaMovsScramble());
-       this.partidaActual=new Partida(ModoJuego.CARGADO,this.hist);
+       //this.partidaActual=new Partida(ModoJuego.CARGADO,this.hist);
        cargarCubo();
     } 
     
