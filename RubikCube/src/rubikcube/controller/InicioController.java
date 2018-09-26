@@ -37,10 +37,6 @@ public class InicioController extends Controller implements Initializable {
     @FXML
     private StackPane root;
     @FXML
-    private FontAwesomeIconView mostrarRanking;
-    @FXML
-    private StackPane spInfo;
-    @FXML
     private StackPane dialogPane;
 
     /**
@@ -88,11 +84,6 @@ public class InicioController extends Controller implements Initializable {
     @FXML
     private void showRanking(MouseEvent event) {
         FlowController.getInstance().goViewOnDialog("Ranking", dialogPane);
-    }
-
-    @FXML
-    private void irAyuda(MouseEvent event) {
-        FlowController.getInstance().goViewOnDialog("Ayuda", this.spInfo);
     }
     
 }
