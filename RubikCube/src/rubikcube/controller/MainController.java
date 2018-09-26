@@ -153,7 +153,8 @@ public class MainController extends Controller implements Initializable {
     public void initialize() {
         //this.empezadoP.setValue(true);
         this.partidaActual=(Partida) AppContext.getInstance().get("cargada");
-         seleccionarModo();
+        activaBotones();
+        seleccionarModo();
     }
   
     public void secuenciaCuboBtn(){
@@ -361,18 +362,18 @@ public class MainController extends Controller implements Initializable {
             //si el estado cambia a empezado
             if(b2){
                 //System.out.println("empezado");
-                this.bStart.setDisable(true);
-                this.bReplay.setDisable(false);
-                this.bReset.setDisable(false);
-                this.bStart.setDisable(false);
-                this.bStop.setDisable(false);
-                this.bGuardar.setDisable(false);
-                this.bStop1.setDisable(false);
+                //this.bStart.setDisable(true);
+                //this.bReplay.setDisable(false);
+                //this.bReset.setDisable(false);
+                //this.bStart.setDisable(false);
+                //this.bStop.setDisable(false);
+                //this.bGuardar.setDisable(false);
+                //this.bStop1.setDisable(false);
             }
             //si el estado cambia a terminado
             if(b1){
                 //System.out.println("terminado");
-                desactivaBotones();
+                //desactivaBotones();
             }
         });
     }
@@ -562,6 +563,15 @@ public class MainController extends Controller implements Initializable {
         this.bStop1.setDisable(true);
     }
     
+    public void activaBotones(){
+        this.bStart.setDisable(true);
+        this.bReplay.setDisable(false);
+        this.bReset.setDisable(false);
+        this.bStop.setDisable(false);
+        this.bGuardar.setDisable(false);
+        this.bStop1.setDisable(false);
+    }
+    
     @FXML
     private void replayCube(ActionEvent event) {
         doReplay();
@@ -624,6 +634,7 @@ public class MainController extends Controller implements Initializable {
     }
 
     public void btnInicia(){
+        activaBotones();
         this.rubikG.setEmpezado(true);
         this.movesCount.set(0);
         moves=new Moves();
