@@ -128,6 +128,12 @@ public class MainController extends Controller implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+    }    
+
+    @Override
+    public void initialize() {
+        //this.empezadoP.setValue(true);
         //this.infoSP.setVisible(true);
         //this.partidaActual=new Partida();
         this.modoJuego=AppContext.getModoJuego();
@@ -147,11 +153,6 @@ public class MainController extends Controller implements Initializable {
         binds();
         initToolbarEvents();
         initListeners();
-    }    
-
-    @Override
-    public void initialize() {
-        //this.empezadoP.setValue(true);
         this.partidaActual=(Partida) AppContext.getInstance().get("cargada");
         activaBotones();
         seleccionarModo();
@@ -230,7 +231,6 @@ public class MainController extends Controller implements Initializable {
                     this.rubikL=new RubikL(this.rubikG);
                     this.rubikG.doReset();
                     this.rubikG.doSequence((String)AppContext.getInstance().get("scramble"));
-                    
                     break;
                 case 4:
                     this.rubikL=new RubikL(this.rubikG);
@@ -358,7 +358,7 @@ public class MainController extends Controller implements Initializable {
                 });
         });
         
-        this.empezadoP.addListener((b0,b1,b2)->{
+        /*this.empezadoP.addListener((b0,b1,b2)->{
             //si el estado cambia a empezado
             if(b2){
                 //System.out.println("empezado");
@@ -375,7 +375,11 @@ public class MainController extends Controller implements Initializable {
                 //System.out.println("terminado");
                 //desactivaBotones();
             }
-        });
+        });*/
+    }
+    
+    public void finishListeners(){
+        
     }
 
     private void binds(){
@@ -393,6 +397,14 @@ public class MainController extends Controller implements Initializable {
         Scene scene=AppContext.getMainScene();
         scene.addEventHandler(MouseEvent.ANY, rubikG.eventHandler);
         scene.cursorProperty().bind(rubikG.getCursor());
+    }
+    
+    private void unbinds(){
+        lSimulated.textProperty().unbind();
+        
+        lMov.textProperty().unbind();
+        
+        lTime.textProperty().unbind();
     }
     
     private void initToolbarEvents(){
@@ -682,6 +694,9 @@ public class MainController extends Controller implements Initializable {
     @FXML
     private void terminarJuego(ActionEvent event) {
         //autoArmar();
+        unbinds();
+        this.listaMov.getItems().clear();
+        this.listaPasosSig.getItems().clear();
         FlowController.getInstance().goView("Inicio");
     }
 
