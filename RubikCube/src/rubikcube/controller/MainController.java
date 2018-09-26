@@ -128,11 +128,6 @@ public class MainController extends Controller implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-    }    
-
-    @Override
-    public void initialize() {
         //this.empezadoP.setValue(true);
         //this.infoSP.setVisible(true);
         //this.partidaActual=new Partida();
@@ -153,6 +148,10 @@ public class MainController extends Controller implements Initializable {
         binds();
         initToolbarEvents();
         initListeners();
+    }    
+
+    @Override
+    public void initialize() {
         this.partidaActual=(Partida) AppContext.getInstance().get("cargada");
         activaBotones();
         seleccionarModo();
@@ -219,22 +218,18 @@ public class MainController extends Controller implements Initializable {
                 case 1:
                     this.rubikG.setMovScramble(true);
                     this.rubikG.setEmpezado(true);
-                    this.rubikL=new RubikL(this.rubikG);
-                    rubikG.doReset();
+                    enlazarCubos();
                     break;
                 case 2:
-                    this.rubikL=new RubikL(this.rubikG);
-                    this.rubikG.doReset();
+                    enlazarCubos();
                     this.rubikG.doSequence((String)AppContext.getInstance().get("scramble"));
                     break;
                 case 3:
-                    this.rubikL=new RubikL(this.rubikG);
-                    this.rubikG.doReset();
+                    enlazarCubos();
                     this.rubikG.doSequence((String)AppContext.getInstance().get("scramble"));
                     break;
                 case 4:
-                    this.rubikL=new RubikL(this.rubikG);
-                    this.rubikG.doReset();
+                    enlazarCubos();
                     cargarCubo();
                     break;
             }                
@@ -245,6 +240,12 @@ public class MainController extends Controller implements Initializable {
         }
     }
 
+    public void enlazarCubos(){
+        this.rubikG.doReset();
+        this.rubikL=new RubikL(this.rubikG);
+        rubikG.setRubikL(rubikL);//ambos quedan relacionados (rotación del gráfico llama rotación del lógico)
+    }
+    
     public void mezclarCubo(){
         if(moves.getNumMoves()>0){
                 rubikG.doReset();
@@ -483,13 +484,14 @@ public class MainController extends Controller implements Initializable {
     } 
     
     public void reiniciarInfo(){
+        timer.stop();
         empezado=false;
         this.movesCount.set(0);
         this.listaMov.getItems().clear();
         this.listaPasosSig.getItems().clear();
         this.pasosSiguientes.clear();
-        if(asistido)//todo
-            this.rubikG.doScramble();
+        //if(asistido)//todo
+            //this.rubikG.doScramble();
     }
     
     public void llenarAutoarmado(){
@@ -544,7 +546,7 @@ public class MainController extends Controller implements Initializable {
     public void revisarArmadoL(){
         if(this.rubikL.evaluarCuboArmado()){
            Mensaje msj=new Mensaje();
-            msj.show(Alert.AlertType.INFORMATION, "Fin de partida", "El cubo ha sido armado"); 
+           msj.show(Alert.AlertType.INFORMATION, "Fin de partida", "El cubo ha sido armado"); 
         }
     }
     
@@ -697,10 +699,8 @@ public class MainController extends Controller implements Initializable {
 
     @FXML
     private void terminarJuego(ActionEvent event) {
-        //autoArmar();
-        unbinds();
-        this.listaMov.getItems().clear();
-        this.listaPasosSig.getItems().clear();
+        enlazarCubos();
+        reiniciarInfo();
         FlowController.getInstance().goView("Inicio");
     }
 
