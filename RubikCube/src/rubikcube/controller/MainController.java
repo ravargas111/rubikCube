@@ -505,11 +505,19 @@ public class MainController extends Controller implements Initializable {
                     }
                 }
             }
-        if(this.rubikG.isSolved().get()){
+        /*if(this.rubikG.isSolved().get()){
             Mensaje msj=new Mensaje();
             msj.show(Alert.AlertType.INFORMATION, "Fin de partida", "El cubo ha sido armado");
-        }
+        }*/
+        revisarArmadoL();
         
+    }
+    
+    public void revisarArmadoL(){
+        if(this.rubikL.evaluarCuboArmado()){
+           Mensaje msj=new Mensaje();
+            msj.show(Alert.AlertType.INFORMATION, "Fin de partida", "El cubo ha sido armado"); 
+        }
     }
     
     public void accionesScramble(){
