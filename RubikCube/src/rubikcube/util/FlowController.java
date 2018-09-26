@@ -25,6 +25,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import rubikcube.RubikCube;
 import rubikcube.controller.Controller;
+import rubikcube.controller.MainController;
 
 /**
  *
@@ -225,6 +226,10 @@ public class FlowController {
 
     public static void setIdioma(ResourceBundle idioma) {
         FlowController.idioma = idioma;
+    }
+    
+    public StackPane getDialogsPane(){
+        return ((MainController) getLoader("Main").getController()).getDialogsPane();
     }
     
     public void initialize() {

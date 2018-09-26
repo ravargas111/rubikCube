@@ -37,9 +37,7 @@ public class InicioController extends Controller implements Initializable {
     @FXML
     private StackPane root;
     @FXML
-    private FontAwesomeIconView mostrarRanking;
-    @FXML
-    private StackPane spInfo;
+    private StackPane dialogPane;
 
     /**
      * Initializes the controller class.
@@ -82,15 +80,10 @@ public class InicioController extends Controller implements Initializable {
             msj.show(Alert.AlertType.WARNING, "Campo incompleto", "Necesita ingresar nombre");
         }
     }
-
+    
     @FXML
-    private void irRanking(MouseEvent event) {
-        FlowController.getInstance().goViewOnDialog("Ranking", this.spInfo);
-    }
-
-    @FXML
-    private void irAyuda(MouseEvent event) {
-        FlowController.getInstance().goViewOnDialog("Ayuda", this.spInfo);
+    private void showRanking(MouseEvent event) {
+        FlowController.getInstance().goViewOnDialog("Ranking", dialogPane);
     }
     
 }

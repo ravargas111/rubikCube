@@ -690,6 +690,10 @@ public class MainController extends Controller implements Initializable {
         
 
     }
+    
+    public StackPane getDialogsPane(){
+        return infoSP;
+    }
 
     @FXML
     private void terminarJuego(ActionEvent event) {
