@@ -624,7 +624,9 @@ public class MainController extends Controller implements Initializable {
         //Persistencia.guardarPartida(this.hist);
         RankingMovimientos.getInstance().setEspacio((String) AppContext.getInstance().get("user"), Integer.valueOf(this.lMov.getText()));
         Persistencia.guardarRankingMovimientos(RankingMovimientos.getInstance());
-        RankingTiempo.getInstance().setEspacio((String) AppContext.getInstance().get("user"), 40);
+        Integer segundos = time.getSecond();
+        segundos += time.getMinute()*60;
+        RankingTiempo.getInstance().setEspacio((String) AppContext.getInstance().get("user"), segundos);
         Persistencia.guardarRankingTiempos(RankingTiempo.getInstance());
         //ArrayList<Move> listaM = new ArrayList<>();
         //listaM.addAll(this.historialMovimientos.getMoves());
