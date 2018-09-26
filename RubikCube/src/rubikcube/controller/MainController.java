@@ -543,7 +543,7 @@ public class MainController extends Controller implements Initializable {
             this.movPreviosOrdenado+=rubikG.getLastRotation().get()+" ";
             //String sc=(String) AppContext.getInstance().get("scramble");
             //sc+=this.movPreviosOrdenado;
-            System.out.println(movPreviosOrdenado);
+            //System.out.println(movPreviosOrdenado);
             //System.out.println("mov");
         }
         if(this.empezado){
@@ -640,7 +640,7 @@ public class MainController extends Controller implements Initializable {
         this.bStart.setDisable(false);
         this.bGuardar.setDisable(true);
         this.empezadoP.setValue(false);
-        
+        this.bStop.setDisable(false);
     }
 
     @FXML
@@ -712,7 +712,8 @@ public class MainController extends Controller implements Initializable {
         this.partidaActual.setListaMovsScramble((String) AppContext.getInstance().get("scramble"));
         else
             this.partidaActual.setListaMovsScramble(this.movPreviosOrdenado);
-        System.out.println("sc guardado: "+movPreviosOrdenado);
+        //System.out.println("sc guardado: "+movPreviosOrdenado);
+        //this.partidaActual.setTime(time);
         this.partidaActual.setListaMovs(hist);
         this.partidaActual.guardarPartida();
         }
