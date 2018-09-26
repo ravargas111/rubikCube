@@ -76,6 +76,7 @@ public class MainController extends Controller implements Initializable {
     private String sigMov;
     private JFXButton btnHover;
     private Boolean empezado;
+    private Boolean evaluar;
     private Moves moves=new Moves();
     private ArrayList<String> hist;
     private String histScramble;
@@ -152,6 +153,7 @@ public class MainController extends Controller implements Initializable {
 
     @Override
     public void initialize() {
+        this.evaluar=false;
         this.partidaActual=(Partida) AppContext.getInstance().get("cargada");
         activaBotones();
         seleccionarModo();
@@ -484,6 +486,7 @@ public class MainController extends Controller implements Initializable {
     } 
     
     public void reiniciarInfo(){
+        this.evaluar=false;
         timer.stop();
         desactivaBotones();
         empezado=false;
@@ -557,9 +560,11 @@ public class MainController extends Controller implements Initializable {
     }
     
     public void revisarArmadoL(){
-        if(this.rubikL.evaluarCuboArmado()){
+        if(this.rubikL.evaluarCuboArmado()&&this.evaluar){
            Mensaje msj=new Mensaje();
-           msj.show(Alert.AlertType.INFORMATION, "Fin de partida", "El cubo ha sido armado"); 
+           msj.show(Alert.AlertType.INFORMATION, "Fin de partida", "El cubo ha sido armado");
+           persistirRank();//aquí persiste para el ranking
+           
         }
     }
     
@@ -606,15 +611,17 @@ public class MainController extends Controller implements Initializable {
     
     @FXML
     private void resetCube(ActionEvent event) {
+        reiniciarInfo();
         reiniciarCubo();
         this.bStart.setDisable(false);
         this.bGuardar.setDisable(true);
         this.empezadoP.setValue(false);
-        reiniciarInfo();
+        
     }
 
     @FXML
     private void iniciarJuego(ActionEvent event) {
+        this.evaluar=true;
         switch(this.modoJuego){
             case 1:
                 btnIniciaOrdenado();
@@ -679,15 +686,19 @@ public class MainController extends Controller implements Initializable {
         //ArrayList<String> lista = new ArrayList<>();
         //lista.addAll(this.hist);
         //Persistencia.guardarPartida(this.hist);
+        
+        //ArrayList<Move> listaM = new ArrayList<>();
+        //listaM.addAll(this.historialMovimientos.getMoves());
+        //Persistencia.guardarPartidaM(listaM);
+    }
+    
+    public void persistirRank(){
         RankingMovimientos.getInstance().setEspacio((String) AppContext.getInstance().get("user"), Integer.valueOf(this.lMov.getText()));
         Persistencia.guardarRankingMovimientos(RankingMovimientos.getInstance());
         Integer segundos = time.getSecond();
         segundos += time.getMinute()*60;
         RankingTiempo.getInstance().setEspacio((String) AppContext.getInstance().get("user"), segundos);
         Persistencia.guardarRankingTiempos(RankingTiempo.getInstance());
-        //ArrayList<Move> listaM = new ArrayList<>();
-        //listaM.addAll(this.historialMovimientos.getMoves());
-        //Persistencia.guardarPartidaM(listaM);
     }
     
     public void cargarCubo(){
