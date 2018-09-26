@@ -462,6 +462,7 @@ public class MainController extends Controller implements Initializable {
         //this.bStart.setDisable(false);
         desactivaBotones();
         Integer modo=AppContext.getModoJuego();
+        this.modoJuego=AppContext.getModoJuego();
         switch(modo){
             case 1: modoOrdenado();break;
             case 2: modoDesordenado();break;
