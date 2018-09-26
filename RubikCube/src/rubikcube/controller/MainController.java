@@ -539,7 +539,10 @@ public class MainController extends Controller implements Initializable {
     
     public void accionesMovimiento(){
         if(this.rubikG.getMovScramble()){
-            this.movPreviosOrdenado+=" "+rubikG.getLastRotation().get();
+            this.movPreviosOrdenado+=rubikG.getLastRotation().get()+" ";
+            //String sc=(String) AppContext.getInstance().get("scramble");
+            //sc+=this.movPreviosOrdenado;
+            System.out.println(movPreviosOrdenado);
             //System.out.println("mov");
         }
         if(this.empezado){
@@ -708,7 +711,7 @@ public class MainController extends Controller implements Initializable {
         this.partidaActual.setListaMovsScramble((String) AppContext.getInstance().get("scramble"));
         else
             this.partidaActual.setListaMovsScramble(this.movPreviosOrdenado);
-        System.out.println("sc guardado: "+AppContext.getInstance().get("scramble"));
+        System.out.println("sc guardado: "+movPreviosOrdenado);
         this.partidaActual.setListaMovs(hist);
         this.partidaActual.guardarPartida();
         }
@@ -737,7 +740,7 @@ public class MainController extends Controller implements Initializable {
         //System.out.println("movs cargado: "+this.partidaActual.getMovimientos());
         this.empezado = false;
         this.time=this.partidaActual.getTime();
-        this.lMov.setText(this.partidaActual.getCantMovs().toString());
+        //this.lMov.setText(this.partidaActual.getCantMovs().toString());
         //if(this.empezado)
            // reiniciarCubo();
         //this.empezado=true;
