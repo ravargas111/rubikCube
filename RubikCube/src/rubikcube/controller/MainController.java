@@ -633,7 +633,9 @@ public class MainController extends Controller implements Initializable {
     public void cargarCubo(){
         //Partida p = (Partida) AppContext.getInstance().get("cargada");
         this.rubikG.doSequence(this.partidaActual.getListaMovsScramble());
+        this.empezado=true;
         this.rubikG.doSequence(this.partidaActual.getMovimientos());
+        //this.lMov.setText(this.partidaActual.getCantMovs().toString());
         //if(this.empezado)
            // reiniciarCubo();
         //this.empezado=true;

@@ -178,7 +178,7 @@ public class RubikG {
         lastRotation.set("");
         lastRotation.set(btRot);
         rotateFace(btRot,false,false);
-        this.rubikL.movimientoBasico(btRot);//probar si sirve
+        this.rubikL.movimientoBasico(btRot);
         //}
     }
     
