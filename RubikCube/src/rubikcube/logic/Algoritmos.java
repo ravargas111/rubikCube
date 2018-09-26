@@ -115,7 +115,7 @@ public class Algoritmos {
         if(!paso5){
             algoritmoAuxiliar = "";
             orientarCruzTercerNivel();
-            System.out.println("Pasos para el algoritmo 5\n\t" + algoritmoAuxiliar);
+            //System.out.println("Pasos para el algoritmo 5\n\t" + algoritmoAuxiliar);
         }
         paso6 = checkPaso6();
         if(!paso6){

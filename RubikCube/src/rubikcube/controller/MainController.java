@@ -485,13 +485,26 @@ public class MainController extends Controller implements Initializable {
     
     public void reiniciarInfo(){
         timer.stop();
+        desactivaBotones();
         empezado=false;
         this.movesCount.set(0);
         this.listaMov.getItems().clear();
         this.listaPasosSig.getItems().clear();
         this.pasosSiguientes.clear();
+        //reiniciaVariables();
         //if(asistido)//todo
             //this.rubikG.doScramble();
+    }
+    
+    public void reiniciaVariables(){
+        this.empezadoP=new SimpleBooleanProperty(false);
+        this.asistido=false;
+        this.pasosSiguientes=new ArrayList<>();
+        this.histScramble=new String();
+        this.hist=new ArrayList<>();
+        sigMov="";
+        empezado=false;
+        movesCount=new SimpleIntegerProperty();
     }
     
     public void llenarAutoarmado(){
@@ -552,7 +565,7 @@ public class MainController extends Controller implements Initializable {
     
     public void accionesScramble(){
         this.empezadoP.set(false);
-        this.partidaActual.setListaMovsScramble((String) AppContext.getInstance().get("scramble")); 
+        //this.partidaActual.setListaMovsScramble((String) AppContext.getInstance().get("scramble")); 
         this.empezadoP.set(true);
         
     }
@@ -701,6 +714,12 @@ public class MainController extends Controller implements Initializable {
     private void terminarJuego(ActionEvent event) {
         enlazarCubos();
         reiniciarInfo();
+        reiniciaVariables();
+        String s=(String) AppContext.getInstance().get("scramble");
+        s="";
+        AppContext.getInstance().set("scramble",s);
+        AppContext.getInstance().getMoveLists().clear();
+        AppContext.getMoveListGen().clear();
         FlowController.getInstance().goView("Inicio");
     }
 
