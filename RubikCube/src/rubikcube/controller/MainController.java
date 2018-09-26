@@ -450,7 +450,10 @@ public class MainController extends Controller implements Initializable {
                 sb.append(" ").append(e);
             });
             this.rubikG.doSequence(sb.toString().trim());
+            desactivaBotones();
+            this.bStop.setDisable(false);
         }
+        
     }
     
     public void seleccionarModo(){
@@ -567,7 +570,7 @@ public class MainController extends Controller implements Initializable {
     }
     
     public void revisarArmadoL(){
-        if(this.rubikL.evaluarCuboArmado()&&this.evaluar){
+        if((this.rubikL.evaluarCuboArmado()||this.rubikG.isSolved().get())&&this.evaluar){
            Mensaje msj=new Mensaje();
            msj.show(Alert.AlertType.INFORMATION, "Fin de partida", "El cubo ha sido armado");
            persistirRank();//aquí persiste para el ranking
@@ -679,8 +682,9 @@ public class MainController extends Controller implements Initializable {
         this.rubikG.setEmpezado(true);
         this.movesCount.set(0);
         moves=new Moves();
+        if(!this.modoJuego.equals(3)){
         time=LocalTime.now();
-        timer.playFromStart();
+        timer.playFromStart();}
         this.empezadoP.setValue(true);
         empezado=true;
     }
@@ -688,15 +692,14 @@ public class MainController extends Controller implements Initializable {
     @FXML
     public void guardarCubo(){
         //Partida p= new Partida(this.hist, Integer.valueOf(this.lMov.getText()));
+        if(!this.modoJuego.equals(3)){
         this.partidaActual.setTime(time);
         this.partidaActual.guardarPartida();
-        //ArrayList<String> lista = new ArrayList<>();
-        //lista.addAll(this.hist);
-        //Persistencia.guardarPartida(this.hist);
-        
-        //ArrayList<Move> listaM = new ArrayList<>();
-        //listaM.addAll(this.historialMovimientos.getMoves());
-        //Persistencia.guardarPartidaM(listaM);
+        }
+        else{
+            Mensaje msj=new Mensaje();
+            msj.show(Alert.AlertType.INFORMATION, "acción no permitida", "no se puede guardar en este modo");
+        }
     }
     
     public void persistirRank(){
