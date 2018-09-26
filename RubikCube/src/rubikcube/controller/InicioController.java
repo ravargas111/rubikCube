@@ -6,6 +6,7 @@
 package rubikcube.controller;
 
 import com.jfoenix.controls.JFXTextField;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -15,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import rubikcube.logic.Jugador;
 import rubikcube.util.AppContext;
@@ -34,6 +36,10 @@ public class InicioController extends Controller implements Initializable {
     private ImageView imgCubo;
     @FXML
     private StackPane root;
+    @FXML
+    private FontAwesomeIconView mostrarRanking;
+    @FXML
+    private StackPane spInfo;
 
     /**
      * Initializes the controller class.
@@ -75,6 +81,16 @@ public class InicioController extends Controller implements Initializable {
             Mensaje msj=new Mensaje();
             msj.show(Alert.AlertType.WARNING, "Campo incompleto", "Necesita ingresar nombre");
         }
+    }
+
+    @FXML
+    private void irRanking(MouseEvent event) {
+        FlowController.getInstance().goViewOnDialog("Ranking", this.spInfo);
+    }
+
+    @FXML
+    private void irAyuda(MouseEvent event) {
+        FlowController.getInstance().goViewOnDialog("Ayuda", this.spInfo);
     }
     
 }

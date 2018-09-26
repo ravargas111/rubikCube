@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXDialogLayout?>
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTextArea?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.image.Image?>
@@ -10,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-
+<?import javafx.scene.text.Font?>
 
 <JFXDialogLayout fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="561.0" prefWidth="680.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rubikcube.controller.AyudaController">
    <children>
@@ -30,7 +31,10 @@
                                        </image>
                                     </ImageView>
                                     <Label prefHeight="55.0" prefWidth="51.0" text="B" />
-                                    <JFXTextArea prefHeight="86.0" prefWidth="527.0" />
+                                    <JFXTextArea editable="false" prefHeight="86.0" prefWidth="527.0" text="&#10;B : Mueve la cara de atrás en sentido de las manecillas del reloj&#10;&#10;Bi : Mueve la cara de atrás en sentido contrario de las manecillas del reloj">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font></JFXTextArea>
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER_LEFT" prefHeight="91.0" prefWidth="632.0">
@@ -40,8 +44,11 @@
                                           <Image url="@../resources/icons/lados/Front.png" />
                                        </image>
                                     </ImageView>
-                                    <Label prefHeight="55.0" prefWidth="51.0" text="B" />
-                                    <JFXTextArea prefHeight="86.0" prefWidth="527.0" />
+                                    <Label prefHeight="55.0" prefWidth="51.0" text="F" />
+                                    <JFXTextArea editable="false" prefHeight="86.0" prefWidth="527.0" text="&#10;F : Mueve la cara del frente en sentido de las manecillas del reloj&#10;&#10;Fi : Mueve la cara del frente en sentido contrario de las manecillas del reloj">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font></JFXTextArea>
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER_LEFT" prefHeight="91.0" prefWidth="632.0">
@@ -51,8 +58,11 @@
                                           <Image url="@../resources/icons/lados/Left.png" />
                                        </image>
                                     </ImageView>
-                                    <Label prefHeight="55.0" prefWidth="51.0" text="B" />
-                                    <JFXTextArea prefHeight="86.0" prefWidth="527.0" />
+                                    <Label prefHeight="55.0" prefWidth="51.0" text="L" />
+                                    <JFXTextArea editable="false" prefHeight="86.0" prefWidth="527.0" text="&#10;L : Mueve la cara izquierda en sentido de las manecillas del reloj&#10;&#10;Li : Mueve la cara izquierda en sentido contrario de las manecillas del reloj">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font></JFXTextArea>
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER_LEFT" prefHeight="91.0" prefWidth="632.0">
@@ -62,8 +72,11 @@
                                           <Image url="@../resources/icons/lados/Right.png" />
                                        </image>
                                     </ImageView>
-                                    <Label prefHeight="55.0" prefWidth="51.0" text="B" />
-                                    <JFXTextArea prefHeight="86.0" prefWidth="527.0" />
+                                    <Label prefHeight="55.0" prefWidth="51.0" text="R" />
+                                    <JFXTextArea editable="false" prefHeight="86.0" prefWidth="527.0" text="&#10;R : Mueve la cara derecha en sentido de las manecillas del reloj&#10;&#10;Ri : Mueve la cara derecha en sentido contrario de las manecillas del reloj">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font></JFXTextArea>
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER_LEFT" prefHeight="91.0" prefWidth="632.0">
@@ -73,8 +86,11 @@
                                           <Image url="@../resources/icons/lados/Up.png" />
                                        </image>
                                     </ImageView>
-                                    <Label prefHeight="55.0" prefWidth="51.0" text="B" />
-                                    <JFXTextArea prefHeight="86.0" prefWidth="527.0" />
+                                    <Label prefHeight="55.0" prefWidth="51.0" text="U" />
+                                    <JFXTextArea editable="false" prefHeight="86.0" prefWidth="527.0" text="&#10;U : Mueve la cara superior en sentido de las manecillas del reloj&#10;&#10;Ui : Mueve la cara superior en sentido contrario de las manecillas del reloj">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font></JFXTextArea>
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER_LEFT" prefHeight="91.0" prefWidth="632.0">
@@ -84,8 +100,11 @@
                                           <Image url="@../resources/icons/lados/Down.png" />
                                        </image>
                                     </ImageView>
-                                    <Label prefHeight="55.0" prefWidth="51.0" text="B" />
-                                    <JFXTextArea prefHeight="86.0" prefWidth="527.0" />
+                                    <Label prefHeight="55.0" prefWidth="51.0" text="D" />
+                                    <JFXTextArea editable="false" prefHeight="86.0" prefWidth="527.0" text="&#10;D : Mueve la cara inferior en sentido de las manecillas del reloj&#10;&#10;Di : Mueve la cara inferior en sentido contrario de las manecillas del reloj">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font></JFXTextArea>
                                  </children>
                               </HBox>
                            </children>
@@ -107,7 +126,13 @@
                                           <Image url="@../resources/icons/niveles/Nivel%201.png" />
                                        </image>
                                     </ImageView>
-                                    <JFXTextArea prefHeight="103.0" prefWidth="506.0" />
+                                    <JFXTextArea editable="false" focusColor="#edeef010" prefHeight="103.0" prefWidth="506.0" text="Cruz:&#10; Hacer que las aristas superiores coincidan con las centrales inferiores&#10;" unFocusColor="#f8f3f3">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets left="10.0" />
+                                       </padding></JFXTextArea>
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
@@ -117,7 +142,10 @@
                                           <Image url="@../resources/icons/niveles/Nivel%202.png" />
                                        </image>
                                     </ImageView>
-                                    <JFXTextArea prefHeight="103.0" prefWidth="506.0" />
+                                    <JFXTextArea editable="false" prefHeight="103.0" prefWidth="506.0" text=" Nivel 2: &#10; Hacer coincidir las partes de la esquina de la capa superior&#10;">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font></JFXTextArea>
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
@@ -127,7 +155,10 @@
                                           <Image url="@../resources/icons/niveles/Nivel%203.png" />
                                        </image>
                                     </ImageView>
-                                    <JFXTextArea prefHeight="103.0" prefWidth="506.0" />
+                                    <JFXTextArea editable="false" prefHeight="103.0" prefWidth="506.0" text="Nivel 3:&#10;Completar la segunda fila&#10;">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font></JFXTextArea>
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
@@ -137,7 +168,10 @@
                                           <Image url="@../resources/icons/niveles/Nivel%204.png" />
                                        </image>
                                     </ImageView>
-                                    <JFXTextArea prefHeight="103.0" prefWidth="506.0" />
+                                    <JFXTextArea editable="false" prefHeight="103.0" prefWidth="506.0" text="Nivel 3:&#10;Crear una cruz desde las partes de la fila superior al borde&#10;">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font></JFXTextArea>
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
@@ -147,7 +181,10 @@
                                           <Image url="@../resources/icons/niveles/Nivel%205.png" />
                                        </image>
                                     </ImageView>
-                                    <JFXTextArea prefHeight="103.0" prefWidth="506.0" />
+                                    <JFXTextArea editable="false" prefHeight="103.0" prefWidth="506.0" text="Nivel 3:&#10;Hacer que las aristas superiores coincidan con las centrales inferiores&#10;">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font></JFXTextArea>
                                  </children>
                               </HBox>
                            </children>
@@ -169,7 +206,10 @@
                                           <Image url="@../resources/icons/niveles/Nivel%206.png" />
                                        </image>
                                     </ImageView>
-                                    <JFXTextArea prefHeight="103.0" prefWidth="506.0" />
+                                    <JFXTextArea editable="false" prefHeight="103.0" prefWidth="506.0" text="Nivel 3: &#10;Emparejar las partes de las esquinas de la línea superior">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font></JFXTextArea>
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
@@ -179,7 +219,10 @@
                                           <Image url="@../resources/icons/niveles/Nivel%207.png" />
                                        </image>
                                     </ImageView>
-                                    <JFXTextArea prefHeight="103.0" prefWidth="506.0" />
+                                    <JFXTextArea editable="false" prefHeight="103.0" prefWidth="506.0" text="Nivel 3:&#10;Emparejar los colores de la línea superior y completar el cubo">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font></JFXTextArea>
                                  </children>
                               </HBox>
                            </children>
