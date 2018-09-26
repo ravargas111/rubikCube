@@ -65,7 +65,7 @@ public class RubikG {
     private List<Integer> order;
     private List<Integer> reorder, layer, orderScramble;
     private List<String> sequence=new ArrayList<>();
-    
+    private Boolean movScramble;
     private boolean secondRotation=false;
     private final DoubleProperty rotation=new SimpleDoubleProperty(0d);
     private final BooleanProperty onRotation=new SimpleBooleanProperty(false);
@@ -113,6 +113,7 @@ public class RubikG {
         }else{
             this.asistido=false;
         }
+        this.movScramble=false;
         this.empezado=false;
         this.movPermitido=true;
         this.sigMov=" ";//to do
@@ -355,7 +356,7 @@ public class RubikG {
                     mouse.set(MOUSE_RELEASED);
                     if(!onRotation.get() && !myFace.isEmpty() && !myFaceOld.isEmpty()){
                         //comparando
-                        if(Utils.radClick<radius&&siguientePermitido(myFace)){ //ver si sirve
+                        if(Utils.radClick<radius&&siguientePermitido(myFace)){ 
                             // if hand is moved far away full rotation
                             rotateFace(myFace);
                         } else { 
@@ -390,7 +391,7 @@ public class RubikG {
         });
         doSequence(sb.toString().trim());
         AppContext.getInstance().set("scramble", sb.toString().trim());
-        System.out.println("scramble inicial:"+sb.toString().trim());
+        //System.out.println("scramble inicial:"+sb.toString().trim());
     }
     
     public void doSequence(String list){
@@ -525,6 +526,14 @@ public class RubikG {
 
     public void setEmpezado(boolean empezado) {
         this.empezado = empezado;
+    }
+
+    public Boolean getMovScramble() {
+        return movScramble;
+    }
+
+    public void setMovScramble(Boolean movScramble) {
+        this.movScramble = movScramble;
     }
 
     public void setSigMov(String sigMov) {

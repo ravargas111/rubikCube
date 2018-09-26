@@ -84,6 +84,7 @@ public class MainController extends Controller implements Initializable {
     private BooleanProperty empezadoP;
     private Partida partidaActual;
     private Integer modoJuego;
+    private String movPreviosOrdenado;
     @FXML
     private Label lSolved;
     @FXML
@@ -152,7 +153,8 @@ public class MainController extends Controller implements Initializable {
     public void initialize() {
         //this.empezadoP.setValue(true);
         this.partidaActual=(Partida) AppContext.getInstance().get("cargada");
-         seleccionarModo();
+        activaBotones();
+        seleccionarModo();
     }
   
     public void secuenciaCuboBtn(){
@@ -193,7 +195,7 @@ public class MainController extends Controller implements Initializable {
                     .findFirst().ifPresent(n->rubikG.isHoveredOnClick().set(((JFXButton)n).isHover()));
             });
         //movimiento permitido
-        if(rubikG.siguientePermitido(btRot)&&this.empezado){
+        if(rubikG.siguientePermitido(btRot)&&(this.empezado||this.rubikG.getMovScramble())){
         rubikG.rotateFace(btRot);
         }
         //else
@@ -214,18 +216,24 @@ public class MainController extends Controller implements Initializable {
             rubikG.setEmpezado(false);
             switch(this.modoJuego){
                 case 1:
+                    this.rubikG.setMovScramble(true);
+                    this.rubikG.setEmpezado(true);
+                    this.rubikL=new RubikL(this.rubikG);
                     rubikG.doReset();
                     break;
                 case 2:
+                    this.rubikL=new RubikL(this.rubikG);
                     this.rubikG.doReset();
                     this.rubikG.doSequence((String)AppContext.getInstance().get("scramble"));
                     break;
                 case 3:
+                    this.rubikL=new RubikL(this.rubikG);
                     this.rubikG.doReset();
                     this.rubikG.doSequence((String)AppContext.getInstance().get("scramble"));
                     
                     break;
                 case 4:
+                    this.rubikL=new RubikL(this.rubikG);
                     this.rubikG.doReset();
                     cargarCubo();
                     break;
@@ -354,18 +362,18 @@ public class MainController extends Controller implements Initializable {
             //si el estado cambia a empezado
             if(b2){
                 //System.out.println("empezado");
-                this.bStart.setDisable(true);
-                this.bReplay.setDisable(false);
-                this.bReset.setDisable(false);
-                this.bStart.setDisable(false);
-                this.bStop.setDisable(false);
-                this.bGuardar.setDisable(false);
-                this.bStop1.setDisable(false);
+                //this.bStart.setDisable(true);
+                //this.bReplay.setDisable(false);
+                //this.bReset.setDisable(false);
+                //this.bStart.setDisable(false);
+                //this.bStop.setDisable(false);
+                //this.bGuardar.setDisable(false);
+                //this.bStop1.setDisable(false);
             }
             //si el estado cambia a terminado
             if(b1){
                 //System.out.println("terminado");
-                desactivaBotones();
+                //desactivaBotones();
             }
         });
     }
@@ -437,6 +445,9 @@ public class MainController extends Controller implements Initializable {
     }
 
     public void modoOrdenado(){
+        this.movPreviosOrdenado="";
+        this.rubikG.setEmpezado(true);
+        this.rubikG.setMovScramble(true);
         this.partidaActual=new Partida(ModoJuego.ORDENADO,this.hist);
     }
     
@@ -485,6 +496,10 @@ public class MainController extends Controller implements Initializable {
     }
     
     public void accionesMovimiento(){
+        if(this.rubikG.getMovScramble()){
+            this.movPreviosOrdenado+=" "+rubikG.getLastRotation().get();
+            //System.out.println("mov");
+        }
         if(this.empezado){
                 //maneja historial
                 String movStr=rubikG.getLastRotation().get();
@@ -495,7 +510,8 @@ public class MainController extends Controller implements Initializable {
                 Label lbl = new Label(movStr);
                 this.listaMov.getItems().add(lbl);
                 this.movesCount.set(movesCount.get()+1);
-                
+                if(this.modoJuego==1&&!this.empezado)
+                    System.out.println("mov a hist");
                 //maneja lista de pasos a seguir en caso asistido
                 if(this.asistido){
                     this.pasosSiguientes.remove(0);
@@ -547,6 +563,15 @@ public class MainController extends Controller implements Initializable {
         this.bStop1.setDisable(true);
     }
     
+    public void activaBotones(){
+        this.bStart.setDisable(true);
+        this.bReplay.setDisable(false);
+        this.bReset.setDisable(false);
+        this.bStop.setDisable(false);
+        this.bGuardar.setDisable(false);
+        this.bStop1.setDisable(false);
+    }
+    
     @FXML
     private void replayCube(ActionEvent event) {
         doReplay();
@@ -577,14 +602,15 @@ public class MainController extends Controller implements Initializable {
                 btnIniciaCargado();
                 break;
         }
-
-        
-        
     }
     
     public void btnIniciaOrdenado(){
-        if(moves.getNumMoves()>0)
+        if(moves.getNumMoves()>0){
+        this.partidaActual.setListaMovsScramble(this.movPreviosOrdenado);
+        this.rubikG.setMovScramble(false);
+        this.bStart.setDisable(true);
         btnInicia();
+        }
         else{
             Mensaje msj=new Mensaje();
             msj.show(Alert.AlertType.INFORMATION, "Movimientos requeridos", "Desarme el cubo"); 
@@ -592,19 +618,23 @@ public class MainController extends Controller implements Initializable {
     }
     
     public void btnIniciaDesordenado(){
+        this.bStart.setDisable(true);
         btnInicia();
     }
     
     public void btnIniciaAsistido(){
         llenarAutoarmado();
         btnInicia();
+        this.bStart.setDisable(true);
     }
     
     public void btnIniciaCargado(){
         btnInicia();
+        this.bStart.setDisable(true);
     }
 
     public void btnInicia(){
+        activaBotones();
         this.rubikG.setEmpezado(true);
         this.movesCount.set(0);
         moves=new Moves();
@@ -624,7 +654,9 @@ public class MainController extends Controller implements Initializable {
         //Persistencia.guardarPartida(this.hist);
         RankingMovimientos.getInstance().setEspacio((String) AppContext.getInstance().get("user"), Integer.valueOf(this.lMov.getText()));
         Persistencia.guardarRankingMovimientos(RankingMovimientos.getInstance());
-        RankingTiempo.getInstance().setEspacio((String) AppContext.getInstance().get("user"), 40);
+        Integer segundos = time.getSecond();
+        segundos += time.getMinute()*60;
+        RankingTiempo.getInstance().setEspacio((String) AppContext.getInstance().get("user"), segundos);
         Persistencia.guardarRankingTiempos(RankingTiempo.getInstance());
         //ArrayList<Move> listaM = new ArrayList<>();
         //listaM.addAll(this.historialMovimientos.getMoves());
@@ -645,6 +677,10 @@ public class MainController extends Controller implements Initializable {
         //StringBuilder sb=(StringBuilder) AppContext.getInstance().get("cargada");
         
 
+    }
+    
+    public StackPane getDialogsPane(){
+        return infoSP;
     }
 
     @FXML
