@@ -6,6 +6,7 @@
 package rubikcube.logic;
 
 import java.io.Serializable;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 /**
@@ -17,6 +18,7 @@ public class Partida implements Serializable{
     private Integer cantMovs;
     private ArrayList<String> listaMovs;
     private String listaMovsScramble;
+    private LocalTime time;
 
     public Partida(ModoJuego modo,ArrayList<String> listaMovs) {
         this.listaMovs = listaMovs;
@@ -63,5 +65,13 @@ public class Partida implements Serializable{
         this.listaMovsScramble.stream().forEach(str -> {sb.append(str).append(" ");});
         return sb.toString().trim();
     }*/
+
+    public LocalTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
+    }
     
 }

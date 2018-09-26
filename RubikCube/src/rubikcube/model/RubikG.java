@@ -83,7 +83,7 @@ public class RubikG {
     private final LongProperty timestamp = new SimpleLongProperty(0l);
     private RubikL rubikL;
     private double mouseNewX, mouseNewY, mouseIniX, mouseIniY;
-
+    private boolean empezado;
     private MeshView pickedMesh;
     private boolean stopEvents=false;
     private String selFaces="", myFace="", myFaceOld="";
@@ -113,7 +113,7 @@ public class RubikG {
         }else{
             this.asistido=false;
         }
-        
+        this.empezado=false;
         this.movPermitido=true;
         this.sigMov=" ";//to do
         Model3D model=new Model3D();
@@ -390,6 +390,7 @@ public class RubikG {
         });
         doSequence(sb.toString().trim());
         AppContext.getInstance().set("scramble", sb.toString().trim());
+        System.out.println("scramble inicial:"+sb.toString().trim());
     }
     
     public void doSequence(String list){
@@ -518,11 +519,20 @@ public class RubikG {
         return sigMov;
     }
 
+    public boolean isEmpezado() {
+        return empezado;
+    }
+
+    public void setEmpezado(boolean empezado) {
+        this.empezado = empezado;
+    }
+
     public void setSigMov(String sigMov) {
         this.sigMov = sigMov;
     }
     
     public Boolean siguientePermitido(String face){
+        if(empezado){
         if(this.asistido){
             this.movPermitido=false;
             if(this.sigMov.equals(face))
@@ -530,6 +540,8 @@ public class RubikG {
             else return false;
         }
         else return true;
+        }
+        else return false;
     }
     
     public void resetCam(){

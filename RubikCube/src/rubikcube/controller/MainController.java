@@ -193,7 +193,7 @@ public class MainController extends Controller implements Initializable {
                     .findFirst().ifPresent(n->rubikG.isHoveredOnClick().set(((JFXButton)n).isHover()));
             });
         //movimiento permitido
-        if(rubikG.siguientePermitido(btRot)){
+        if(rubikG.siguientePermitido(btRot)&&this.empezado){
         rubikG.rotateFace(btRot);
         }
         //else
@@ -211,7 +211,7 @@ public class MainController extends Controller implements Initializable {
             timer.stop();
             moves.getMoves().clear();
             rubikG.doReset();
-            
+            rubikG.setEmpezado(false);
             switch(this.modoJuego){
                 case 1:
                     rubikG.doReset();
@@ -504,13 +504,13 @@ public class MainController extends Controller implements Initializable {
                     refrescarListaPasos(1);
                     }
                 }
+                revisarArmadoL();
             }
-        /*if(this.rubikG.isSolved().get()){
-            Mensaje msj=new Mensaje();
-            msj.show(Alert.AlertType.INFORMATION, "Fin de partida", "El cubo ha sido armado");
-        }*/
-        revisarArmadoL();
-        
+        else{
+            //String listaScramble = (String)AppContext.getInstance().get("scramble");
+            //listaScramble+=" "+this.rubikG.getLastRotation().get();
+            //System.out.println("nuevo scramble: "+listaScramble);
+        }
     }
     
     public void revisarArmadoL(){
@@ -605,6 +605,7 @@ public class MainController extends Controller implements Initializable {
     }
 
     public void btnInicia(){
+        this.rubikG.setEmpezado(true);
         this.movesCount.set(0);
         moves=new Moves();
         time=LocalTime.now();
@@ -616,8 +617,8 @@ public class MainController extends Controller implements Initializable {
     @FXML
     public void guardarCubo(){
         //Partida p= new Partida(this.hist, Integer.valueOf(this.lMov.getText()));
+        this.partidaActual.setTime(time);
         this.partidaActual.guardarPartida();
-        
         //ArrayList<String> lista = new ArrayList<>();
         //lista.addAll(this.hist);
         //Persistencia.guardarPartida(this.hist);
@@ -636,6 +637,7 @@ public class MainController extends Controller implements Initializable {
         this.empezado=true;
         this.rubikG.doSequence(this.partidaActual.getMovimientos());
         this.empezado = false;
+        this.time=this.partidaActual.getTime();
         //this.lMov.setText(this.partidaActual.getCantMovs().toString());
         //if(this.empezado)
            // reiniciarCubo();

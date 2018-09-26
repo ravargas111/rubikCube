@@ -107,7 +107,7 @@ public class RubikL {
      * @param face 
      */
     public void movimientoBasico(String face){
-        System.out.print(" , "+face);
+        //System.out.print(" , "+face);
         if(face.contains("L")||face.contains("R")||face.contains("U")||face.contains("D")||face.contains("F")||face.contains("B")||face.contains("Y")||face.contains("X")){
             switch(face){
                 case "Li": rotateL(true);break;
