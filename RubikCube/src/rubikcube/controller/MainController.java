@@ -704,6 +704,12 @@ public class MainController extends Controller implements Initializable {
         //Partida p= new Partida(this.hist, Integer.valueOf(this.lMov.getText()));
         if(!this.modoJuego.equals(3)){
         this.partidaActual.setTime(time);
+        if(!this.modoJuego.equals(1))
+        this.partidaActual.setListaMovsScramble((String) AppContext.getInstance().get("scramble"));
+        else
+            this.partidaActual.setListaMovsScramble(this.movPreviosOrdenado);
+        System.out.println("sc guardado: "+AppContext.getInstance().get("scramble"));
+        this.partidaActual.setListaMovs(hist);
         this.partidaActual.guardarPartida();
         }
         else{
@@ -722,13 +728,16 @@ public class MainController extends Controller implements Initializable {
     }
     
     public void cargarCubo(){
-        //Partida p = (Partida) AppContext.getInstance().get("cargada");
+        this.partidaActual = (Partida) AppContext.getInstance().get("cargada");
         this.rubikG.doSequence(this.partidaActual.getListaMovsScramble());
+        //System.out.println("Sc cargado: "+this.partidaActual.getListaMovsScramble());
         this.empezado=true;
+        if(!this.partidaActual.getMovimientos().isEmpty())
         this.rubikG.doSequence(this.partidaActual.getMovimientos());
+        //System.out.println("movs cargado: "+this.partidaActual.getMovimientos());
         this.empezado = false;
         this.time=this.partidaActual.getTime();
-        //this.lMov.setText(this.partidaActual.getCantMovs().toString());
+        this.lMov.setText(this.partidaActual.getCantMovs().toString());
         //if(this.empezado)
            // reiniciarCubo();
         //this.empezado=true;
