@@ -84,33 +84,6 @@ public class InicioController extends Controller implements Initializable {
             msj.show(Alert.AlertType.WARNING, "Campo incompleto", "Necesita ingresar nombre");
         }
     }
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     @FXML
     private void showRanking(MouseEvent event) {

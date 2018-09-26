@@ -22,10 +22,14 @@
                   </FontAwesomeIconView>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                   <FontAwesomeIconView fill="WHITE" glyphName="TROPHY" onMouseClicked="#showRanking" size="30">
 =======
                   <FontAwesomeIconView fx:id="mostrarRanking" fill="WHITE" glyphName="TROPHY" onMouseClicked="#irRanking" size="30">
 >>>>>>> b4cdc3bafe804ebf06edff06623b125d2e327368
+=======
+                  <FontAwesomeIconView fx:id="mostrarRanking" fill="WHITE" glyphName="TROPHY" onMouseClicked="#irRanking" size="30">
+>>>>>>> cf95633e5e1405038c358f4f00ddc896dcfd3e2a
 =======
                   <FontAwesomeIconView fx:id="mostrarRanking" fill="WHITE" glyphName="TROPHY" onMouseClicked="#irRanking" size="30">
 >>>>>>> cf95633e5e1405038c358f4f00ddc896dcfd3e2a
@@ -56,10 +60,14 @@
       </VBox>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       <StackPane fx:id="dialogPane" prefHeight="150.0" prefWidth="200.0" visible="false" />
 =======
       <StackPane fx:id="spInfo" prefHeight="150.0" prefWidth="200.0" visible="false" />
 >>>>>>> b4cdc3bafe804ebf06edff06623b125d2e327368
+=======
+      <StackPane fx:id="spInfo" prefHeight="150.0" prefWidth="200.0" visible="false" />
+>>>>>>> cf95633e5e1405038c358f4f00ddc896dcfd3e2a
 =======
       <StackPane fx:id="spInfo" prefHeight="150.0" prefWidth="200.0" visible="false" />
 >>>>>>> cf95633e5e1405038c358f4f00ddc896dcfd3e2a
