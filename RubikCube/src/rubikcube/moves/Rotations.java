@@ -97,8 +97,8 @@ public class Rotations {
                 for(int y = 2; y >= 0; --y){
                     for(int x = 0; x < 3; x++){
                         switch(rot){
-                            case "X":  tempCube[t][x][z] = cube[x][y][z]; break;
-                            case "Xi": tempCube[x][t][z] = cube[y][x][z]; break;
+                            case "X":  tempCube[t][x][z] = cube[x][y][z];/*tempCube[t][x][z] = cube[x][y][z];*/ break;
+                            case "Xi": tempCube[x][t][z] = cube[y][x][z];/*tempCube[x][t][z] = cube[y][x][z];*/ break;
                             case "Y":  tempCube[t][z][x] = cube[x][z][y]; break;
                             case "Yi": tempCube[x][z][t] = cube[y][z][x]; break;
                             case "Z":  tempCube[z][x][t] = cube[z][y][x]; break;
