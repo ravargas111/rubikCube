@@ -13,9 +13,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import javafx.scene.control.Alert;
 import rubikcube.moves.Move;
 import rubikcube.moves.Moves;
 import rubikcube.util.AppContext;
+import rubikcube.util.Mensaje;
 
 /**
  *
@@ -48,6 +50,7 @@ public class Persistencia {
             oos.writeObject(p);
             resultado = true;
             System.out.println("Partida guardada exitosamente");
+            mostrarMensaje("Guardar partida","Partida guardada exitosamente");
         }catch(FileNotFoundException ex){
             resultado = false;
             System.out.println("Ha ocurrido un error generando la partida, intentalo mas tarde\nError: " + ex);
@@ -66,6 +69,11 @@ public class Persistencia {
         return resultado;
     }
     
+    public static void mostrarMensaje(String cabecera,String cuerpo){
+        Mensaje msj=new Mensaje();
+        msj.show(Alert.AlertType.INFORMATION, cabecera, cuerpo);
+    }
+    
     public static boolean guardarPartidaM(ArrayList<Move> list){
         boolean resultado = false;
         ObjectOutputStream oos = null;
@@ -76,6 +84,7 @@ public class Persistencia {
             oos.writeObject(list);
             resultado = true;
             System.out.println("Partida guardada exitosamente");
+            mostrarMensaje("Guardar partida","Partida guardada exitosamente");
         }catch(FileNotFoundException ex){
             resultado = false;
             System.out.println("Ha ocurrido un error generando la partida, intentalo mas tarde\nError: " + ex);
@@ -150,6 +159,7 @@ public class Persistencia {
             oos.writeObject(ranking);
             resultado = true;
             System.out.println("\nRanking de movimientos guardado exitosamente");
+            mostrarMensaje("Cargar Ranking","Ranking de movimientos guardado exitosamente");
         }catch(FileNotFoundException ex){
             resultado = false;
             System.out.println("\nHa ocurrido un error guardando el Ranking de movimientos, intentalo mas tarde\nError: " + ex);

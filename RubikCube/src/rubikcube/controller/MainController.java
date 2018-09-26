@@ -735,11 +735,11 @@ public class MainController extends Controller implements Initializable {
     public void cargarCubo(){
         this.partidaActual = (Partida) AppContext.getInstance().get("cargada");
         this.rubikG.doSequence(this.partidaActual.getListaMovsScramble());
-        //System.out.println("Sc cargado: "+this.partidaActual.getListaMovsScramble());
+        System.out.println("Sc cargado: "+this.partidaActual.getListaMovsScramble());
         this.empezado=true;
         if(!this.partidaActual.getMovimientos().isEmpty())
         this.rubikG.doSequence(this.partidaActual.getMovimientos());
-        //System.out.println("movs cargado: "+this.partidaActual.getMovimientos());
+        System.out.println("movs cargado: "+this.partidaActual.getMovimientos());
         this.empezado = false;
         this.time=this.partidaActual.getTime();
         //this.lMov.setText(this.partidaActual.getCantMovs().toString());

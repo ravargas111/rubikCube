@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import rubikcube.logic.Partida;
@@ -17,6 +18,7 @@ import rubikcube.logic.RankingMovimientos;
 import rubikcube.logic.RankingTiempo;
 import rubikcube.util.AppContext;
 import rubikcube.util.FlowController;
+import rubikcube.util.Mensaje;
 
 /**
  * FXML Controller class
@@ -68,6 +70,8 @@ public class ModosJuegoController extends Controller implements Initializable {
             AppContext.getInstance().set("cargada", p);
             FlowController.getInstance().goView("Main");
         } else {
+            Mensaje msj=new Mensaje();
+            msj.show(Alert.AlertType.INFORMATION, "Error cargar partida", "No existe ninguna partida guardada a nombre de: " + AppContext.getInstance().get("user"));
             System.out.println("\nNo existe ninguna partida guardada a nombre de: " + AppContext.getInstance().get("user"));
         }
         //Pruebas de carga
