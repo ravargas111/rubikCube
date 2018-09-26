@@ -452,6 +452,8 @@ public class MainController extends Controller implements Initializable {
             this.rubikG.doSequence(sb.toString().trim());
             desactivaBotones();
             this.bStop.setDisable(false);
+            this.bStart.setDisable(true);
+            this.bReset.setDisable(false);
         }
         
     }
@@ -550,8 +552,9 @@ public class MainController extends Controller implements Initializable {
                 Label lbl = new Label(movStr);
                 this.listaMov.getItems().add(lbl);
                 this.movesCount.set(movesCount.get()+1);
-                if(this.modoJuego==1&&!this.empezado)
-                    System.out.println("mov a hist");
+                //if(this.modoJuego==1&&!this.empezado)
+                    //System.out.println("mov a hist");
+                    
                 //maneja lista de pasos a seguir en caso asistido
                 if(this.asistido){
                     this.pasosSiguientes.remove(0);
@@ -590,7 +593,14 @@ public class MainController extends Controller implements Initializable {
         this.listaPasosSig.getItems().remove(1);
         if(tamSig>2)
            this.listaPasosSig.getItems().remove(0);
+        if(this.listaPasosSig.getItems().size()==2){
+            Mensaje msj=new Mensaje();
+            msj.show(Alert.AlertType.INFORMATION, "terminado", "el algoritmo de auto armado ha concluído");
+            this.listaPasosSig.getItems().remove(1);
+            this.listaPasosSig.getItems().get(0).setText("Completado");
+        }
         this.lblEtapa.setText(this.listaPasosSig.getItems().get(0).getText());
+            
         //}
         //else 
            //this.listaPasosSig.getItems().remove(i+1); 
