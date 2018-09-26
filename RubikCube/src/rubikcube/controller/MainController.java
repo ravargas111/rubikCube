@@ -444,6 +444,13 @@ public class MainController extends Controller implements Initializable {
     @FXML
     public void imprimirCubo(){
         this.rubikL.imprimirCubo();
+        if(this.modoJuego.equals(3)){
+            StringBuilder sb=new StringBuilder();
+            this.pasosSiguientes.stream().forEach(e->{
+                sb.append(" ").append(e);
+            });
+            this.rubikG.doSequence(sb.toString().trim());
+        }
     }
     
     public void seleccionarModo(){
