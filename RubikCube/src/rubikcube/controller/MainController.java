@@ -84,6 +84,7 @@ public class MainController extends Controller implements Initializable {
     private BooleanProperty empezadoP;
     private Partida partidaActual;
     private Integer modoJuego;
+    private String movPreviosOrdenado;
     @FXML
     private Label lSolved;
     @FXML
@@ -193,7 +194,7 @@ public class MainController extends Controller implements Initializable {
                     .findFirst().ifPresent(n->rubikG.isHoveredOnClick().set(((JFXButton)n).isHover()));
             });
         //movimiento permitido
-        if(rubikG.siguientePermitido(btRot)&&this.empezado){
+        if(rubikG.siguientePermitido(btRot)&&(this.empezado||this.rubikG.getMovScramble())){
         rubikG.rotateFace(btRot);
         }
         //else
@@ -214,18 +215,24 @@ public class MainController extends Controller implements Initializable {
             rubikG.setEmpezado(false);
             switch(this.modoJuego){
                 case 1:
+                    this.rubikG.setMovScramble(true);
+                    this.rubikG.setEmpezado(true);
+                    this.rubikL=new RubikL(this.rubikG);
                     rubikG.doReset();
                     break;
                 case 2:
+                    this.rubikL=new RubikL(this.rubikG);
                     this.rubikG.doReset();
                     this.rubikG.doSequence((String)AppContext.getInstance().get("scramble"));
                     break;
                 case 3:
+                    this.rubikL=new RubikL(this.rubikG);
                     this.rubikG.doReset();
                     this.rubikG.doSequence((String)AppContext.getInstance().get("scramble"));
                     
                     break;
                 case 4:
+                    this.rubikL=new RubikL(this.rubikG);
                     this.rubikG.doReset();
                     cargarCubo();
                     break;
@@ -437,6 +444,9 @@ public class MainController extends Controller implements Initializable {
     }
 
     public void modoOrdenado(){
+        this.movPreviosOrdenado="";
+        this.rubikG.setEmpezado(true);
+        this.rubikG.setMovScramble(true);
         this.partidaActual=new Partida(ModoJuego.ORDENADO,this.hist);
     }
     
@@ -485,6 +495,10 @@ public class MainController extends Controller implements Initializable {
     }
     
     public void accionesMovimiento(){
+        if(this.rubikG.getMovScramble()){
+            this.movPreviosOrdenado+=" "+rubikG.getLastRotation().get();
+            //System.out.println("mov");
+        }
         if(this.empezado){
                 //maneja historial
                 String movStr=rubikG.getLastRotation().get();
@@ -495,7 +509,8 @@ public class MainController extends Controller implements Initializable {
                 Label lbl = new Label(movStr);
                 this.listaMov.getItems().add(lbl);
                 this.movesCount.set(movesCount.get()+1);
-                
+                if(this.modoJuego==1&&!this.empezado)
+                    System.out.println("mov a hist");
                 //maneja lista de pasos a seguir en caso asistido
                 if(this.asistido){
                     this.pasosSiguientes.remove(0);
@@ -577,14 +592,15 @@ public class MainController extends Controller implements Initializable {
                 btnIniciaCargado();
                 break;
         }
-
-        
-        
     }
     
     public void btnIniciaOrdenado(){
-        if(moves.getNumMoves()>0)
+        if(moves.getNumMoves()>0){
+        this.partidaActual.setListaMovsScramble(this.movPreviosOrdenado);
+        this.rubikG.setMovScramble(false);
+        this.bStart.setDisable(true);
         btnInicia();
+        }
         else{
             Mensaje msj=new Mensaje();
             msj.show(Alert.AlertType.INFORMATION, "Movimientos requeridos", "Desarme el cubo"); 
@@ -592,16 +608,19 @@ public class MainController extends Controller implements Initializable {
     }
     
     public void btnIniciaDesordenado(){
+        this.bStart.setDisable(true);
         btnInicia();
     }
     
     public void btnIniciaAsistido(){
         llenarAutoarmado();
         btnInicia();
+        this.bStart.setDisable(true);
     }
     
     public void btnIniciaCargado(){
         btnInicia();
+        this.bStart.setDisable(true);
     }
 
     public void btnInicia(){

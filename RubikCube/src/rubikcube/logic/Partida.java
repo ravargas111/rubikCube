@@ -23,6 +23,7 @@ public class Partida implements Serializable{
     public Partida(ModoJuego modo,ArrayList<String> listaMovs) {
         this.listaMovs = listaMovs;
         this.cantMovs = this.listaMovs.size();
+        this.listaMovsScramble="";
     }
 
     public Integer getCantMovs() {
