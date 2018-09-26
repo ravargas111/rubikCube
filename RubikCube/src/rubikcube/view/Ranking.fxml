@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
 
-<JFXDialogLayout fx:id="root" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: blue;" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rubikcube.controller.RankingController">
+<JFXDialogLayout fx:id="root" prefHeight="600.0" prefWidth="800.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rubikcube.controller.RankingController">
    <children>
       <VBox>
          <children>
@@ -24,18 +24,18 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="450.0" spacing="10.0">
                <children>
-                  <ScrollPane fitToHeight="true" fitToWidth="true" prefWidth="380.0">
+                  <ScrollPane fitToHeight="true" fitToWidth="true" prefWidth="380.0" style="-fx-background-color: transparent;">
                      <content>
-                        <TilePane fx:id="movTP" alignment="TOP_CENTER" prefColumns="1" vgap="5.0">
+                        <TilePane fx:id="movTP" alignment="TOP_CENTER" prefColumns="1" style="-fx-background-color: transparent;" styleClass="tile-pane" vgap="5.0">
                            <padding>
                               <Insets bottom="5.0" top="5.0" />
                            </padding>
                         </TilePane>
                      </content>
                   </ScrollPane>
-                  <ScrollPane fitToHeight="true" fitToWidth="true" prefWidth="380.0">
+                  <ScrollPane fitToHeight="true" fitToWidth="true" prefWidth="380.0" style="-fx-background-color: transparent;">
                      <content>
-                        <TilePane fx:id="timeTP" alignment="TOP_CENTER" prefColumns="1" vgap="5.0">
+                        <TilePane fx:id="timeTP" alignment="TOP_CENTER" prefColumns="1" styleClass="tile-pane" vgap="5.0">
                            <padding>
                               <Insets bottom="5.0" top="5.0" />
                            </padding>
