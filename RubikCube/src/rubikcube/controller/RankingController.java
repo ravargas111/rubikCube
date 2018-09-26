@@ -6,6 +6,7 @@
 package rubikcube.controller;
 
 import com.jfoenix.controls.JFXDialogLayout;
+import com.jfoenix.controls.JFXListView;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -52,10 +53,10 @@ public class RankingController extends Controller implements Initializable {
         }
         
         //pruebas
-        for(int i=0; i<8; i++){
+        /*for(int i=0; i<8; i++){
             RankingCard rc = new RankingCard(i+1, "User:" + String.valueOf(i), String.valueOf((i+2)*10), " mov");
             movTP.getChildren().add(rc);
-        }
+        }*/
     }
     
     public void llenarTimeRank(){

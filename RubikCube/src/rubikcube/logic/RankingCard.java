@@ -29,7 +29,7 @@ public class RankingCard extends Pane{
     
     private void initCard(){
         this.setPrefSize(320, 50);
-        this.setStyle("-fx-background-color: red");
+        this.setStyle("-fx-background-color: gray");
         this.getChildren().add(initPosLbl());
         this.getChildren().add(initNameLbl());
         this.getChildren().add(initPointsLbl());
